@@ -8,7 +8,9 @@ const Error = () => {
         <h1>Error 404</h1>
         <p>Page Not Found</p>
       </div>
-      <Link to='/'>Back to Home</Link>
+      <Link to="/">Back to Home</Link>
     </section>
   );
 };
+
+export default Error;
