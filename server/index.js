@@ -6,9 +6,9 @@ const port = 5000
 app.use(express.json());
 
 app.get("/", (req, res) => {
-    res.json({
-        status: "success"
-    })
+  res.json({
+    status: "success"
+  })
 });
 
 app.listen(port, () => {
