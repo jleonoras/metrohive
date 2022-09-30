@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./page/Home";
 import Login from "./page/Login";
 import Error from "./page/Error";
+import "./component/nav.css";
 import SharedLayout from "./page/SharedLayout";
 
 function App() {

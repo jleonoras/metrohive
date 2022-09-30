@@ -11,9 +11,9 @@ const auth = (request, response, next) => {
   try {
     //this will take the token from the Authorization header then will use
     //jwt.verify function to process it
-    jwt.verify(token.slice(7), process.env.jwtSecret, (error, account) => {
+    jwt.verify(token.slice(7), process.env.jwtSecret, (error, user) => {
       if (error) return response.sendStatus(403);
-      request.account = account;
+      request.user = user;
       next();
     });
   } catch (error) {
