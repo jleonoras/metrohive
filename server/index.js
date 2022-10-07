@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import { connectDatabase } from "./pool.js";
 import { generateJwt } from "./jwt/jwtGenerator.js";
 import { auth } from "./middleware/auth.js";
+import cors from "cors";
+import corsOptions from "./config/corsOptions.js";
 
 const app = express();
 const pool = connectDatabase();
@@ -11,6 +13,7 @@ const port = 8000;
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors(corsOptions));
 
 app.get("/", (request, response) => {
   response.json({
@@ -28,7 +31,7 @@ app.post("/api/v1/register", async (request, response) => {
       `SELECT * FROM public.user WHERE email = $1`,
       [email]
     );
-    if (user.rows.length > 0) {
+    if (email.rows.length > 0) {
       return response.status(401).send("User already exist");
     }
 
@@ -66,13 +69,13 @@ app.post("/api/v1/login", async (request, response) => {
       [email]
     );
     if (user.rows.length < 0) {
-      response.status(401).send("User does not exists");
+      return response.status(401).send("User does not exists");
     }
 
     //Check if the password matches using bcrypt
     const validPassword = await bcrypt.compare(password, user.rows[0].password);
     if (!validPassword) {
-      return response.status(401).json("Password or Email is incorrect");
+      return response.status(401).json("Password is incorrect");
     }
 
     //generate and return the JWT
