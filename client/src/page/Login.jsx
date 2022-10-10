@@ -5,6 +5,7 @@ import { useContext } from "react";
 
 import axios from "../api/axios";
 import { Link } from "react-router-dom";
+import Profile from "./Profile";
 const LOGIN_URL = "/api/v1/login";
 
 const Login = () => {
@@ -56,7 +57,7 @@ const Login = () => {
       } else if (errorMsg.response?.status === 401) {
         setErrorMsg("Unauthorized");
       } else {
-        setErrorMsg("login Failed");
+        setErrorMsg("Login Failed");
       }
     }
   };
@@ -64,14 +65,11 @@ const Login = () => {
   return (
     <>
       {success ? (
-        <div className="App">
-          <h1 className="App-header">You are logged in!</h1>
-          <br />
-          <p>
-            <Link to="/" className="App-link">
-              Go to Home
-            </Link>
-          </p>
+        <div>
+          <Profile />
+          <Link to="/" className="App-link">
+            Go to Home
+          </Link>
         </div>
       ) : (
         <section className="App-header">

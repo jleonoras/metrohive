@@ -4,6 +4,7 @@ import Login from "./page/Login";
 import Error from "./page/Error";
 import "./component/nav.css";
 import SharedLayout from "./page/SharedLayout";
+import Register from "./page/Register";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<Home />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<Error />} />
         </Route>
