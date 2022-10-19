@@ -111,6 +111,29 @@ app.get("/api/v1/verify", auth, async (request, response) => {
   }
 });
 
+app.post("/api/v1/add-listing", async (request, response) => {
+  try {
+    const {
+      description,
+      location,
+      price,
+      image1,
+      image2,
+      image3,
+      image4,
+      image5,
+    } = request.body;
+
+    const addListing = await pool.query(
+      "INSERT INTO publlic.listing (description, location, price, image1, image2, image3, image4, image5) VALUES($1, $2, $3, $4, $5, $6, $7, $8",
+      [description, location, price, image1, image2, image3, image4, image5]
+    );
+    response.json(listing[0]);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 pool.connect((error) => {
   if (error) {
     console.log(error);
