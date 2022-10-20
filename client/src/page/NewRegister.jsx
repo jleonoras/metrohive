@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Register = () => {
+const NewRegister = () => {
   const [input, setInput] = useState({
     firstname: "",
     lastname: "",
@@ -92,4 +92,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default NewRegister;
