@@ -7,7 +7,6 @@ import Register from "./page/Register";
 import Navbar from "./component/StyledNavbar";
 import AddListing from "./page/AddListing";
 import Listing from "./page/Listing";
-import NewRegister from "./page/NewRegister";
 
 function App() {
   return (
@@ -19,7 +18,6 @@ function App() {
         <Route path="/listing" element={<Listing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/newregister" element={<NewRegister />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>
