@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "../api/axios";
 
 const Register = () => {
   const [input, setInput] = useState({
@@ -24,17 +25,21 @@ const Register = () => {
         email: email,
         password: password,
       };
-      const response = await fetch("http://localhost:8000/api/v1/register", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(body),
-      });
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/register",
+        JSON.stringify(body),
+        {
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
 
-      const parseRes = await response.json();
+      // const parseRes = await response.json();
 
-      console.log(parseRes);
+      // console.log(parseRes);
+
+      console.log(JSON.stringify(response?.data));
     } catch (error) {
       console.error(error);
     }
