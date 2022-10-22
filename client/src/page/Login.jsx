@@ -6,6 +6,7 @@ import { useContext } from "react";
 import axios from "../api/axios";
 import { Link } from "react-router-dom";
 import Profile from "./Profile";
+
 const LOGIN_URL = "/api/v1/login";
 
 const Login = () => {
@@ -44,7 +45,7 @@ const Login = () => {
         }
       );
       console.log(JSON.stringify(response?.data));
-      const accessToken = response?.data?.accessToken;
+      const accessToken = response?.data?.token;
       setAuth({ email, password, accessToken });
       setEmail("");
       setPassword("");
@@ -102,6 +103,7 @@ const Login = () => {
               Submit
             </button>
           </form>
+          <Link to="/register">Register</Link>
         </section>
       )}
     </>
