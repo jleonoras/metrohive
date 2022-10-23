@@ -34,7 +34,7 @@ app.post("/api/v1/register", async (request, response) => {
       [email]
     );
     if (user.rows.length !== 0) {
-      return response.status(401).send("User email already exist!");
+      return response.status(401).send("Email already exist!");
     }
 
     //Setup Bcrypt for password hashing
