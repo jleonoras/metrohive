@@ -1,6 +1,6 @@
 import React from "react";
 
-const Dashboard = () => {
+const Dashboard = (setAuth) => {
   return (
     <section>
       <div className="App-header">

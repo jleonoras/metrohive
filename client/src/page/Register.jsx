@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "../api/axios";
+import axios from "axios";
 
 const Register = ({ setAuth }) => {
   const [inputs, setInputs] = useState({
@@ -37,12 +37,13 @@ const Register = ({ setAuth }) => {
       );
 
       // const parseRes = await response.json();
-      const parseRes = JSON.stringify(response?.data.token);
+      const parseRes = await response?.data;
 
       // console.log(parseRes);
-      if (parseRes) {
+      console.log(response);
+      if (parseRes.token) {
         //localstorage
-        localStorage.setItem("token", parseRes);
+        localStorage.setItem("token", parseRes.token);
         setAuth(true);
       } else {
         setAuth(false);
@@ -50,6 +51,7 @@ const Register = ({ setAuth }) => {
       }
     } catch (error) {
       console.error(error.message);
+      console.log(error?.response?.data);
     }
   };
 

@@ -21,16 +21,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route
-          path="/login"
-          element={
-            !isAuthenticated ? (
-              <Login setAuth={setAuth} />
-            ) : (
-              <Navigate to="/dashboard" />
-            )
-          }
-        />
+        <Route path="/login" element={<Login />} />
         <Route
           path="/register"
           element={
@@ -41,16 +32,7 @@ function App() {
             )
           }
         />
-        <Route
-          path="/dashboard"
-          element={
-            !isAuthenticated ? (
-              <Dashboard setAuth={setAuth} />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/addlisting" element={<AddListing />} />
         <Route path="/listing" element={<Listing />} />
         <Route path="*" element={<Error />} />
