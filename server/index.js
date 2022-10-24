@@ -97,9 +97,10 @@ app.get("/api/v1/verify", auth, async (request, response) => {
   try {
     //return the user object
     // response.json(request.user.user_id);
+    // response.json(request.user);
 
     const user = await pool.query(
-      "SELECT fname, lname, email FROM public.user WHERE user_id = $1",
+      "SELECT user_id, fname, lname, email FROM public.user WHERE user_id = $1",
       [request.user.user_id]
     );
     response.json(user.rows[0]);
