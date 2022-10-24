@@ -16,12 +16,22 @@ function App() {
   const setAuth = (boolean) => {
     setIsAuthenticated(boolean);
   };
+
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            !isAuthenticated ? (
+              <Login setAuth={setAuth} />
+            ) : (
+              <Navigate to="/dashboard" />
+            )
+          }
+        />
         <Route
           path="/register"
           element={
