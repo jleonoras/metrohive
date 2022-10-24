@@ -4,7 +4,7 @@ const Listing = () => {
   return (
     <div className="App-header">
       <h1>Listing</h1>
-      <p>This is the Listing Page</p>
+      <p>This is the Listing page.</p>
     </div>
   );
 };

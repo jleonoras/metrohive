@@ -12,10 +12,10 @@ const app = express();
 const pool = connectDatabase();
 const port = 8000;
 
+app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json()); // req.body
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors(corsOptions));
-app.use(cors());
 
 app.get("/", (request, response) => {
   response.json({
@@ -34,7 +34,7 @@ app.post("/api/v1/register", async (request, response) => {
       [email]
     );
     if (user.rows.length !== 0) {
-      return response.status(401).send("User email already exist!");
+      return response.status(401).send("Email already exist!");
     }
 
     //Setup Bcrypt for password hashing

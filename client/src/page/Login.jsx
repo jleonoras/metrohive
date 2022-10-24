@@ -5,7 +5,8 @@ import { useContext } from "react";
 
 import axios from "../api/axios";
 import { Link } from "react-router-dom";
-import Profile from "./Profile";
+import Dashboard from "./Dashboard";
+
 const LOGIN_URL = "/api/v1/login";
 
 const Login = () => {
@@ -36,15 +37,12 @@ const Login = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-            "Access-Control-Allow-Headers":
-              "append,delete,entries,foreach,get,has,keys,set,values,Authorization",
           },
           withCredentials: false, // this supposed to be true...
         }
       );
       console.log(JSON.stringify(response?.data));
-      const accessToken = response?.data?.accessToken;
+      const accessToken = response?.data?.token;
       setAuth({ email, password, accessToken });
       setEmail("");
       setPassword("");
@@ -66,10 +64,7 @@ const Login = () => {
     <>
       {success ? (
         <div>
-          <Profile />
-          <Link to="/" className="App-link">
-            Go to Home
-          </Link>
+          <Dashboard />
         </div>
       ) : (
         <section className="App-header">
@@ -102,6 +97,7 @@ const Login = () => {
               Submit
             </button>
           </form>
+          <Link to="/register">Register</Link>
         </section>
       )}
     </>

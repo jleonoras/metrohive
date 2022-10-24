@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import axios from "../api/axios";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
-const Register = () => {
-  const [input, setInput] = useState({
+const Register = ({ setAuth }) => {
+  const [inputs, setInputs] = useState({
     firstname: "",
     lastname: "",
     email: "",
     password: "",
   });
 
-  const { firstname, lastname, email, password } = input;
+  const { firstname, lastname, email, password } = inputs;
 
   const onChange = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
   const onSubmitForm = async (e) => {
@@ -30,18 +31,27 @@ const Register = () => {
         JSON.stringify(body),
         {
           headers: {
-            "Content-type": "application/json",
+            "Content-Type": "application/json",
           },
         }
       );
 
       // const parseRes = await response.json();
+      const parseRes = await response?.data;
 
       // console.log(parseRes);
-
-      console.log(JSON.stringify(response?.data));
+      console.log(response);
+      if (parseRes.token) {
+        //localstorage
+        localStorage.setItem("token", parseRes.token);
+        setAuth(true);
+      } else {
+        setAuth(false);
+        console.log("Something went wrong");
+      }
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
+      console.log(error?.response?.data);
     }
   };
 
@@ -49,7 +59,7 @@ const Register = () => {
     <>
       <div className="App-header">
         <h1>Register</h1>
-        <form onSubmit={onSubmitForm} action="">
+        <form onSubmit={onSubmitForm}>
           <label htmlFor="firstname">First Name:</label>
           <input
             type="text"
@@ -92,6 +102,7 @@ const Register = () => {
           <br />
           <button>Submit</button>
         </form>
+        <Link to="/login">Login</Link>
       </div>
     </>
   );
