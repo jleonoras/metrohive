@@ -13,7 +13,6 @@ const pool = connectDatabase();
 const port = 8000;
 
 app.use(cors());
-app.use(cors(corsOptions));
 app.use(express.json()); // req.body
 app.use(bodyParser.urlencoded({ extended: true }));
 
