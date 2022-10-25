@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axios from "../api/axios";
+
+const REG_URL = "/api/v1/register";
 
 const Register = ({ setAuth }) => {
   const [inputs, setInputs] = useState({
@@ -26,21 +28,16 @@ const Register = ({ setAuth }) => {
         email: email,
         password: password,
       };
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/register",
-        JSON.stringify(body),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post(REG_URL, JSON.stringify(body), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       // const parseRes = await response.json();
       const parseRes = await response?.data;
 
       // console.log(parseRes);
-      console.log(response);
       if (parseRes.token) {
         //localstorage
         localStorage.setItem("token", parseRes.token);
@@ -65,6 +62,8 @@ const Register = ({ setAuth }) => {
             type="text"
             name="firstname"
             value={firstname}
+            required
+            autoFocus
             onChange={(e) => {
               onChange(e);
             }}
@@ -75,6 +74,7 @@ const Register = ({ setAuth }) => {
             type="text"
             name="lastname"
             value={lastname}
+            required
             onChange={(e) => {
               onChange(e);
             }}
@@ -85,6 +85,8 @@ const Register = ({ setAuth }) => {
             type="email"
             name="email"
             value={email}
+            autoComplete="email"
+            required
             onChange={(e) => {
               onChange(e);
             }}
@@ -94,7 +96,8 @@ const Register = ({ setAuth }) => {
           <input
             type="password"
             name="password"
-            value={password}
+            autoComplete="current-password"
+            required
             onChange={(e) => {
               onChange(e);
             }}

@@ -1,106 +1,86 @@
 import React from "react";
-import { useState, useEffect, useRef } from "react";
-import AuthContext from "../context/AuthProvider";
-import { useContext } from "react";
-
+import { useState } from "react";
 import axios from "../api/axios";
 import { Link } from "react-router-dom";
-import Dashboard from "./Dashboard";
 
 const LOGIN_URL = "/api/v1/login";
 
-const Login = () => {
-  const { setAuth } = useContext(AuthContext);
-  const userRef = useRef();
-  const errorRef = useRef();
+const Login = ({ setAuth }) => {
+  const [inputs, setInputs] = useState({
+    email: "",
+    password: "",
+  });
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
-  const [success, setSuccess] = useState(false);
+  const onChange = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
 
-  useEffect(() => {
-    userRef.current.focus();
-  }, []);
+  const { email, password } = inputs;
 
-  useEffect(() => {
-    setErrorMsg("");
-  }, [email, password]);
-
-  const handleSubmit = async (e) => {
+  const onSubmitForm = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        LOGIN_URL,
-        JSON.stringify({ email, password }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: false, // this supposed to be true...
-        }
-      );
-      console.log(JSON.stringify(response?.data));
-      const accessToken = response?.data?.token;
-      setAuth({ email, password, accessToken });
-      setEmail("");
-      setPassword("");
-      setSuccess(true);
-    } catch (error) {
-      if (!error?.response) {
-        setErrorMsg("No Server Response...");
-      } else if (error.response?.status === 400) {
-        setErrorMsg("Missing Email or Password");
-      } else if (errorMsg.response?.status === 401) {
-        setErrorMsg("Unauthorized");
+      const body = { email, password };
+
+      const response = await axios.post(LOGIN_URL, JSON.stringify(body), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      // console.log(JSON.stringify(response?.data));
+      const parseRes = response?.data;
+
+      if (parseRes.token) {
+        // localstorage
+        localStorage.setItem("token", parseRes.token);
+        setAuth(true);
       } else {
-        setErrorMsg("Login Failed");
+        setAuth(false);
+        console.log("Something went wrong");
       }
+    } catch (error) {
+      console.error(error.message);
+      console.log(error?.response?.data);
     }
   };
 
   return (
-    <>
-      {success ? (
-        <div>
-          <Dashboard />
-        </div>
-      ) : (
-        <section className="App-header">
-          <p ref={errorRef} className={errorMsg ? "errorMsg" : "offscreen"}>
-            {errorMsg}
-          </p>
-          <h1>Login</h1>
-          <form className="login-form" onSubmit={handleSubmit}>
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              ref={userRef}
-              autoComplete="off"
-              required
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <br />
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              required
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <br />
-            <button type="submit" className="submit-btn">
-              Submit
-            </button>
-          </form>
-          <Link to="/register">Register</Link>
-        </section>
-      )}
-    </>
+    <section className="App-header">
+      <h1>Login</h1>
+      <form className="login-form" onSubmit={onSubmitForm}>
+        <label htmlFor="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          name="email"
+          autoComplete="email"
+          required
+          autoFocus
+          onChange={(e) => {
+            onChange(e);
+          }}
+        />
+        <br />
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          autoComplete="current-password"
+          required
+          onChange={(e) => {
+            onChange(e);
+          }}
+        />
+        <br />
+        <button type="submit" className="submit-btn">
+          Submit
+        </button>
+      </form>
+      <Link to="/register">Register</Link>
+    </section>
   );
 };
 
