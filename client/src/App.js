@@ -62,7 +62,7 @@ function App() {
             !isAuthenticated ? (
               <Register setAuth={setAuth} />
             ) : (
-              <Navigate to="/login" />
+              <Navigate to="/dashboard" />
             )
           }
         />
