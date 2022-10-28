@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Home from "./page/Home";
 import Login from "./page/Login";
 import Error from "./page/Error";
@@ -9,8 +9,32 @@ import Navbar from "./component/StyledNavbar";
 import AddListing from "./page/AddListing";
 import Listing from "./page/Listing";
 import Dashboard from "./page/Dashboard";
+import axios from "../src/api/axios";
+
+const VERIFY_URL = "/api/v1/verify";
 
 function App() {
+  const checkAuthenticated = async () => {
+    try {
+      const response = await axios.get(VERIFY_URL, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      const parseRes = await response?.data;
+
+      parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
+      // console.log(parseRes);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    checkAuthenticated();
+  }, []);
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const setAuth = (boolean) => {
@@ -42,7 +66,16 @@ function App() {
             )
           }
         />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route
+          path="/dashboard"
+          element={
+            isAuthenticated ? (
+              <Dashboard setAuth={setAuth} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
         <Route path="/addlisting" element={<AddListing />} />
         <Route path="/listing" element={<Listing />} />
         <Route path="*" element={<Error />} />

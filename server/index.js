@@ -6,7 +6,6 @@ import { generateJwt } from "./jwt/jwtGenerator.js";
 import { auth } from "./middleware/auth.js";
 import { v4 as uuidv4 } from "uuid";
 import cors from "cors";
-import corsOptions from "./config/corsOptions.js";
 
 const app = express();
 const pool = connectDatabase();
@@ -92,7 +91,7 @@ app.post("/api/v1/login", async (request, response) => {
 });
 
 // provide the auth middleware
-app.get("/api/v1/verify", auth, async (request, response) => {
+app.get("/api/v1/profile", auth, async (request, response) => {
   try {
     //return the user object
     // response.json(request.user.user_id);
@@ -108,6 +107,16 @@ app.get("/api/v1/verify", auth, async (request, response) => {
     response.status(500).send({
       msg: "Unauthenticated",
     });
+  }
+});
+
+app.get("/api/v1/verify", auth, async (request, response) => {
+  try {
+    // response.json(request.user);
+    response.json(true);
+  } catch (error) {
+    console.error(error.message);
+    response.status(500).send({ msg: "Unauthenticated" });
   }
 });
 
