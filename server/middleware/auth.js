@@ -17,7 +17,8 @@ const auth = (request, response, next) => {
       next();
     });
   } catch (error) {
-    response.status(401).json({ error: error.message });
+    console.error(error.message);
+    return response.status(401).json({ error: error.message });
   }
 };
 
