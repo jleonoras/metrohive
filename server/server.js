@@ -32,7 +32,7 @@ app.post("/api/v1/register", async (request, response) => {
       [email]
     );
     if (user.rows.length !== 0) {
-      return response.status(401).send("Email already exist!");
+      return response.status(401).json("Email already exist!");
     }
 
     //Setup Bcrypt for password hashing
@@ -120,6 +120,7 @@ app.get("/api/v1/verify", auth, async (request, response) => {
   }
 });
 
+// Create new listing
 app.post("/api/v1/listing", auth, async (request, response) => {
   try {
     console.log(request.body);
