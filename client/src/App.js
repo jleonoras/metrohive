@@ -1,15 +1,16 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Home from "./page/Home";
-import Login from "./page/Login";
-import Error from "./page/Error";
+
+import Home from "./home/Home";
+import Login from "./login/Login";
+import Error from "./error/Error";
 import "./component/nav.css";
-import Register from "./page/Register";
+import Register from "./register/Register";
 import Navbar from "./component/StyledNavbar";
-import AddListing from "./page/AddListing";
-import Listing from "./page/Listing";
-import Dashboard from "./page/Dashboard";
+import Listing from "./listing/Listing";
+import Dashboard from "./dashboard/Dashboard";
 import axios from "../src/api/axios";
+import AddListing from "./addlisting/AddListing";
 
 const VERIFY_URL = "/api/v1/verify";
 

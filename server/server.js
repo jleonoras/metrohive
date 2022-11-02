@@ -32,7 +32,7 @@ app.post("/api/v1/register", async (request, response) => {
       [email]
     );
     if (user.rows.length !== 0) {
-      return response.status(401).send("Email already exist!");
+      return response.status(401).json("Email already exist!");
     }
 
     //Setup Bcrypt for password hashing
@@ -120,8 +120,11 @@ app.get("/api/v1/verify", auth, async (request, response) => {
   }
 });
 
-app.post("/api/v1/add-listing", async (request, response) => {
+// Create new listing
+app.post("/api/v1/listing", auth, async (request, response) => {
   try {
+    console.log(request.body);
+
     const {
       description,
       location,
@@ -131,15 +134,26 @@ app.post("/api/v1/add-listing", async (request, response) => {
       image3,
       image4,
       image5,
+      user_id,
     } = request.body;
 
-    const addListing = await pool.query(
-      "INSERT INTO publlic.listing (description, location, price, image1, image2, image3, image4, image5) VALUES($1, $2, $3, $4, $5, $6, $7, $8",
-      [description, location, price, image1, image2, image3, image4, image5]
+    const newListing = await pool.query(
+      "INSERT INTO public.listing (description, location, price, image1, image2, image3, image4, image5, user_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
+      [
+        description,
+        location,
+        price,
+        image1,
+        image2,
+        image3,
+        image4,
+        image5,
+        request.user.user_id,
+      ]
     );
-    response.json(listing[0]);
+    response.json(newListing.rows[0]);
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 });
 
