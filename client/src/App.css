@@ -1,3 +1,11 @@
+html {
+  font-family: Poppins;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background-color: #282c34;
+}
+
 .App {
   text-align: center;
 }
@@ -22,6 +30,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  margin-top: 80px;
 }
 
 .App-link {
@@ -35,4 +44,8 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+ul {
+  list-style-type: none;
 }
