@@ -5,7 +5,6 @@ const USER_LISTING_URL = "/api/v1/user-listing";
 
 const UserListing = () => {
   const [itemListing, setItemListing] = useState([]);
-  const [listingTitle, setListingTitle] = useState("");
   const [itemDescription, setItemDescription] = useState("");
   const [itemPrice, setItemPrice] = useState("");
   const [pesoSign, setPesoSign] = useState("");
@@ -42,7 +41,6 @@ const UserListing = () => {
       });
 
       setItemListing(itemListing);
-      setListingTitle("My Listing");
       setItemDescription("Description:");
       setItemPrice("Price:");
       setPesoSign("₱");
@@ -58,39 +56,42 @@ const UserListing = () => {
   }, []);
 
   return (
-    <>
-      <section>
-        <div>
-          <h3>{listingTitle}</h3>
-        </div>
-        <div>
-          <ul>
-            {itemListing.map((item, index) => {
+    <section>
+      <div>
+        <ul>
+          {itemListing.length !== 0 &&
+            itemListing[0].listing_id !== null &&
+            itemListing.map((item) => {
               return (
-                <li key={index}>
+                <li key={item.listing_id}>
                   <figure>
-                    <img src={item.image1} alt="" loading="lazy"></img>
+                    <img
+                      src={item.image1}
+                      alt={item.description}
+                      loading="lazy"
+                    ></img>
                   </figure>
                   <div>
-                    <p>{itemPrice}</p>
-                    {pesoSign}
-                    {item.price}
+                    <h3>{itemPrice}</h3>
+                    <p>
+                      {pesoSign}
+                      {item.price}
+                    </p>
                   </div>
                   <div>
-                    <p>{itemDescription}</p>
-                    {item.description}
+                    <h3>{itemDescription}</h3>
+                    <p>{item.description}</p>
                   </div>
                   <div>
-                    <p>{itemLocation}</p>
-                    {item.location}
+                    <h3>{itemLocation}</h3>
+                    <p>{item.location}</p>
                   </div>
                 </li>
               );
             })}
-          </ul>
-        </div>
-      </section>
-    </>
+        </ul>
+      </div>
+    </section>
   );
 };
 
