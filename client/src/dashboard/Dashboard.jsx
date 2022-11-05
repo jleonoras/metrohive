@@ -24,7 +24,17 @@ const Dashboard = ({ setAuth }) => {
       // console.log(parseRes);
     } catch (error) {
       console.error(error.message);
-      console.log(error?.response);
+    }
+  };
+
+  const logoutButton = (e) => {
+    e.preventDefault();
+    try {
+      localStorage.removeItem("token");
+      setAuth(false);
+    } catch (error) {
+      console.log(error);
+      console.error(error.message);
     }
   };
 
@@ -33,21 +43,27 @@ const Dashboard = ({ setAuth }) => {
   }, []);
 
   return (
-    <>
-      <section className="App">
-        <div className="App-header">
-          <h1>Dashboard</h1>
-          <p>This is the Dashboard page.</p>
-          <div>
-            <h2>
-              {fname} {lname}
-            </h2>
-          </div>
+    <section className="App">
+      <div className="App-header">
+        <h1>Dashboard</h1>
+        <p>This is the Dashboard page.</p>
+        <div>
+          <h2>
+            {fname} {lname}
+          </h2>
+        </div>
+        <div>
           <h5>{email}</h5>
+        </div>
+        <div>
+          <button onClick={(e) => logoutButton(e)}>Logout</button>
+        </div>
+        <br />
+        <div>
           <UserListing />
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 
