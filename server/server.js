@@ -160,15 +160,28 @@ app.post("/api/v1/listing", auth, async (request, response) => {
 // View User Listing
 app.get("/api/v1/user-listing", auth, async (request, response) => {
   try {
-    const user = await pool.query(
+    const userListing = await pool.query(
       "SELECT public.user.fname, public.user.email, public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3, public.listing.image4, public.listing.image5 FROM public.user LEFT JOIN public.listing ON public.user.user_id = public.listing.user_id WHERE public.user.user_id = $1",
       [request.user.user_id]
     );
 
-    response.json(user.rows);
-    console.log(user.rows);
+    response.json(userListing.rows);
+    // console.log(user.rows);
   } catch (error) {
     console.error(error.message);
+  }
+});
+
+app.get("/api/v1/listing", async (request, response) => {
+  try {
+    const listing = await pool.query(
+      "Select public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3, public.listing.image4, public.listing.image5 FROM public.listing ORDER BY public.listing.listing_id DESC"
+    );
+
+    response.json(listing.rows);
+    // console.log(listing.rows);
+  } catch (error) {
+    console.log(error);
   }
 });
 
