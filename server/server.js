@@ -6,6 +6,7 @@ import { generateJwt } from "./jwt/jwtGenerator.js";
 import { auth } from "./middleware/auth.js";
 import { v4 as uuidv4 } from "uuid";
 import cors from "cors";
+import { upload } from "./middleware/upload.js";
 
 const app = express();
 const pool = connectDatabase();
@@ -14,6 +15,8 @@ const port = 8000;
 app.use(cors());
 app.use(express.json()); // req.body
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use("/image", express.static("public/uploads"));
 
 app.get("/", (request, response) => {
   response.json({
@@ -120,48 +123,44 @@ app.get("/api/v1/verify", auth, async (request, response) => {
   }
 });
 
-// Create new listing
-app.post("/api/v1/listing", auth, async (request, response) => {
-  try {
-    console.log(request.body);
+app.post(
+  "/api/v1/user/new/listing",
+  auth,
+  upload.array("file", 3),
+  async (request, response) => {
+    try {
+      const filePath = "http://localhost:" + port + "/image" + "/";
 
-    const {
-      description,
-      location,
-      price,
-      image1,
-      image2,
-      image3,
-      image4,
-      image5,
-      user_id,
-    } = request.body;
+      const { file } = request.files;
 
-    const newListing = await pool.query(
-      "INSERT INTO public.listing (description, location, price, image1, image2, image3, image4, image5, user_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
-      [
-        description,
-        location,
-        price,
-        image1,
-        image2,
-        image3,
-        image4,
-        image5,
-        request.user.user_id,
-      ]
-    );
-    response.json(newListing.rows[0]);
-  } catch (error) {
-    console.log(error.message);
+      const { description, location, price } = request.body;
+
+      console.log(request.body, request.files);
+
+      const newListing = await pool.query(
+        "INSERT INTO public.listing (description, location, price, image1, image2, image3, user_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+        [
+          description,
+          location,
+          price,
+          filePath + request.files[0].filename,
+          filePath + request.files[1].filename,
+          filePath + request.files[2].filename,
+          request.user.user_id,
+        ]
+      );
+      response.json(newListing.rows[0]);
+    } catch (error) {
+      console.log(error);
+    }
   }
-});
+);
 
 // View User Listing
-app.get("/api/v1/user-listing", auth, async (request, response) => {
+app.get("/api/v1/user/listing", auth, async (request, response) => {
   try {
     const userListing = await pool.query(
-      "SELECT public.user.fname, public.user.email, public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3, public.listing.image4, public.listing.image5 FROM public.user LEFT JOIN public.listing ON public.user.user_id = public.listing.user_id WHERE public.user.user_id = $1",
+      "SELECT public.user.fname, public.user.email, public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3 FROM public.user LEFT JOIN public.listing ON public.user.user_id = public.listing.user_id WHERE public.user.user_id = $1",
       [request.user.user_id]
     );
 
@@ -175,7 +174,7 @@ app.get("/api/v1/user-listing", auth, async (request, response) => {
 app.get("/api/v1/listing", async (request, response) => {
   try {
     const listing = await pool.query(
-      "Select public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3, public.listing.image4, public.listing.image5 FROM public.listing ORDER BY public.listing.listing_id DESC"
+      "Select public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3 FROM public.listing ORDER BY public.listing.listing_id DESC"
     );
 
     response.json(listing.rows);
