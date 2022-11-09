@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
 
-const USER_LISTING_URL = "/api/v1/user-listing";
+const USER_LISTING_URL = "/api/v1/user/listing";
 
 const UserListing = () => {
   const [itemListing, setItemListing] = useState([]);
