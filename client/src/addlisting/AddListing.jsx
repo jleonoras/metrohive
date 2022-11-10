@@ -7,16 +7,19 @@ const AddListing = ({ setAuth }) => {
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [price, setPrice] = useState("");
-  const [file, setFile] = useState();
+  const [files, setFiles] = useState(null);
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("file", file);
     formData.append("description", description);
     formData.append("location", location);
     formData.append("price", price);
+
+    for (let i = 0; i < files.length; i++) {
+      formData.append("file", files[i]);
+    }
 
     // axios
     //   .post(NEW_LISTING_URL, formData)
@@ -96,14 +99,14 @@ const AddListing = ({ setAuth }) => {
             required
             onChange={(e) => {
               const file = e.target.files;
-              setFile(file);
-              setFile(URL.createObjectURL(e.target.files[0]));
+              setFiles(file);
+              // setFiles(URL.createObjectURL(e.target.files));
             }}
           />
           <br />
           <button onClick={onSubmitForm}>Submit</button>
         </form>
-        <img src={file} alt="" />
+        <img src={files} alt="" />
       </div>
     </section>
   );
