@@ -123,15 +123,21 @@ app.get("/api/v1/verify", auth, async (request, response) => {
   }
 });
 
+// Add New Listing
+
 app.post(
   "/api/v1/user/new/listing",
   auth,
   upload.array("file", 3),
   async (request, response) => {
     try {
-      const filePath = "http://localhost:" + port + "/image" + "/";
+      const filePath = "http://localhost" + ":" + port + "/image" + "/";
 
-      const { file } = request.files;
+      const {
+        image1 = filePath + request.files[0].filename,
+        image2 = filePath + request.files[1].filename,
+        image3 = filePath + request.files[2].filename,
+      } = request.files;
 
       const { description, location, price } = request.body;
 
@@ -143,13 +149,14 @@ app.post(
           description,
           location,
           price,
-          filePath + request.files[0].filename,
-          filePath + request.files[1].filename,
-          filePath + request.files[2].filename,
+          image1,
+          image2,
+          image3,
           request.user.user_id,
         ]
       );
       response.json(newListing.rows[0]);
+      console.log(newListing);
     } catch (error) {
       console.log(error);
     }
@@ -160,7 +167,7 @@ app.post(
 app.get("/api/v1/user/listing", auth, async (request, response) => {
   try {
     const userListing = await pool.query(
-      "SELECT public.user.fname, public.user.email, public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3 FROM public.user LEFT JOIN public.listing ON public.user.user_id = public.listing.user_id WHERE public.user.user_id = $1",
+      "SELECT public.user.fname, public.user.email, public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3 FROM public.user LEFT JOIN public.listing ON public.user.user_id = public.listing.user_id WHERE public.user.user_id = $1 ORDER BY public.listing.listing_id DESC",
       [request.user.user_id]
     );
 
@@ -171,6 +178,7 @@ app.get("/api/v1/user/listing", auth, async (request, response) => {
   }
 });
 
+// Get All Listing
 app.get("/api/v1/listing", async (request, response) => {
   try {
     const listing = await pool.query(
