@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
+import AllListingClass from "./AllListingClass";
 
 const ALL_LISTING_URL = "/api/v1/listing";
 
@@ -21,16 +22,7 @@ const AllListing = () => {
       const parseRes = await response?.data;
 
       const allListing = parseRes.map((item) => {
-        class Listing {
-          constructor({ listing_id, description, location, price, image1 }) {
-            this.listing_id = listing_id;
-            this.description = description;
-            this.location = location;
-            this.price = price;
-            this.image1 = image1;
-          }
-        }
-        return new Listing({
+        return new AllListingClass({
           listing_id: item.listing_id,
           description: item.description,
           location: item.location,
