@@ -1,4 +1,4 @@
-class AllListingClass {
+class ListingClass {
   constructor({ listing_id, description, location, price, image1 }) {
     this.listing_id = listing_id;
     this.description = description;
@@ -8,4 +8,4 @@ class AllListingClass {
   }
 }
 
-export default AllListingClass;
+export default ListingClass;

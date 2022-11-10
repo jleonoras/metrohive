@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
-import MyListing from "./MyListing";
+import ListingClass from "../listing/ListingClass";
 
 const USER_LISTING_URL = "/api/v1/user/listing";
 
@@ -22,7 +22,7 @@ const UserListing = () => {
       const parseRes = await response?.data;
 
       const itemListing = parseRes.map((item) => {
-        return new MyListing({
+        return new ListingClass({
           listing_id: item.listing_id,
           description: item.description,
           location: item.location,
