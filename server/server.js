@@ -186,7 +186,19 @@ app.get("/api/v1/listing", async (request, response) => {
     );
 
     response.json(listing.rows);
-    // console.log(listing.rows);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.get("/api/v1/listing/:id", async (request, response) => {
+  try {
+    const listing_id = request.params.id;
+    const listing = await pool.query(
+      "SELECT * FROM public.listing WHERE listing_id = $1",
+      [listing_id]
+    );
+    response.json(listing.rows);
   } catch (error) {
     console.log(error);
   }
