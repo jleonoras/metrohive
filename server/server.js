@@ -182,7 +182,7 @@ app.get("/api/v1/user/listing", auth, async (request, response) => {
 app.get("/api/v1/listing", async (request, response) => {
   try {
     const listing = await pool.query(
-      "Select public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3 FROM public.listing ORDER BY public.listing.listing_id DESC"
+      "Select listing_id, description, location, price, image1, image2, image3 FROM public.listing ORDER BY public.listing.listing_id DESC"
     );
 
     response.json(listing.rows);
@@ -195,7 +195,7 @@ app.get("/api/v1/listing/:id", async (request, response) => {
   try {
     const listing_id = request.params.id;
     const listing = await pool.query(
-      "SELECT * FROM public.listing WHERE listing_id = $1",
+      "SELECT listing_id, description, location, price, image1, image2, image3 FROM public.listing WHERE listing_id = $1",
       [listing_id]
     );
     response.json(listing.rows);
