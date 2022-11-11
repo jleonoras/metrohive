@@ -2,26 +2,26 @@ import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
 import ListingClass from "../listing/ListingClass";
 
-const USER_LISTING_URL = "/api/v1/user-listing";
+const ALL_LISTING_URL = "/api/v1/listing";
 
-const UserListing = () => {
-  const [itemListing, setItemListing] = useState([]);
+const AllListing = () => {
+  const [allListing, setAllListing] = useState([]);
   const [itemDescription, setItemDescription] = useState("");
   const [itemPrice, setItemPrice] = useState("");
   const [pesoSign, setPesoSign] = useState("");
   const [itemLocation, setItemLocation] = useState("");
 
-  const getUserListing = async () => {
+  const getAllListing = async () => {
     try {
-      const response = await axios.get(USER_LISTING_URL, {
+      const response = await axios.get(ALL_LISTING_URL, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
         },
       });
-      // console.log(response);
+
       const parseRes = await response?.data;
 
-      const itemListing = parseRes.map((item) => {
+      const allListing = parseRes.map((item) => {
         return new ListingClass({
           listing_id: item.listing_id,
           description: item.description,
@@ -31,11 +31,13 @@ const UserListing = () => {
         });
       });
 
-      setItemListing(itemListing);
+      setAllListing(allListing);
       setItemDescription("Description:");
       setItemPrice("Price:");
       setPesoSign("₱");
       setItemLocation("Location:");
+
+      // console.log(parseRes);
     } catch (error) {
       console.log(error);
       console.error(error.message);
@@ -43,16 +45,16 @@ const UserListing = () => {
   };
 
   useEffect(() => {
-    getUserListing();
+    getAllListing();
   }, []);
 
   return (
     <section>
       <div>
         <ul>
-          {itemListing.length !== 0 &&
-            itemListing[0].listing_id !== null &&
-            itemListing.map((item) => {
+          {allListing.length !== 0 &&
+            allListing[0].listing_id !== null &&
+            allListing.map((item) => {
               return (
                 <li key={item.listing_id}>
                   <figure>
@@ -86,4 +88,4 @@ const UserListing = () => {
   );
 };
 
-export default UserListing;
+export default AllListing;

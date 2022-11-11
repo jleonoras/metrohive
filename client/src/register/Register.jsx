@@ -53,7 +53,7 @@ const Register = ({ setAuth }) => {
   };
 
   return (
-    <>
+    <section>
       <div className="App-header">
         <h1>Register</h1>
         <form onSubmit={onSubmitForm}>
@@ -107,7 +107,7 @@ const Register = ({ setAuth }) => {
         </form>
         <Link to="/login">Login</Link>
       </div>
-    </>
+    </section>
   );
 };
 

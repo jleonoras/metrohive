@@ -45,40 +45,42 @@ const Login = ({ setAuth }) => {
   };
 
   return (
-    <section className="App-header">
-      <h1>Login</h1>
-      <form className="login-form" onSubmit={onSubmitForm}>
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          name="email"
-          autoComplete="email"
-          required
-          autoFocus
-          onChange={(e) => {
-            onChange(e);
-          }}
-        />
-        <br />
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          autoComplete="current-password"
-          required
-          onChange={(e) => {
-            onChange(e);
-          }}
-        />
-        <br />
-        <button type="submit" className="submit-btn">
-          Submit
-        </button>
-      </form>
-      <Link to="/register">Register</Link>
+    <section>
+      <div className="App-header">
+        <h1>Login</h1>
+        <form className="login-form" onSubmit={onSubmitForm}>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            name="email"
+            autoComplete="email"
+            required
+            autoFocus
+            onChange={(e) => {
+              onChange(e);
+            }}
+          />
+          <br />
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            autoComplete="current-password"
+            required
+            onChange={(e) => {
+              onChange(e);
+            }}
+          />
+          <br />
+          <button type="submit" className="submit-btn">
+            Submit
+          </button>
+        </form>
+        <Link to="/register">Register</Link>
+      </div>
     </section>
   );
 };
