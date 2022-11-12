@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
 import ListingClass from "../listing/ListingClass";
+import imageUrl from "../component/ImagePath";
 
 const USER_LISTING_URL = "/api/v1/user/listing";
 
@@ -27,7 +28,7 @@ const UserListing = () => {
           description: item.description,
           location: item.location,
           price: item.price,
-          image1: item.image1,
+          image1: `${imageUrl}/${item.image1}`,
         });
       });
 

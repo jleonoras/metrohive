@@ -7,7 +7,7 @@ const AddListing = ({ setAuth }) => {
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [price, setPrice] = useState("");
-  const [files, setFiles] = useState(null);
+  const [files, setFiles] = useState([]);
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
@@ -21,11 +21,6 @@ const AddListing = ({ setAuth }) => {
       formData.append("file", files[i]);
     }
 
-    // axios
-    //   .post(NEW_LISTING_URL, formData)
-    //   .then((response) => console.log(response))
-    //   .catch((error) => console.log(error));
-
     try {
       const response = await axios.post(NEW_LISTING_URL, formData, {
         headers: {
@@ -34,7 +29,9 @@ const AddListing = ({ setAuth }) => {
         },
       });
 
-      console.log(response);
+      if (response.status === 200 && response.statusText === "OK") {
+        console.log("New listing added successfully!");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -45,7 +42,7 @@ const AddListing = ({ setAuth }) => {
       <div className="App-header">
         <h1>Add Listing</h1>
         <p>This is the Add Listing page.</p>
-        <form encType="multipart/form-data">
+        <form onSubmit={onSubmitForm} encType="multipart/form-data">
           <label htmlFor="description">Description:</label>
           <br />
           <textarea
@@ -99,12 +96,13 @@ const AddListing = ({ setAuth }) => {
             required
             onChange={(e) => {
               const file = e.target.files;
+              console.log(file);
               setFiles(file);
               // setFiles(URL.createObjectURL(e.target.files));
             }}
           />
           <br />
-          <button onClick={onSubmitForm}>Submit</button>
+          <button type="submit">Submit</button>
         </form>
         <img src={files} alt="" />
       </div>
