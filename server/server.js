@@ -131,32 +131,24 @@ app.post(
   upload.array("file", 3),
   async (request, response) => {
     try {
-      const filePath = "http://localhost" + ":" + port + "/image" + "/";
-
       const {
-        image1 = filePath + request.files[0].filename,
-        image2 = filePath + request.files[1].filename,
-        image3 = filePath + request.files[2].filename,
+        image1 = request.files[0].filename,
+        image2 = request.files[1].filename,
+        image3 = request.files[2].filename,
       } = request.files;
 
       const { description, location, price } = request.body;
 
-      console.log(request.body, request.files);
+      const user_id = request.user.user_id;
+
+      console.log(request.body);
+      console.log(request.files);
 
       const newListing = await pool.query(
         "INSERT INTO public.listing (description, location, price, image1, image2, image3, user_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *",
-        [
-          description,
-          location,
-          price,
-          image1,
-          image2,
-          image3,
-          request.user.user_id,
-        ]
+        [description, location, price, image1, image2, image3, user_id]
       );
       response.json(newListing.rows[0]);
-      console.log(newListing);
     } catch (error) {
       console.log(error);
     }
