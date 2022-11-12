@@ -98,13 +98,11 @@ const AddListing = ({ setAuth }) => {
               const file = e.target.files;
               console.log(file);
               setFiles(file);
-              // setFiles(URL.createObjectURL(e.target.files));
             }}
           />
           <br />
           <button type="submit">Submit</button>
         </form>
-        <img src={files} alt="" />
       </div>
     </section>
   );
