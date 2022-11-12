@@ -195,7 +195,7 @@ app.get("/api/v1/listing/:id", async (request, response) => {
   try {
     const listing_id = request.params.id;
     const listing = await pool.query(
-      "SELECT listing_id, description, location, price, image1, image2, image3 FROM public.listing WHERE listing_id = $1",
+      "SELECT public.user.fname, public.user.lname, public.user.email, public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3 FROM public.user LEFT JOIN public.listing ON public.user.user_id = public.listing.user_id WHERE public.listing.listing_id = $1",
       [listing_id]
     );
     response.json(listing.rows);
