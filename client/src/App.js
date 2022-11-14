@@ -11,6 +11,7 @@ import Listing from "./listing/Listing";
 import Dashboard from "./dashboard/Dashboard";
 import axios from "../src/api/axios";
 import AddListing from "./addlisting/AddListing";
+import SingleListing from "./singleListing/SingleListing";
 
 const VERIFY_URL = "/api/v1/verify";
 
@@ -88,6 +89,7 @@ function App() {
           }
         />
         <Route path="/listing" element={<Listing />} />
+        <Route path="/listing/:id" element={<SingleListing />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>
