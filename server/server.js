@@ -24,6 +24,7 @@ app.get("/", (request, response) => {
   });
 });
 
+// Register User
 app.post("/api/v1/register", async (request, response) => {
   try {
     //take the email and password from the req.body
@@ -61,6 +62,7 @@ app.post("/api/v1/register", async (request, response) => {
   }
 });
 
+// Login user
 app.post("/api/v1/login", async (request, response) => {
   try {
     //take the email and password from the req.body
@@ -113,6 +115,7 @@ app.get("/api/v1/profile", auth, async (request, response) => {
   }
 });
 
+// Verify the current user token if authenticated
 app.get("/api/v1/verify", auth, async (request, response) => {
   try {
     // response.json(request.user);
@@ -124,7 +127,6 @@ app.get("/api/v1/verify", auth, async (request, response) => {
 });
 
 // Add New Listing
-
 app.post(
   "/api/v1/user/new/listing",
   auth,
@@ -183,6 +185,7 @@ app.get("/api/v1/listing", async (request, response) => {
   }
 });
 
+// Get single listing
 app.get("/api/v1/listing/:id", async (request, response) => {
   try {
     const listingId = request.params.id;
