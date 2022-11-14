@@ -139,14 +139,14 @@ app.post(
 
       const { description, location, price } = request.body;
 
-      const user_id = request.user.user_id;
+      const userId = request.user.user_id;
 
       console.log(request.body);
       console.log(request.files);
 
       const newListing = await pool.query(
         "INSERT INTO public.listing (description, location, price, image1, image2, image3, user_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *",
-        [description, location, price, image1, image2, image3, user_id]
+        [description, location, price, image1, image2, image3, userId]
       );
       response.json(newListing.rows[0]);
     } catch (error) {
@@ -185,10 +185,10 @@ app.get("/api/v1/listing", async (request, response) => {
 
 app.get("/api/v1/listing/:id", async (request, response) => {
   try {
-    const listing_id = request.params.id;
+    const listingId = request.params.id;
     const listing = await pool.query(
       "SELECT public.user.fname, public.user.lname, public.user.email, public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3 FROM public.user LEFT JOIN public.listing ON public.user.user_id = public.listing.user_id WHERE public.listing.listing_id = $1",
-      [listing_id]
+      [listingId]
     );
     response.json(listing.rows);
   } catch (error) {
