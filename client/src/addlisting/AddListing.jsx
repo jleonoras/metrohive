@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
 import axios from "../api/axios";
 
 const NEW_LISTING_URL = "/api/v1/user/new/listing";
@@ -31,7 +32,10 @@ const AddListing = ({ setAuth }) => {
 
       if (response.status === 200 && response.statusText === "OK") {
         console.log("New listing added successfully!");
+        alert("New listing added successfully!");
+        window.location.reload();
       }
+      <Navigate to="/dashboard" />;
     } catch (error) {
       console.log(error);
     }
