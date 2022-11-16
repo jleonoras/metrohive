@@ -6,6 +6,7 @@ import { generateJwt } from "./jwt/jwtGenerator.js";
 import { auth } from "./middleware/auth.js";
 import { v4 as uuidv4 } from "uuid";
 import cors from "cors";
+import { upload } from "./middleware/upload.js";
 
 const app = express();
 const pool = connectDatabase();
@@ -15,12 +16,15 @@ app.use(cors());
 app.use(express.json()); // req.body
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use("/image", express.static("public/uploads"));
+
 app.get("/", (request, response) => {
   response.json({
     status: "success",
   });
 });
 
+// Register User
 app.post("/api/v1/register", async (request, response) => {
   try {
     //take the email and password from the req.body
@@ -58,6 +62,7 @@ app.post("/api/v1/register", async (request, response) => {
   }
 });
 
+// Login user
 app.post("/api/v1/login", async (request, response) => {
   try {
     //take the email and password from the req.body
@@ -110,6 +115,7 @@ app.get("/api/v1/profile", auth, async (request, response) => {
   }
 });
 
+// Verify the current user token if authenticated
 app.get("/api/v1/verify", auth, async (request, response) => {
   try {
     // response.json(request.user);
@@ -120,48 +126,42 @@ app.get("/api/v1/verify", auth, async (request, response) => {
   }
 });
 
-// Create new listing
-app.post("/api/v1/listing", auth, async (request, response) => {
-  try {
-    console.log(request.body);
+// Add New Listing
+app.post(
+  "/api/v1/user/new/listing",
+  auth,
+  upload.array("file", 3),
+  async (request, response) => {
+    try {
+      const {
+        image1 = request.files[0].filename,
+        image2 = request.files[1].filename,
+        image3 = request.files[2].filename,
+      } = request.files;
 
-    const {
-      description,
-      location,
-      price,
-      image1,
-      image2,
-      image3,
-      image4,
-      image5,
-      user_id,
-    } = request.body;
+      const { description, location, price } = request.body;
 
-    const newListing = await pool.query(
-      "INSERT INTO public.listing (description, location, price, image1, image2, image3, image4, image5, user_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
-      [
-        description,
-        location,
-        price,
-        image1,
-        image2,
-        image3,
-        image4,
-        image5,
-        request.user.user_id,
-      ]
-    );
-    response.json(newListing.rows[0]);
-  } catch (error) {
-    console.log(error.message);
+      const userId = request.user.user_id;
+
+      console.log(request.body);
+      console.log(request.files);
+
+      const newListing = await pool.query(
+        "INSERT INTO public.listing (description, location, price, image1, image2, image3, user_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+        [description, location, price, image1, image2, image3, userId]
+      );
+      response.json(newListing.rows[0]);
+    } catch (error) {
+      console.log(error);
+    }
   }
-});
+);
 
 // View User Listing
-app.get("/api/v1/user-listing", auth, async (request, response) => {
+app.get("/api/v1/user/listing", auth, async (request, response) => {
   try {
     const userListing = await pool.query(
-      "SELECT public.user.fname, public.user.email, public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3 FROM public.user LEFT JOIN public.listing ON public.user.user_id = public.listing.user_id WHERE public.user.user_id = $1",
+      "SELECT public.user.fname, public.user.email, public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3 FROM public.user LEFT JOIN public.listing ON public.user.user_id = public.listing.user_id WHERE public.user.user_id = $1 ORDER BY public.listing.listing_id DESC",
       [request.user.user_id]
     );
 
@@ -172,14 +172,28 @@ app.get("/api/v1/user-listing", auth, async (request, response) => {
   }
 });
 
+// Get All Listing
 app.get("/api/v1/listing", async (request, response) => {
   try {
     const listing = await pool.query(
-      "Select public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3 FROM public.listing ORDER BY public.listing.listing_id DESC"
+      "Select listing_id, description, location, price, image1, image2, image3 FROM public.listing ORDER BY public.listing.listing_id DESC"
     );
 
     response.json(listing.rows);
-    // console.log(listing.rows);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Get single listing
+app.get("/api/v1/listing/:id", async (request, response) => {
+  try {
+    const listingId = request.params.id;
+    const listing = await pool.query(
+      "SELECT public.user.fname, public.user.lname, public.user.email, public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3 FROM public.user LEFT JOIN public.listing ON public.user.user_id = public.listing.user_id WHERE public.listing.listing_id = $1",
+      [listingId]
+    );
+    response.json(listing.rows);
   } catch (error) {
     console.log(error);
   }

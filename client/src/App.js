@@ -77,7 +77,16 @@ function App() {
             )
           }
         />
-        <Route path="/addlisting" element={<AddListing />} />
+        <Route
+          path="/addlisting"
+          element={
+            isAuthenticated ? (
+              <AddListing setAuth={setAuth} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
         <Route path="/listing" element={<Listing />} />
         <Route path="*" element={<Error />} />
       </Routes>
