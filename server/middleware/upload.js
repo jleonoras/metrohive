@@ -7,7 +7,10 @@ const storage = multer.diskStorage({
   },
 
   filename: (request, file, callback) => {
-    const uniquePrefix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const uniquePrefix =
+      new Date().toLocaleString("sv-SE").replace(/[\s\:]/g, "-") +
+      "-" +
+      Math.round(Math.random() * 1e9);
     const extension = path.extname(file.originalname);
     callback(null, uniquePrefix + extension);
   },
