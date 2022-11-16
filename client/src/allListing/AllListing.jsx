@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
 import ListingClass from "../listing/ListingClass";
 import imageUrl from "../component/ImagePath";
+import { Link } from "react-router-dom";
 
 const ALL_LISTING_URL = "/api/v1/listing";
 
@@ -55,31 +56,33 @@ const AllListing = () => {
         <ul>
           {allListing.length !== 0 &&
             allListing[0].listing_id !== null &&
-            allListing.map((item) => {
+            allListing.map((item, index) => {
               return (
-                <li key={item.listing_id}>
-                  <figure>
-                    <img
-                      src={item.image1}
-                      alt={item.description}
-                      loading="lazy"
-                    ></img>
-                  </figure>
-                  <div>
-                    <h3>{itemPrice}</h3>
-                    <p>
-                      {pesoSign}
-                      {item.price}
-                    </p>
-                  </div>
-                  <div>
-                    <h3>{itemDescription}</h3>
-                    <p>{item.description}</p>
-                  </div>
-                  <div>
-                    <h3>{itemLocation}</h3>
-                    <p>{item.location}</p>
-                  </div>
+                <li key={index}>
+                  <Link to={`/listing/${item.listing_id}`}>
+                    <figure>
+                      <img
+                        src={item.image1}
+                        alt={item.description}
+                        loading="lazy"
+                      ></img>
+                    </figure>
+                    <div>
+                      <h3>{itemPrice}</h3>
+                      <p>
+                        {pesoSign}
+                        {item.price}
+                      </p>
+                    </div>
+                    <div>
+                      <h3>{itemDescription}</h3>
+                      <p>{item.description}</p>
+                    </div>
+                    <div>
+                      <h3>{itemLocation}</h3>
+                      <p>{item.location}</p>
+                    </div>
+                  </Link>
                 </li>
               );
             })}
