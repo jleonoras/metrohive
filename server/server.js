@@ -205,9 +205,9 @@ app.put("/api/v1/listing/:id", auth, async (request, response) => {
     const listingId = request.params.id;
     const userId = request.user.user_id;
     const { price, description, location } = request.body;
-    const dbQuery =
+    const dbUpdateQuery =
       "UPDATE public.listing SET price = $1, description = $2, location = $3 WHERE user_id = $4 AND listing_id = $5 RETURNING *";
-    const userListing = await pool.query(dbQuery, [
+    const updateListing = await pool.query(dbUpdateQuery, [
       price,
       description,
       location,
@@ -215,13 +215,37 @@ app.put("/api/v1/listing/:id", auth, async (request, response) => {
       listingId,
     ]);
 
-    if (userListing.rows.length === 0) {
+    if (updateListing.rows.length === 0) {
       return response.json(
         "You are not authorize to edit/update this listing!"
       );
     }
 
     response.json(userListing.rows);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//  Delete listing
+app.delete("/api/v1/listing/:id", auth, async (request, response) => {
+  try {
+    const listingId = request.params.id;
+    const userId = request.user.user_id;
+
+    const dbDeleteQuery =
+      "DELETE FROM public.listing WHERE listing_id = $1 AND user_id = $2 RETURNING *";
+
+    const deleteListing = await pool.query(dbDeleteQuery, [listingId, userId]);
+
+    if (deleteListing.rows.length === 0) {
+      return response.json("You are not authorize to delete this listing!");
+    }
+
+    // response.json("Listing was deleted!");
+    response.json(deleteListing.rows);
+
+    console.log(image1);
   } catch (error) {
     console.log(error);
   }
