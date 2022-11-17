@@ -143,8 +143,8 @@ app.post(
 
       const userId = request.user.user_id;
 
-      console.log(request.body);
-      console.log(request.files);
+      // console.log(request.body);
+      // console.log(request.files);
 
       const newListing = await pool.query(
         "INSERT INTO public.listing (description, location, price, image1, image2, image3, user_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *",
@@ -194,6 +194,34 @@ app.get("/api/v1/listing/:id", async (request, response) => {
       [listingId]
     );
     response.json(listing.rows);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Update listing
+app.put("/api/v1/listing/:id", auth, async (request, response) => {
+  try {
+    const listingId = request.params.id;
+    const userId = request.user.user_id;
+    const { price, description, location } = request.body;
+    const dbQuery =
+      "UPDATE public.listing SET price = $1, description = $2, location = $3 WHERE user_id = $4 AND listing_id = $5 RETURNING *";
+    const userListing = await pool.query(dbQuery, [
+      price,
+      description,
+      location,
+      userId,
+      listingId,
+    ]);
+
+    if (userListing.rows.length === 0) {
+      return response.json(
+        "You are not authorize to edit/update this listing!"
+      );
+    }
+
+    response.json(userListing.rows);
   } catch (error) {
     console.log(error);
   }
