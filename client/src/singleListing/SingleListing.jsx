@@ -39,9 +39,9 @@ const SingleListing = () => {
         console.log(error);
       }
     };
+
     getSingleListing();
-    // eslint-disable-next-line
-  }, []);
+  }, [id]);
 
   return (
     <section className="App">
