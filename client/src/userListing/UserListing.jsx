@@ -4,6 +4,7 @@ import ListingClass from "../listing/ListingClass";
 import imageUrl from "../component/ImagePath";
 
 const USER_LISTING_URL = "/api/v1/user/listing";
+const DELETE_LISTING_API_URL = "/api/v1/listing";
 
 const UserListing = () => {
   const [itemListing, setItemListing] = useState([]);
@@ -47,6 +48,24 @@ const UserListing = () => {
     getUserListing();
   }, []);
 
+  const deleteUserListing = async (id) => {
+    try {
+      const response = await axios.delete(`${DELETE_LISTING_API_URL}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      console.log(response);
+
+      setItemListing(
+        itemListing.filter((listing) => listing.listing_id !== id)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <section>
       <div>
@@ -78,6 +97,9 @@ const UserListing = () => {
                     <h3>{itemLocation}</h3>
                     <p>{item.location}</p>
                   </div>
+                  <button onClick={() => deleteUserListing(item.listing_id)}>
+                    Delete
+                  </button>
                 </li>
               );
             })}
