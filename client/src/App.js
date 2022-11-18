@@ -7,7 +7,7 @@ import Error from "./error/Error";
 import "./component/nav.css";
 import Register from "./register/Register";
 import Navbar from "./component/StyledNavbar";
-import Listing from "./listing/Listing";
+// import Listing from "./listing/Listing";
 import Dashboard from "./dashboard/Dashboard";
 import axios from "../src/api/axios";
 import AddListing from "./addlisting/AddListing";
@@ -24,7 +24,7 @@ function App() {
         },
       });
 
-      const parseRes = await response?.data;
+      const parseRes = response.data;
 
       parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
       // console.log(parseRes);
@@ -88,7 +88,7 @@ function App() {
             )
           }
         />
-        <Route path="/listing" element={<Listing />} />
+        {/* <Route path="/listing" element={<Listing />} /> */}
         <Route path="/listing/:id" element={<SingleListing />} />
         <Route path="*" element={<Error />} />
       </Routes>
