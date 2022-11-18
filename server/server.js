@@ -244,8 +244,6 @@ app.delete("/api/v1/listing/:id", auth, async (request, response) => {
 
     // response.json("Listing was deleted!");
     response.json(deleteListing.rows);
-
-    console.log(image1);
   } catch (error) {
     console.log(error);
   }
