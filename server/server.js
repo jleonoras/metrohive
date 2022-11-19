@@ -7,6 +7,8 @@ import { auth } from "./middleware/auth.js";
 import { v4 as uuidv4 } from "uuid";
 import cors from "cors";
 import { upload } from "./middleware/upload.js";
+import fs from "fs";
+import path from "path";
 
 const app = express();
 const pool = connectDatabase();
@@ -242,10 +244,36 @@ app.delete("/api/v1/listing/:id", auth, async (request, response) => {
       return response.json("You are not authorize to delete this listing!");
     }
 
+    // app.delete("/image/:name", controller.remove);
+
     // response.json("Listing was deleted!");
     response.json(deleteListing.rows);
   } catch (error) {
     console.log(error);
+  }
+});
+
+// Delete listing image
+app.delete("/image/:name", auth, (request, response) => {
+  const fileName = request.params.name;
+
+  const __dirname = path.resolve();
+  const directoryPath = path.join(__dirname, "/public/uploads/");
+
+  try {
+    // for (let i = 0; i < fileName.length; i++) {
+    //   fileName += fileName[i];
+    // }
+
+    fs.unlinkSync(directoryPath + fileName);
+
+    response.status(200).send({
+      message: "Image is deleted!",
+    });
+  } catch (error) {
+    response.status(500).send({
+      message: "Could not delete the file. " + error,
+    });
   }
 });
 
