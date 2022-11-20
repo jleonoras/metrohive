@@ -9,12 +9,21 @@ import cors from "cors";
 import { upload } from "./middleware/upload.js";
 import fs from "fs";
 import path from "path";
+import helmet from "helmet";
 
 const app = express();
 const pool = connectDatabase();
 const port = 8000;
 
 app.use(cors());
+app.use(
+  helmet({
+    frameguard: {
+      action: "deny",
+    },
+    xssFilter: true,
+  })
+);
 app.use(express.json()); // req.body
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -29,7 +38,7 @@ app.get("/", (request, response) => {
 // Register User
 app.post("/api/v1/register", async (request, response) => {
   try {
-    //take the email and password from the req.body
+    //take the firstname, lastname, email and password from the req.body
     const { fname, lname, email, password } = request.body;
 
     //Check if the account is already existing
