@@ -31,7 +31,7 @@ const AddListing = ({ setAuth }) => {
       });
 
       if (response.status === 200 && response.statusText === "OK") {
-        console.log("New listing added successfully!");
+        // console.log("New listing added successfully!");
         alert("New listing added successfully!");
         window.location.reload();
       }
@@ -100,7 +100,7 @@ const AddListing = ({ setAuth }) => {
             required
             onChange={(e) => {
               const file = e.target.files;
-              console.log(file);
+              // console.log(file);
               setFiles(file);
             }}
           />
