@@ -20,8 +20,8 @@ const UserListing = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      // console.log(response);
-      const parseRes = await response?.data;
+
+      const parseRes = await response?.data?.listing;
 
       const itemListing = parseRes.map((item) => {
         return new ListingClass({
