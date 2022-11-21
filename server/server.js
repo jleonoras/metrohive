@@ -22,6 +22,9 @@ app.use(
       action: "deny",
     },
     xssFilter: true,
+    crossOriginResourcePolicy: {
+      policy: "cross-origin",
+    },
   })
 );
 app.use(express.json()); // req.body
