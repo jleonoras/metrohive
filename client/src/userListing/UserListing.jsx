@@ -30,6 +30,8 @@ const UserListing = () => {
           location: item.location,
           price: item.price,
           image1: `${imageUrl}/${item.image1}`,
+          image2: `${imageUrl}/${item.image2}`,
+          image3: `${imageUrl}/${item.image3}`,
         });
       });
 
@@ -50,13 +52,13 @@ const UserListing = () => {
 
   const deleteUserListing = async (id) => {
     try {
-      const response = await axios.delete(`${DELETE_LISTING_API_URL}/${id}`, {
+      await axios.delete(`${DELETE_LISTING_API_URL}/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
-      console.log(response);
+      // console.log(response);
 
       setItemListing(
         itemListing.filter((listing) => listing.listing_id !== id)
