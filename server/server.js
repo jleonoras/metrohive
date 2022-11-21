@@ -247,6 +247,9 @@ app.delete("/api/v1/listing/:id", auth, async (request, response) => {
     const listingId = request.params.id;
     const userId = request.user.user_id;
 
+    const __dirname = path.resolve();
+    const directoryPath = path.join(__dirname, "/public/uploads/");
+
     const dbDeleteQuery =
       "DELETE FROM public.listing WHERE listing_id = $1 AND user_id = $2 RETURNING *";
 
@@ -256,36 +259,24 @@ app.delete("/api/v1/listing/:id", auth, async (request, response) => {
       return response.json("You are not authorize to delete this listing!");
     }
 
-    // app.delete("/image/:name", controller.remove);
-
     // response.json("Listing was deleted!");
     response.json(deleteListing.rows);
+
+    const image1 = deleteListing.rows[0].image1;
+    const image2 = deleteListing.rows[0].image2;
+    const image3 = deleteListing.rows[0].image3;
+
+    const image = [image1, image2, image3];
+
+    for (let index = 0; index < image.length; index++) {
+      fs.unlinkSync(directoryPath + image[index]);
+    }
+
+    // const deleteImage = (file) => {
+    //   return image.map(fs.unlink(directoryPath + file));
+    // };
   } catch (error) {
     console.log(error);
-  }
-});
-
-// Delete listing image
-app.delete("/image/:name", auth, (request, response) => {
-  const fileName = request.params.name;
-
-  const __dirname = path.resolve();
-  const directoryPath = path.join(__dirname, "/public/uploads/");
-
-  try {
-    // for (let i = 0; i < fileName.length; i++) {
-    //   fileName += fileName[i];
-    // }
-
-    fs.unlinkSync(directoryPath + fileName);
-
-    response.status(200).send({
-      message: "Image is deleted!",
-    });
-  } catch (error) {
-    response.status(500).send({
-      message: "Could not delete the file. " + error,
-    });
   }
 });
 
