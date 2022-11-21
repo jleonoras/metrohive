@@ -193,7 +193,10 @@ app.get("/api/v1/listing", async (request, response) => {
       "Select listing_id, description, location, price, image1, image2, image3 FROM public.listing ORDER BY public.listing.listing_id DESC"
     );
 
-    response.json(listing.rows);
+    response.json({
+      total_listing: listing.rows.length,
+      listing: listing.rows,
+    });
   } catch (error) {
     console.log(error);
   }
