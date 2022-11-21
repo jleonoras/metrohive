@@ -235,7 +235,7 @@ app.put("/api/v1/listing/:id", auth, async (request, response) => {
       );
     }
 
-    response.json(userListing.rows);
+    response.json(updateListing.rows);
   } catch (error) {
     console.log(error);
   }
@@ -275,6 +275,36 @@ app.delete("/api/v1/listing/:id", auth, async (request, response) => {
     // const deleteImage = (file) => {
     //   return image.map(fs.unlink(directoryPath + file));
     // };
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Update user profile
+app.put("/api/v1/user", auth, async (request, response) => {
+  try {
+    const userId = request.user.user_id;
+    const userPass = request.user.password;
+    const { fname, lname, email } = request.body;
+
+    const dbQuery =
+      "UPDATE public.user SET fname = $1, lname = $2, email = $3 WHERE user_id = $4 AND password = $5 RETURNING user_id, fname, lname, email";
+
+    const updateProfile = await pool.query(dbQuery, [
+      fname,
+      lname,
+      email,
+      userId,
+      userPass,
+    ]);
+
+    if (updateProfile.rows.length === 0) {
+      return response.json(
+        "You are not authorize to edit/update this profile!"
+      );
+    }
+
+    response.json(updateProfile.rows);
   } catch (error) {
     console.log(error);
   }
