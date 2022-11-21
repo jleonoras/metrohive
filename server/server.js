@@ -179,7 +179,10 @@ app.get("/api/v1/user/listing", auth, async (request, response) => {
       [request.user.user_id]
     );
 
-    response.json(userListing.rows);
+    response.json({
+      total_listing: userListing.rows.length,
+      listing: userListing.rows,
+    });
     // console.log(user.rows);
   } catch (error) {
     console.error(error.message);
