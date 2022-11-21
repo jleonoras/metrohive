@@ -30,6 +30,8 @@ const AllListing = () => {
           location: item.location,
           price: item.price,
           image1: `${imageUrl}/${item.image1}`,
+          image2: `${imageUrl}/${item.image2}`,
+          image3: `${imageUrl}/${item.image3}`,
         });
       });
 
