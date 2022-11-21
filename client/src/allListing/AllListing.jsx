@@ -22,6 +22,7 @@ const AllListing = () => {
       });
 
       const parseRes = await response?.data?.listing;
+
       const allListing = parseRes.map((item) => {
         return new ListingClass({
           listing_id: item.listing_id,
