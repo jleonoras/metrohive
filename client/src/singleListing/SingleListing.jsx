@@ -13,7 +13,11 @@ const SingleListing = () => {
   useEffect(() => {
     const getSingleListing = async () => {
       try {
-        const response = await axios.get(`${SINGLE_LISTING_API_URL}/${id}`);
+        const response = await axios.get(`${SINGLE_LISTING_API_URL}/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         const parseRes = await response.data;
         // console.log(parseRes);

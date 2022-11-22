@@ -18,6 +18,7 @@ const UserListing = () => {
       const response = await axios.get(USER_LISTING_URL, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
         },
       });
 

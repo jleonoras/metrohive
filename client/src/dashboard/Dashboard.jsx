@@ -14,6 +14,7 @@ const Dashboard = ({ setAuth }) => {
       const response = await axios.get(PROFILE_URL, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
         },
       });
 
