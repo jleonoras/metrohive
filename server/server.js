@@ -225,15 +225,11 @@ app.put("/api/v1/listing/:id", auth, async (request, response) => {
     const listingId = request.params.id;
     const userId = request.user.user_id;
     const { price, description, location } = request.body;
-    const dbUpdateQuery =
-      "UPDATE public.listing SET price = $1, description = $2, location = $3 WHERE user_id = $4 AND listing_id = $5 RETURNING *";
-    const updateListing = await pool.query(dbUpdateQuery, [
-      price,
-      description,
-      location,
-      userId,
-      listingId,
-    ]);
+
+    const updateListing = await pool.query(
+      "UPDATE public.listing SET price = $1, description = $2, location = $3 WHERE user_id = $4 AND listing_id = $5 RETURNING *",
+      [price, description, location, userId, listingId]
+    );
 
     if (updateListing.rows.length === 0) {
       return response.json(
@@ -256,10 +252,10 @@ app.delete("/api/v1/listing/:id", auth, async (request, response) => {
     const __dirname = path.resolve();
     const directoryPath = path.join(__dirname, "/public/uploads/");
 
-    const dbDeleteQuery =
-      "DELETE FROM public.listing WHERE listing_id = $1 AND user_id = $2 RETURNING *";
-
-    const deleteListing = await pool.query(dbDeleteQuery, [listingId, userId]);
+    const deleteListing = await pool.query(
+      "DELETE FROM public.listing WHERE listing_id = $1 AND user_id = $2 RETURNING *",
+      [listingId, userId]
+    );
 
     if (deleteListing.rows.length === 0) {
       return response.json("You are not authorize to delete this listing!");
@@ -293,16 +289,10 @@ app.put("/api/v1/user", auth, async (request, response) => {
     const userPass = request.user.password;
     const { fname, lname, email } = request.body;
 
-    const dbQuery =
-      "UPDATE public.user SET fname = $1, lname = $2, email = $3 WHERE user_id = $4 AND password = $5 RETURNING user_id, fname, lname, email";
-
-    const updateProfile = await pool.query(dbQuery, [
-      fname,
-      lname,
-      email,
-      userId,
-      userPass,
-    ]);
+    const updateProfile = await pool.query(
+      "UPDATE public.user SET fname = $1, lname = $2, email = $3 WHERE user_id = $4 AND password = $5 RETURNING user_id, fname, lname, email",
+      [fname, lname, email, userId, userPass]
+    );
 
     if (updateProfile.rows.length === 0) {
       return response.json(
@@ -311,6 +301,25 @@ app.put("/api/v1/user", auth, async (request, response) => {
     }
 
     response.json(updateProfile.rows);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Search listing by location
+app.get("/api/v1/location", async (request, response) => {
+  try {
+    const { location } = request.query;
+
+    const listing = await pool.query(
+      "SELECT public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3, public.user.user_id, public.user.fname, public.user.lname, public.user.email FROM public.user LEFT JOIN public.listing ON public.user.user_id = public.listing.user_id WHERE location || ' ' || description ILIKE $1",
+      [`%${location}%`]
+    );
+
+    response.json({
+      total_listing: listing.rows.length,
+      listing: listing.rows,
+    });
   } catch (error) {
     console.log(error);
   }
