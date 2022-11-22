@@ -306,7 +306,7 @@ app.put("/api/v1/user", auth, async (request, response) => {
   }
 });
 
-// Search listing by location
+// Search listing (by location)
 app.get("/api/v1/location", async (request, response) => {
   try {
     const { location } = request.query;
