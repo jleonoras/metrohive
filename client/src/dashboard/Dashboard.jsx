@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
 import UserListing from "../userListing/UserListing";
+import { useNavigate } from "react-router-dom";
 
 const PROFILE_URL = "/api/v1/profile";
 
@@ -8,28 +9,34 @@ const Dashboard = ({ setAuth }) => {
   const [fname, setFName] = useState("");
   const [lname, setLName] = useState("");
   const [email, setEmail] = useState("");
+  const [userId, setUserId] = useState("");
 
-  const getProfile = async () => {
-    try {
-      const response = await axios.get(PROFILE_URL, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-      });
+  const navigate = useNavigate();
 
-      const parseRes = await response?.data;
-      setFName(parseRes.fname);
-      setLName(parseRes.lname);
-      setEmail(parseRes.email);
-      // console.log(parseRes);
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
+  useEffect(() => {
+    const getProfile = async () => {
+      try {
+        const response = await axios.get(PROFILE_URL, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        });
 
-  const logoutButton = (e) => {
-    e.preventDefault();
+        const parseRes = await response?.data;
+        setFName(parseRes.fname);
+        setLName(parseRes.lname);
+        setEmail(parseRes.email);
+        setUserId(parseRes.user_id);
+        // console.log(parseRes);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+    getProfile();
+  }, []);
+
+  const handleLogout = (e) => {
     try {
       localStorage.removeItem("token");
       setAuth(false);
@@ -39,9 +46,9 @@ const Dashboard = ({ setAuth }) => {
     }
   };
 
-  useEffect(() => {
-    getProfile();
-  }, []);
+  const handleUpdate = (e) => {
+    navigate(`/dashboard/update/${fname}/${userId}`);
+  };
 
   return (
     <section className="App">
@@ -57,9 +64,9 @@ const Dashboard = ({ setAuth }) => {
           <h5>{email}</h5>
         </div>
         <div>
-          <button onClick={(e) => logoutButton(e)}>Logout</button>
+          <button onClick={(e) => handleUpdate(e)}>Update</button>
+          <button onClick={(e) => handleLogout(e)}>Logout</button>
         </div>
-        <br />
         <div>
           <UserListing />
         </div>
