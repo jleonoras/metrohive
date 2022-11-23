@@ -12,6 +12,8 @@ import Dashboard from "./dashboard/Dashboard";
 import axios from "../src/api/axios";
 import AddListing from "./addlisting/AddListing";
 import SingleListing from "./singleListing/SingleListing";
+import UpdateProfile from "./dashboard/UpdateProfile";
+import { DataContextProvider } from "./context/DataContext";
 
 const VERIFY_URL = "/api/v1/verify";
 
@@ -44,55 +46,67 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/login"
-          element={
-            !isAuthenticated ? (
-              <Login setAuth={setAuth} />
-            ) : (
-              <Navigate to="/dashboard" />
-            )
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            !isAuthenticated ? (
-              <Register setAuth={setAuth} />
-            ) : (
-              <Navigate to="/dashboard" />
-            )
-          }
-        />
-        <Route
-          path="/dashboard"
-          element={
-            isAuthenticated ? (
-              <Dashboard setAuth={setAuth} />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-        <Route
-          path="/addlisting"
-          element={
-            isAuthenticated ? (
-              <AddListing setAuth={setAuth} />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-        {/* <Route path="/listing" element={<Listing />} /> */}
-        <Route path="/listing/:id" element={<SingleListing />} />
-        <Route path="*" element={<Error />} />
-      </Routes>
-    </BrowserRouter>
+    <DataContextProvider>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/login"
+            element={
+              !isAuthenticated ? (
+                <Login setAuth={setAuth} />
+              ) : (
+                <Navigate to="/dashboard" />
+              )
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              !isAuthenticated ? (
+                <Register setAuth={setAuth} />
+              ) : (
+                <Navigate to="/dashboard" />
+              )
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              isAuthenticated ? (
+                <Dashboard setAuth={setAuth} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/addlisting"
+            element={
+              isAuthenticated ? (
+                <AddListing setAuth={setAuth} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          {/* <Route path="/listing" element={<Listing />} /> */}
+          <Route path="/listing/:id" element={<SingleListing />} />
+          <Route
+            path="/dashboard/update/:user/:userId/"
+            element={
+              isAuthenticated ? (
+                <UpdateProfile setAuth={setAuth} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route path="*" element={<Error />} />
+        </Routes>
+      </BrowserRouter>
+    </DataContextProvider>
   );
 }
 
