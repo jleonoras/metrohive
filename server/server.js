@@ -290,7 +290,7 @@ app.put("/api/v1/user", auth, async (request, response) => {
     const { fname, lname, email } = request.body;
 
     const updateProfile = await pool.query(
-      "UPDATE public.user SET fname = $1, lname = $2, email = $3 WHERE user_id = $4 AND password = $5 RETURNING user_id, fname, lname, email",
+      "UPDATE public.user SET fname = $1, lname = $2, email = $3 WHERE user_id = $4 AND password = $5 RETURNING fname, lname, email",
       [fname, lname, email, userId, userPass]
     );
 
