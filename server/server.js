@@ -13,9 +13,14 @@ import helmet from "helmet";
 
 const app = express();
 const pool = connectDatabase();
-const port = 8000;
+const port = 5000;
 
 app.use(cors());
+
+app.use(express.json()); // req.body
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(
   helmet({
     frameguard: {
@@ -27,8 +32,6 @@ app.use(
     },
   })
 );
-app.use(express.json()); // req.body
-app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/image", express.static("public/uploads"));
 
@@ -283,11 +286,13 @@ app.delete("/api/v1/listing/:id", auth, async (request, response) => {
 });
 
 // Update user profile
-app.put("/api/v1/user", auth, async (request, response) => {
+app.patch("/api/v1/user/update", auth, async (request, response) => {
   try {
     const userId = request.user.user_id;
     const userPass = request.user.password;
     const { fname, lname, email } = request.body;
+
+    console.log(request.body);
 
     const updateProfile = await pool.query(
       "UPDATE public.user SET fname = $1, lname = $2, email = $3 WHERE user_id = $4 AND password = $5 RETURNING fname, lname, email",
@@ -303,6 +308,7 @@ app.put("/api/v1/user", auth, async (request, response) => {
     response.json(updateProfile.rows);
   } catch (error) {
     console.log(error);
+    response.json(error);
   }
 });
 
