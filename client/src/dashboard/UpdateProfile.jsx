@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "../api/axios";
 
-const UPDATE_USER_URL = "/api/v1/user";
+const UPDATE_USER_URL = "/api/v1/user/update";
 const USER_DATA_URL = "api/v1/profile";
 
 const UpdateProfile = ({ setAuth }) => {
-  const [fname, setFname] = useState("");
-  const [lname, setLname] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
 
   useEffect(() => {
@@ -18,15 +18,12 @@ const UpdateProfile = ({ setAuth }) => {
         },
       });
 
-      console.log({
-        "get data token": `Bearer ${localStorage.getItem("token")}`,
-      });
       const parseRes = response?.data;
 
       console.log(parseRes);
 
-      setFname(parseRes.fname);
-      setLname(parseRes.lname);
+      setFirstname(parseRes.fname);
+      setLastname(parseRes.lname);
       setEmail(parseRes.email);
     };
     fetchData();
@@ -35,30 +32,30 @@ const UpdateProfile = ({ setAuth }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const body = {
-      fname,
-      lname,
+    const data = {
+      fname: firstname,
+      lname: lastname,
       email,
     };
 
-    console.log(fname);
+    console.log({ stringify: JSON.stringify(data) });
+    console.log({ plain: data });
 
     try {
-      await axios.put(UPDATE_USER_URL, JSON.stringify(body), {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      });
+      const updateProfile = await axios.patch(
+        UPDATE_USER_URL,
+        JSON.stringify(data),
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
 
-      console.log({
-        "put data token": `Bearer ${localStorage.getItem("token")}`,
-      });
+      console.log(updateProfile);
     } catch (error) {
       console.log(error);
-      console.log({
-        "put data token": `Bearer ${localStorage.getItem("token")}`,
-      });
     }
   };
 
@@ -68,26 +65,30 @@ const UpdateProfile = ({ setAuth }) => {
         <div>
           <h1>Update Profile</h1>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={(e) => {
+            handleSubmit(e);
+          }}
+        >
           <div>
-            <label htmlFor="firstname">First Name:</label>
+            <label htmlFor="fname">First Name:</label>
             <input
               name="firstname"
-              value={fname}
+              value={firstname}
               type="text"
               onChange={(e) => {
-                setFname(e.target.value);
+                setFirstname(e.target.value);
               }}
             />
           </div>
           <div>
-            <label htmlFor="lastname">Last Name:</label>
+            <label htmlFor="lname">Last Name:</label>
             <input
               name="lastname"
-              value={lname}
+              value={lastname}
               type="text"
               onChange={(e) => {
-                setLname(e.target.value);
+                setLastname(e.target.value);
               }}
             />
           </div>
