@@ -13,12 +13,11 @@ import helmet from "helmet";
 
 const app = express();
 const pool = connectDatabase();
-const port = 5000;
+const port = process.env.dbPort;
 
 app.use(cors());
 
 app.use(express.json()); // req.body
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
@@ -36,9 +35,7 @@ app.use(
 app.use("/image", express.static("public/uploads"));
 
 app.get("/", (request, response) => {
-  response.json({
-    status: "success",
-  });
+  response.send("<h1 style='text-align: center'>METROHYVE API</h1>");
 });
 
 // Register User
@@ -57,7 +54,6 @@ app.post("/api/v1/register", async (request, response) => {
     }
 
     //Setup Bcrypt for password hashing
-
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
 
@@ -286,7 +282,7 @@ app.delete("/api/v1/listing/:id", auth, async (request, response) => {
 });
 
 // Update user profile
-app.patch("/api/v1/user/update", auth, async (request, response) => {
+app.put("/api/v1/user/update", auth, async (request, response) => {
   try {
     const userId = request.user.user_id;
     const userPass = request.user.password;

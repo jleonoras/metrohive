@@ -3,7 +3,7 @@ import pg from "pg";
 const connectDatabase = () => {
   const pool = new pg.Pool({
     user: "postgres",
-    password: "AdminJohn",
+    password: process.env.dbPassword,
     database: "metrohivedb",
     host: "localhost",
   });
