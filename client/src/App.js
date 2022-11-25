@@ -18,6 +18,7 @@ import { DataContextProvider } from "./context/DataContext";
 const VERIFY_URL = "/api/v1/verify";
 
 function App() {
+  // Check the token is authenticated
   const checkAuthenticated = async () => {
     try {
       const response = await axios.get(VERIFY_URL, {
@@ -52,6 +53,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
+            // Login Route
+            // If the user token is authenticated will redirect to dashboard if not redirected to login
             path="/login"
             element={
               !isAuthenticated ? (
@@ -62,6 +65,8 @@ function App() {
             }
           />
           <Route
+            // Register route
+            // If the user token is authenticated will redirect to dashboard page if not redirected to register
             path="/register"
             element={
               !isAuthenticated ? (
@@ -72,6 +77,8 @@ function App() {
             }
           />
           <Route
+            //  Dashboard route
+            //  If the user token is authenticated will redirect to dashboard if not will redirect to login
             path="/dashboard"
             element={
               isAuthenticated ? (
@@ -82,6 +89,7 @@ function App() {
             }
           />
           <Route
+            // If the user token is authenticated will redirect to add listing if not redirected to login
             path="/addlisting"
             element={
               isAuthenticated ? (
@@ -91,9 +99,12 @@ function App() {
               )
             }
           />
-          {/* <Route path="/listing" element={<Listing />} /> */}
+
+          {/* Route to listing detail page */}
           <Route path="/listing/:id" element={<SingleListing />} />
           <Route
+            // Route to update profile
+            // If user token is authenticated will redirect to update profile page if not redirected to login
             path="/dashboard/update/:user/:userId/"
             element={
               isAuthenticated ? (
@@ -103,6 +114,7 @@ function App() {
               )
             }
           />
+          {/* Route to error page */}
           <Route path="*" element={<Error />} />
         </Routes>
       </BrowserRouter>
