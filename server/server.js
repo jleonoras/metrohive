@@ -19,6 +19,7 @@ const port = process.env.serverPort;
 app.use(cors());
 
 app.use(express.json()); // req.body
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
@@ -289,8 +290,6 @@ app.put("/api/v1/user/update", auth, async (request, response) => {
     const userPass = request.user.password;
     const { fname, lname, email } = request.body;
 
-    console.log(request.body);
-
     const updateProfile = await pool.query(
       "UPDATE public.user SET fname = $1, lname = $2, email = $3 WHERE user_id = $4 AND password = $5 RETURNING fname, lname, email",
       [fname, lname, email, userId, userPass]
@@ -305,7 +304,6 @@ app.put("/api/v1/user/update", auth, async (request, response) => {
     response.json(updateProfile.rows);
   } catch (error) {
     console.log(error);
-    response.json(error);
   }
 });
 
