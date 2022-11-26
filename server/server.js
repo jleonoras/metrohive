@@ -13,7 +13,8 @@ import helmet from "helmet";
 
 const app = express();
 const pool = connectDatabase();
-const port = process.env.dbPort;
+const host = "localhost";
+const port = process.env.serverPort;
 
 app.use(cors());
 
@@ -331,8 +332,8 @@ pool.connect((error) => {
   if (error) {
     console.log(error);
   } else {
-    app.listen(port, () => {
-      console.log(`Server has started and running on http://localhost:${port}`);
+    app.listen(port, host, () => {
+      console.log(`Server has started and running on http://${host}:${port}`);
     });
   }
 });
