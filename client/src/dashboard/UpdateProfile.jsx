@@ -4,7 +4,7 @@ import axios from "../api/axios";
 const UPDATE_USER_URL = "/api/v1/user/update";
 const USER_DATA_URL = "api/v1/profile";
 
-const UpdateProfile = ({ setAuth }) => {
+const UpdateProfile = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -20,8 +20,6 @@ const UpdateProfile = ({ setAuth }) => {
 
       const parseRes = response?.data;
 
-      console.log(parseRes);
-
       setFirstname(parseRes.fname);
       setLastname(parseRes.lname);
       setEmail(parseRes.email);
@@ -32,30 +30,24 @@ const UpdateProfile = ({ setAuth }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data = {
+    const body = {
       fname: firstname,
       lname: lastname,
       email,
     };
 
-    console.log({ stringify: JSON.stringify(data) });
-    console.log({ plain: data });
-
     try {
-      const updateProfile = await axios.patch(
-        UPDATE_USER_URL,
-        JSON.stringify(data),
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }
-      );
+      const updateProfile = await axios.put(UPDATE_USER_URL, body, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      });
 
       console.log(updateProfile);
     } catch (error) {
       console.log(error);
+      alert(error.message);
     }
   };
 
@@ -71,7 +63,7 @@ const UpdateProfile = ({ setAuth }) => {
           }}
         >
           <div>
-            <label htmlFor="fname">First Name:</label>
+            <label htmlFor="firstname">First Name:</label>
             <input
               name="firstname"
               value={firstname}
@@ -82,7 +74,7 @@ const UpdateProfile = ({ setAuth }) => {
             />
           </div>
           <div>
-            <label htmlFor="lname">Last Name:</label>
+            <label htmlFor="lastname">Last Name:</label>
             <input
               name="lastname"
               value={lastname}
