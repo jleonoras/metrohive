@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
 import axios from "../api/axios";
 
 const NEW_LISTING_URL = "/api/v1/user/new/listing";
 
-const AddListing = ({ setAuth }) => {
+const AddListing = () => {
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [price, setPrice] = useState("");
@@ -30,14 +29,14 @@ const AddListing = ({ setAuth }) => {
         },
       });
 
+      // If the response status is 200 and status text is ok this will run reset input
       if (response.status === 200 && response.statusText === "OK") {
-        // console.log("New listing added successfully!");
-        alert("New listing added successfully!");
-        window.location.reload();
+        // Clear input field after submit
+        e.target.reset();
       }
-      <Navigate to="/dashboard" />;
     } catch (error) {
       console.log(error);
+      alert(error.message);
     }
   };
 
@@ -46,7 +45,12 @@ const AddListing = ({ setAuth }) => {
       <div className="App-header">
         <h1>Add Listing</h1>
         <p>This is the Add Listing page.</p>
-        <form onSubmit={onSubmitForm} encType="multipart/form-data">
+        <form
+          onSubmit={(e) => {
+            onSubmitForm(e);
+          }}
+          encType="multipart/form-data"
+        >
           <label htmlFor="description">Description:</label>
           <br />
           <textarea
