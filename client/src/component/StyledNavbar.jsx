@@ -15,7 +15,7 @@ const Navbar = () => {
             loading="lazy"
             id="brandLogo"
           ></img>
-          Metrohive
+          Metrohyve
         </Link>
 
         <button
