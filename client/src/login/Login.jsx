@@ -38,9 +38,11 @@ const Login = ({ setAuth }) => {
       } else {
         setAuth(false);
         console.log("Something went wrong");
+        alert("Something went wrong");
       }
     } catch (error) {
-      console.error(error.message);
+      console.log(error);
+      alert(error.message);
     }
   };
 

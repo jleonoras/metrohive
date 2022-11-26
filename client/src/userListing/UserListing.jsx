@@ -53,19 +53,20 @@ const UserListing = () => {
 
   const deleteUserListing = async (id) => {
     try {
-      await axios.delete(`${DELETE_LISTING_API_URL}/${id}`, {
+      const response = await axios.delete(`${DELETE_LISTING_API_URL}/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
-      // console.log(response);
+      console.log(response);
 
       setItemListing(
         itemListing.filter((listing) => listing.listing_id !== id)
       );
     } catch (error) {
       console.log(error);
+      alert(error.message);
     }
   };
 

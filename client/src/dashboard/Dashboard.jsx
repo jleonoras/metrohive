@@ -30,7 +30,7 @@ const Dashboard = ({ setAuth }) => {
         setUserId(parseRes.user_id);
         // console.log(parseRes);
       } catch (error) {
-        console.error(error.message);
+        console.log(error);
       }
     };
     getProfile();
@@ -42,7 +42,6 @@ const Dashboard = ({ setAuth }) => {
       setAuth(false);
     } catch (error) {
       console.log(error);
-      console.error(error.message);
     }
   };
 
