@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "../api/axios";
 
 const NEW_LISTING_URL = "/api/v1/user/new/listing";
@@ -39,6 +39,10 @@ const AddListing = () => {
       alert(error.message);
     }
   };
+
+  useEffect(() => {
+    document.title = "Add Listing | Metrohyve";
+  }, []);
 
   return (
     <section>

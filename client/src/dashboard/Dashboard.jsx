@@ -14,6 +14,8 @@ const Dashboard = ({ setAuth }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = "Account | Metrohyve";
+
     const getProfile = async () => {
       try {
         const response = await axios.get(PROFILE_URL, {

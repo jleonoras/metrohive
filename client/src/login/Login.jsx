@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "../api/axios";
 import { Link } from "react-router-dom";
@@ -45,6 +45,10 @@ const Login = ({ setAuth }) => {
       alert(error.message);
     }
   };
+
+  useEffect(() => {
+    document.title = "Login | Metrohyve";
+  }, []);
 
   return (
     <section>

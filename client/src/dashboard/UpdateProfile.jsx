@@ -10,6 +10,8 @@ const UpdateProfile = () => {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
+    document.title = "Update Profile | Metrohyve";
+
     const fetchData = async () => {
       const response = await axios.get(USER_DATA_URL, {
         headers: {

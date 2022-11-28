@@ -11,6 +11,8 @@ const SingleListing = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    document.title = "Listing | Metrohyve";
+
     const getSingleListing = async () => {
       try {
         const response = await axios.get(`${SINGLE_LISTING_API_URL}/${id}`, {
