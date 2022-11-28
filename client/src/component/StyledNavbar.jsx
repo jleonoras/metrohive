@@ -6,7 +6,7 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-md navbar-dark bg-black fixed-top">
       <div className="container" id="topnav">
         <Link className="navbar-brand container-inline" to="/">
-          <img
+          {/* <img
             className="d-inline-block align-top"
             src="https://getbootstrap.com/docs/5.2/assets/brand/bootstrap-logo.svg"
             alt=""
@@ -14,7 +14,7 @@ const Navbar = () => {
             height="30"
             loading="lazy"
             id="brandLogo"
-          ></img>
+          ></img> */}
           Metrohyve
         </Link>
 
