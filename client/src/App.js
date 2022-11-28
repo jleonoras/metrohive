@@ -14,6 +14,7 @@ import AddListing from "./addlisting/AddListing";
 import SingleListing from "./singleListing/SingleListing";
 import UpdateProfile from "./dashboard/UpdateProfile";
 import { DataContextProvider } from "./context/DataContext";
+import SearchPage from "./searchPage/SearchPage";
 
 const VERIFY_URL = "/api/v1/verify";
 
@@ -101,7 +102,6 @@ function App() {
           />
 
           {/* Route to listing detail page */}
-          <Route path="/listing/:id" element={<SingleListing />} />
           <Route
             // Route to update profile
             // If user token is authenticated will redirect to update profile page if not redirected to login
@@ -114,6 +114,8 @@ function App() {
               )
             }
           />
+          <Route path="/listing/:id" element={<SingleListing />} />
+          <Route path="listing/search/:location" element={<SearchPage />} />
           {/* Route to error page */}
           <Route path="*" element={<Error />} />
         </Routes>
