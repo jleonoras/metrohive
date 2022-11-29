@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import AllListing from "../allListing/AllListing";
 import "../App.css";
-import SearchBar from "../component/SearchBar";
+import Search from "../component/Search";
 
 const Home = () => {
   useEffect(() => {
@@ -15,7 +15,7 @@ const Home = () => {
         <p>This is the Home page.</p>
         <div>
           <div>
-            <SearchBar />
+            <Search />
           </div>
           <div>
             <AllListing />
