@@ -62,9 +62,6 @@ const Result = () => {
     <section className="App">
       <div className="App-header">
         <div>
-          <h3>Search Result for "{toTitleCase(location)}"</h3>
-        </div>
-        <div>
           <ul>
             {searchListing.length !== 0 && searchListing.listing_id !== null ? (
               searchListing.map((item, index) => {
@@ -75,6 +72,9 @@ const Result = () => {
                       handleListingSelect(item.listing_id);
                     }}
                   >
+                    <div>
+                      <h3>Search Result for "{toTitleCase(location)}"</h3>
+                    </div>
                     <figure>
                       <img
                         src={item.image1}
@@ -107,7 +107,7 @@ const Result = () => {
               })
             ) : (
               <div>
-                <h3>No Result</h3>
+                <h3>No Result for "{toTitleCase(location)}"</h3>
               </div>
             )}
           </ul>
