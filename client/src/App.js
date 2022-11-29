@@ -14,7 +14,7 @@ import AddListing from "./addlisting/AddListing";
 import SingleListing from "./singleListing/SingleListing";
 import UpdateProfile from "./dashboard/UpdateProfile";
 import { DataContextProvider } from "./context/DataContext";
-import SearchPage from "./searchPage/SearchPage";
+import Result from "./result/Result";
 
 const VERIFY_URL = "/api/v1/verify";
 
@@ -115,7 +115,7 @@ function App() {
             }
           />
           <Route path="/listing/:id" element={<SingleListing />} />
-          <Route path="listing/search/:location" element={<SearchPage />} />
+          <Route path="/listing/search/:location" element={<Result />} />
           {/* Route to error page */}
           <Route path="*" element={<Error />} />
         </Routes>
