@@ -5,19 +5,9 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-md navbar-dark bg-black fixed-top">
       <div className="container" id="topnav">
-        <Link className="navbar-brand container-inline" to="/">
-          {/* <img
-            className="d-inline-block align-top"
-            src="https://getbootstrap.com/docs/5.2/assets/brand/bootstrap-logo.svg"
-            alt=""
-            width="35"
-            height="30"
-            loading="lazy"
-            id="brandLogo"
-          ></img> */}
+        <Link className="navbar-brand" to="/">
           Metrohyve
         </Link>
-
         <button
           className="navbar-toggler"
           data-bs-toggle="collapse"
@@ -38,11 +28,6 @@ const Navbar = () => {
                 Home
               </NavLink>
             </li>
-            {/* <li className="nav-item">
-              <NavLink className="nav-link" to="/listing">
-                Listing
-              </NavLink>
-            </li> */}
           </ul>
           <ul className="navbar-nav nav-pills">
             <li className="nav-item ">
