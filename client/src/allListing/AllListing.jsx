@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const ALL_LISTING_URL = "/api/v1/listing";
 
-const AllListing = (props) => {
+const AllListing = () => {
   const [allListing, setAllListing] = useState([]);
 
   const navigate = useNavigate();
