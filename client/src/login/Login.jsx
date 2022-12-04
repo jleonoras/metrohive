@@ -29,7 +29,7 @@ const Login = ({ setAuth }) => {
         },
       });
       // console.log(JSON.stringify(response?.data));
-      const parseRes = response?.data;
+      const parseRes = response.data;
 
       if (parseRes.token) {
         // localstorage
