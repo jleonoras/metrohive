@@ -13,18 +13,22 @@ const UpdateProfile = () => {
     document.title = "Update Profile | Metrohyve";
 
     const fetchData = async () => {
-      const response = await axios.get(USER_DATA_URL, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-      });
+      try {
+        const response = await axios.get(USER_DATA_URL, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        });
 
-      const parseRes = response?.data;
+        const parseRes = response.data;
 
-      setFirstname(parseRes.fname);
-      setLastname(parseRes.lname);
-      setEmail(parseRes.email);
+        setFirstname(parseRes.fname);
+        setLastname(parseRes.lname);
+        setEmail(parseRes.email);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchData();
   }, []);
