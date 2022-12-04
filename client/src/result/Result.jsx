@@ -17,8 +17,12 @@ const Result = () => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${SEARCH_LISTING_URL}${location}`);
-        const parseRes = await response?.data?.listing;
+        const response = await axios.get(`${SEARCH_LISTING_URL}${location}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const parseRes = await response.data.listing;
 
         const searchListing = parseRes.map((item) => {
           return new ListingClass({
