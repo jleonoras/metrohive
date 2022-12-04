@@ -35,7 +35,7 @@ const Register = ({ setAuth }) => {
       });
 
       // const parseRes = await response.json();
-      const parseRes = await response?.data;
+      const parseRes = await response.data;
 
       // console.log(parseRes);
       if (parseRes.token) {
