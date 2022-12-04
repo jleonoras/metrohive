@@ -22,7 +22,7 @@ const UserListing = () => {
         },
       });
 
-      const parseRes = await response?.data?.listing;
+      const parseRes = await response.data.listing;
 
       const itemListing = parseRes.map((item) => {
         return new ListingClass({
