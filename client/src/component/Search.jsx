@@ -15,18 +15,21 @@ const Search = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleQuery}>
+    <div className="container p-5 bd-highlight d-inline-block">
+      <form className="input-group" onSubmit={handleQuery}>
         <label htmlFor="location"></label>
         <input
-          type="text"
+          type="search"
           name="location"
           value={query}
           placeholder="Search location..."
           onChange={(e) => setQuery(e.target.value)}
           required
+          className="form-control"
         ></input>
-        <button type="submit">Search</button>
+        <button type="submit button" className="btn btn-outline-secondary">
+          Search
+        </button>
       </form>
     </div>
   );
