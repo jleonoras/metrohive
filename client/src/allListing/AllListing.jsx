@@ -11,39 +11,37 @@ const AllListing = () => {
 
   const navigate = useNavigate();
 
-  const getAllListing = async () => {
-    try {
-      const response = await axios.get(ALL_LISTING_URL, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const parseRes = await response?.data?.listing;
-
-      const allListing = parseRes.map((item) => {
-        return new ListingClass({
-          listing_id: item.listing_id,
-          description: item.description,
-          location: item.location,
-          price: item.price,
-          image1: `${imageUrl}/${item.image1}`,
-          image2: `${imageUrl}/${item.image2}`,
-          image3: `${imageUrl}/${item.image3}`,
-        });
-      });
-
-      setAllListing(allListing);
-
-      // console.log(parseRes);
-    } catch (error) {
-      console.log(error);
-      console.error(error.message);
-    }
-  };
-
   useEffect(() => {
-    getAllListing();
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(ALL_LISTING_URL, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const parseRes = await response.data.listing;
+
+        const allListing = parseRes.map((item) => {
+          return new ListingClass({
+            listing_id: item.listing_id,
+            description: item.description,
+            location: item.location,
+            price: item.price,
+            image1: `${imageUrl}/${item.image1}`,
+            image2: `${imageUrl}/${item.image2}`,
+            image3: `${imageUrl}/${item.image3}`,
+          });
+        });
+
+        setAllListing(allListing);
+      } catch (error) {
+        console.log(error);
+        console.error(error.message);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleListingSelect = (listing_id) => {
@@ -52,36 +50,112 @@ const AllListing = () => {
 
   return (
     <section>
-      <div>
-        <ul>
+      <div className="container">
+        <ul className="row row-cols-1 row-cols-md-4 g-4 list-unstyled">
           {allListing.length !== 0 &&
             allListing[0].listing_id !== null &&
             allListing.map((item, index) => {
               return (
-                <li
-                  key={index}
-                  onClick={() => {
-                    handleListingSelect(item.listing_id);
-                  }}
-                >
-                  <figure>
-                    <img
-                      src={item.image1}
-                      alt={item.description}
-                      loading="lazy"
-                    ></img>
-                  </figure>
-                  <div>
-                    <h3>Price:</h3>
-                    <p>₱{item.price}</p>
-                  </div>
-                  <div>
-                    <h3>Description:</h3>
-                    <p>{item.description}</p>
-                  </div>
-                  <div>
-                    <h3>Location:</h3>
-                    <p>{item.location}</p>
+                <li className="col" key={index}>
+                  <div className="card h-100">
+                    <figure className="figure">
+                      <div
+                        id={`carouselImage-${item.listing_id}`}
+                        className="carousel slide"
+                        data-ride="carousel"
+                      >
+                        <div className="carousel-indicators">
+                          <button
+                            type="button"
+                            data-bs-target={`#carouselImage-${item.listing_id}`}
+                            data-bs-slide-to="0"
+                            className="active"
+                          ></button>
+                          <button
+                            type="button"
+                            data-bs-target={`#carouselImage-${item.listing_id}`}
+                            data-bs-slide-to="1"
+                          ></button>
+                          <button
+                            type="button"
+                            data-bs-target={`#carouselImage-${item.listing_id}`}
+                            data-bs-slide-to="2"
+                          ></button>
+                        </div>
+                        <div className="carousel-inner">
+                          <div className="carousel-item active ratio ratio-4x3">
+                            <img
+                              src={item.image1}
+                              alt={item.description}
+                              loading="lazy"
+                              className="card-img-top d-block w-100"
+                            ></img>
+                          </div>
+                          <div className="carousel-item ratio ratio-4x3">
+                            <img
+                              src={item.image2}
+                              alt={item.description}
+                              loading="lazy"
+                              className="card-img-top d-block w-100"
+                            ></img>
+                          </div>
+                          <div className="carousel-item ratio ratio-4x3">
+                            <img
+                              src={item.image3}
+                              alt={item.description}
+                              loading="lazy"
+                              className="card-img-top d-block w-100"
+                            ></img>
+                          </div>
+                          {/* <!-- Controls --> */}
+                          <button
+                            className="carousel-control-prev"
+                            type="button"
+                            data-bs-target={`#carouselImage-${item.listing_id}`}
+                            data-bs-slide="prev"
+                          >
+                            <span
+                              className="carousel-control-prev-icon"
+                              aria-hidden="true"
+                            ></span>
+                            <span className="visually-hidden">Previous</span>
+                          </button>
+                          <button
+                            className="carousel-control-next"
+                            type="button"
+                            data-bs-target={`#carouselImage-${item.listing_id}`}
+                            data-bs-slide="next"
+                          >
+                            <span
+                              className="carousel-control-next-icon"
+                              aria-hidden="true"
+                            ></span>
+                            <span className="visually-hidden">Next</span>
+                          </button>
+                        </div>
+                      </div>
+                    </figure>
+                    <div
+                      className="card-body"
+                      onClick={() => {
+                        handleListingSelect(item.listing_id);
+                      }}
+                    >
+                      <div>
+                        <strong>
+                          {new Intl.NumberFormat("en-PH", {
+                            currency: "PHP",
+                            style: "currency",
+                          }).format(`${item.price}`)}
+                        </strong>
+                      </div>
+                      <div>
+                        <p>{item.description}</p>
+                      </div>
+                      <div>
+                        <strong>{item.location}</strong>
+                      </div>
+                    </div>
                   </div>
                 </li>
               );
