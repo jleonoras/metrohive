@@ -25,7 +25,7 @@ const Dashboard = ({ setAuth }) => {
           },
         });
 
-        const parseRes = await response?.data;
+        const parseRes = await response.data;
         setFName(parseRes.fname);
         setLName(parseRes.lname);
         setEmail(parseRes.email);
