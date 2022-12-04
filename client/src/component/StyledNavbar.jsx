@@ -1,11 +1,11 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 
-const Navbar = () => {
+const Topnav = () => {
   return (
-    <nav className="navbar navbar-expand-md navbar-dark bg-black fixed-top">
-      <div className="container" id="topnav">
-        <Link className="navbar-brand" to="/">
+    <nav className="navbar navbar-expand-md navbar-dark bg-dark p-3 sticky-top">
+      <div className="container-md" id="topnav">
+        <Link className="navbar-brand mb-0 h1" to="/">
           Metrohyve
         </Link>
         <button
@@ -22,16 +22,16 @@ const Navbar = () => {
           className="navbar-collapse collapse justify-content-between"
           id="nav"
         >
-          <ul className="navbar-nav  nav-pills">
+          <ul className="navbar-nav">
             <li className="nav-item">
               <NavLink className="nav-link" to="/" end>
                 Home
               </NavLink>
             </li>
           </ul>
-          <ul className="navbar-nav nav-pills">
+          <ul className="navbar-nav">
             <li className="nav-item ">
-              <NavLink className="nav-link" to="/addlisting">
+              <NavLink className="nav-link" to="/add-listing">
                 Add Listing
               </NavLink>
             </li>
@@ -47,4 +47,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Topnav;
