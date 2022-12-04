@@ -1,20 +1,18 @@
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 
 import Home from "./home/Home";
 import Login from "./login/Login";
 import Error from "./error/Error";
 import "./component/nav.css";
 import Register from "./register/Register";
-import Navbar from "./component/StyledNavbar";
-// import Listing from "./listing/Listing";
 import Dashboard from "./dashboard/Dashboard";
-import axios from "../src/api/axios";
+import axios from "./api/axios";
 import AddListing from "./addlisting/AddListing";
 import SingleListing from "./singleListing/SingleListing";
 import UpdateProfile from "./dashboard/UpdateProfile";
-import { DataContextProvider } from "./context/DataContext";
 import Result from "./result/Result";
+import Topnav from "./component/StyledNavbar";
 
 const VERIFY_URL = "/api/v1/verify";
 
@@ -48,79 +46,77 @@ function App() {
   };
 
   return (
-    <DataContextProvider>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-            // Login Route
-            // If the user token is authenticated will redirect to dashboard if not redirected to login
-            path="/login"
-            element={
-              !isAuthenticated ? (
-                <Login setAuth={setAuth} />
-              ) : (
-                <Navigate to="/dashboard" />
-              )
-            }
-          />
-          <Route
-            // Register route
-            // If the user token is authenticated will redirect to dashboard page if not redirected to register
-            path="/register"
-            element={
-              !isAuthenticated ? (
-                <Register setAuth={setAuth} />
-              ) : (
-                <Navigate to="/dashboard" />
-              )
-            }
-          />
-          <Route
-            //  Dashboard route
-            //  If the user token is authenticated will redirect to dashboard if not will redirect to login
-            path="/dashboard"
-            element={
-              isAuthenticated ? (
-                <Dashboard setAuth={setAuth} />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          <Route
-            // If the user token is authenticated will redirect to add listing if not redirected to login
-            path="/addlisting"
-            element={
-              isAuthenticated ? (
-                <AddListing setAuth={setAuth} />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
+    <BrowserRouter>
+      <Topnav />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          // Login Route
+          // If the user token is authenticated will redirect to dashboard if not redirected to login
+          path="/login"
+          element={
+            !isAuthenticated ? (
+              <Login setAuth={setAuth} />
+            ) : (
+              <Navigate to="/dashboard" />
+            )
+          }
+        />
+        <Route
+          // Register route
+          // If the user token is authenticated will redirect to dashboard page if not redirected to register
+          path="/register"
+          element={
+            !isAuthenticated ? (
+              <Register setAuth={setAuth} />
+            ) : (
+              <Navigate to="/dashboard" />
+            )
+          }
+        />
+        <Route
+          //  Dashboard route
+          //  If the user token is authenticated will redirect to dashboard if not will redirect to login
+          path="/dashboard"
+          element={
+            isAuthenticated ? (
+              <Dashboard setAuth={setAuth} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          // If the user token is authenticated will redirect to add listing if not redirected to login
+          path="/add-listing"
+          element={
+            isAuthenticated ? (
+              <AddListing setAuth={setAuth} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
 
-          {/* Route to listing detail page */}
-          <Route
-            // Route to update profile
-            // If user token is authenticated will redirect to update profile page if not redirected to login
-            path="/dashboard/update/:user/:userId/"
-            element={
-              isAuthenticated ? (
-                <UpdateProfile setAuth={setAuth} />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          <Route path="/listing/:id" element={<SingleListing />} />
-          <Route path="/listing/search/:location" element={<Result />} />
-          {/* Route to error page */}
-          <Route path="*" element={<Error />} />
-        </Routes>
-      </BrowserRouter>
-    </DataContextProvider>
+        {/* Route to listing detail page */}
+        <Route
+          // Route to update profile
+          // If user token is authenticated will redirect to update profile page if not redirected to login
+          path="/dashboard/update/:user/:userId/"
+          element={
+            isAuthenticated ? (
+              <UpdateProfile setAuth={setAuth} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route path="/listing/:id" element={<SingleListing />} />
+        <Route path="/listing/search/:location" element={<Result />} />
+        {/* Route to error page */}
+        <Route path="*" element={<Error />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
