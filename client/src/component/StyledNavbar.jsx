@@ -3,10 +3,13 @@ import { Link, NavLink } from "react-router-dom";
 
 const Topnav = () => {
   return (
-    <nav className="navbar navbar-expand-md navbar-dark bg-dark p-3 sticky-top">
+    <nav className="navbar navbar-expand-md navbar-light bg-light bg-gradient p-3 sticky-top">
       <div className="container-md" id="topnav">
-        <Link className="navbar-brand mb-0 h1" to="/">
-          Metrohyve
+        <Link
+          className="navbar-brand mb-0 h1 text-danger text-opacity-75"
+          to="/"
+        >
+          <strong>Metrohyve</strong>
         </Link>
         <button
           className="navbar-toggler"
@@ -19,7 +22,7 @@ const Topnav = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div
-          className="navbar-collapse collapse justify-content-between"
+          className="navbar-collapse collapse justify-content-between text-secondary"
           id="nav"
         >
           <ul className="navbar-nav">
