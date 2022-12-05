@@ -1,3 +1,11 @@
-.active {
-  border-bottom: 3px solid whitesmoke;
+/* navbar */
+
+/* navbar active page */
+.nav-item .active {
+  border-bottom: 3px solid gray;
+}
+
+/* navbar box shadow */
+nav {
+  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
 }
