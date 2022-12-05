@@ -9,10 +9,10 @@ const Home = () => {
   }, []);
 
   return (
-    <section className="App">
-      <div className="App-header">
+    <section>
+      <div>
         <div>
-          <div className="container">
+          <div>
             <Search />
           </div>
           <div>
