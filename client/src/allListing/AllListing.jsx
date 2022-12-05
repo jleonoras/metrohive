@@ -57,12 +57,12 @@ const AllListing = () => {
             allListing.map((item, index) => {
               return (
                 <li className="col" key={index}>
-                  <div className="card h-100">
+                  <div className="card h-100 shadow-sm">
                     <figure className="figure">
                       <div
                         id={`carouselImage-${item.listing_id}`}
                         className="carousel slide"
-                        data-ride="carousel"
+                        data-bs-ride="false"
                       >
                         <div className="carousel-indicators">
                           <button
@@ -88,7 +88,7 @@ const AllListing = () => {
                               src={item.image1}
                               alt={item.description}
                               loading="lazy"
-                              className="card-img-top d-block w-100"
+                              className="card-img-top d-block w-100 img-fluid"
                             ></img>
                           </div>
                           <div className="carousel-item ratio ratio-4x3">
@@ -96,7 +96,7 @@ const AllListing = () => {
                               src={item.image2}
                               alt={item.description}
                               loading="lazy"
-                              className="card-img-top d-block w-100"
+                              className="card-img-top d-block w-100 img-fluid"
                             ></img>
                           </div>
                           <div className="carousel-item ratio ratio-4x3">
@@ -104,7 +104,7 @@ const AllListing = () => {
                               src={item.image3}
                               alt={item.description}
                               loading="lazy"
-                              className="card-img-top d-block w-100"
+                              className="card-img-top d-block w-100 img-fluid"
                             ></img>
                           </div>
                           {/* <!-- Controls --> */}
@@ -136,24 +136,27 @@ const AllListing = () => {
                       </div>
                     </figure>
                     <div
+                      type="button"
                       className="card-body"
                       onClick={() => {
                         handleListingSelect(item.listing_id);
                       }}
                     >
                       <div>
-                        <strong>
-                          {new Intl.NumberFormat("en-PH", {
-                            currency: "PHP",
-                            style: "currency",
-                          }).format(`${item.price}`)}
-                        </strong>
-                      </div>
-                      <div>
-                        <p>{item.description}</p>
-                      </div>
-                      <div>
-                        <strong>{item.location}</strong>
+                        <div>
+                          <strong>
+                            {new Intl.NumberFormat("en-PH", {
+                              currency: "PHP",
+                              style: "currency",
+                            }).format(`${item.price}`)}
+                          </strong>
+                        </div>
+                        <div>
+                          <p>{item.description}</p>
+                        </div>
+                        <div>
+                          <strong>{item.location}</strong>
+                        </div>
                       </div>
                     </div>
                   </div>
