@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "../api/axios";
 import imageUrl from "../component/ImagePath";
+import Search from "../component/Search";
 import ListingClass from "../listing/ListingClass";
 
 const SINGLE_LISTING_API_URL = "/api/v1/listing";
@@ -51,88 +52,50 @@ const SingleListing = () => {
 
   return (
     <section>
-      <div className="container p-5">
+      <div className="container py-2 px-4">
+        <div>
+          <Search />
+        </div>
         <ul className="list-unstyled">
           {listing.length !== 0 &&
             listing.listing_id !== null &&
             listing.map((item) => {
               return (
                 <li key={item.listing_id}>
-                  <div className="row mx-auto my-auto justify-content-center">
-                    <div
-                      id="recipeCarousel"
-                      className="carousel slide"
-                      data-bs-ride="carousel"
-                    >
-                      <div className="carousel-inner" role="listbox">
-                        <div className="carousel-item active">
-                          <div className="col-md-3">
-                            <div className="card">
-                              <div className="card-img">
-                                <img
-                                  src={item.image1}
-                                  alt={item.description}
-                                  className="img-fluid"
-                                  loading="lazy"
-                                ></img>
-                              </div>
-                            </div>
+                  <div className="">
+                    <div className="">
+                      <figure>
+                        <div className="row justify-content-center align-items-center shadow">
+                          <div className="col-md ratio ratio-4x3 card">
+                            <img
+                              src={item.image1}
+                              alt={item.description}
+                              className="img-fluid"
+                              loading="lazy"
+                            ></img>
+                          </div>
+                          <div className="col-md ratio ratio-4x3 card">
+                            <img
+                              src={item.image2}
+                              alt={item.description}
+                              className="img-fluid"
+                              loading="lazy"
+                            ></img>
+                          </div>
+
+                          <div className="col-md ratio ratio-4x3 card">
+                            <img
+                              src={item.image3}
+                              alt={item.description}
+                              className="img-fluid"
+                              loading="lazy"
+                            ></img>
                           </div>
                         </div>
-                        <div className="carousel-item">
-                          <div className="col-md-3">
-                            <div className="card">
-                              <div className="card-img">
-                                <img
-                                  src={item.image2}
-                                  alt={item.description}
-                                  className="img-fluid"
-                                  loading="lazy"
-                                ></img>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="carousel-item">
-                          <div className="col-md-3">
-                            <div className="card">
-                              <div className="card-img">
-                                <img
-                                  src={item.image3}
-                                  alt={item.description}
-                                  className="img-fluid"
-                                  loading="lazy"
-                                ></img>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <a
-                        className="carousel-control-prev bg-transparent w-aut"
-                        href="#recipeCarousel"
-                        role="button"
-                        data-bs-slide="prev"
-                      >
-                        <span
-                          className="carousel-control-prev-icon"
-                          aria-hidden="true"
-                        ></span>
-                      </a>
-                      <a
-                        className="carousel-control-next bg-transparent w-aut"
-                        href="#recipeCarousel"
-                        role="button"
-                        data-bs-slide="next"
-                      >
-                        <span
-                          className="carousel-control-next-icon"
-                          aria-hidden="true"
-                        ></span>
-                      </a>
+                      </figure>
                     </div>
-                    <div className="col">
-                      <div className="h-100">
+                    <div className="row py-4">
+                      <div className="col-md">
                         <div>
                           <strong>
                             {new Intl.NumberFormat("en-PH", {
@@ -149,35 +112,49 @@ const SingleListing = () => {
                             <p>{item.location}</p>
                           </strong>
                         </div>
-                        <div>
-                          <h6>Owner:</h6>
-                          <p>
-                            {item.fname} {item.lname}
-                          </p>
-                          <address>
-                            <p>{item.email}</p>
-                            <button
-                              type="button"
-                              className="btn btn-warning bg-gradient"
-                            >
-                              <a
-                                className="text-decoration-none text-body"
-                                href={`mailto:${
-                                  item.email
-                                }?subject=Inquire ${new Intl.NumberFormat(
-                                  "en-PH",
-                                  {
-                                    currency: "PHP",
-                                    style: "currency",
-                                  }
-                                ).format(`${item.price}`)} - ${
-                                  item.description
-                                }`}
-                              >
-                                <strong>Inquire Now</strong>
-                              </a>
-                            </button>
-                          </address>
+                      </div>
+                      <div className="col-sm">
+                        <div className="container">
+                          <div className="row">
+                            <div className="col-sm">
+                              <h6>Meet the owner:</h6>
+                            </div>
+                            <div className="col-sm-5">
+                              <div className="row">
+                                <address>
+                                  <span className="col">
+                                    {item.fname} {item.lname}
+                                  </span>
+                                  <p className="col">{item.email}</p>
+                                </address>
+                              </div>
+                            </div>
+                            <div className="col-sm-3">
+                              <div className="row">
+                                <button
+                                  type="button"
+                                  className="btn btn-warning bg-gradient"
+                                >
+                                  <a
+                                    className="text-decoration-none text-body"
+                                    href={`mailto:${
+                                      item.email
+                                    }?subject=Inquire ${new Intl.NumberFormat(
+                                      "en-PH",
+                                      {
+                                        currency: "PHP",
+                                        style: "currency",
+                                      }
+                                    ).format(`${item.price}`)} - ${
+                                      item.description
+                                    }`}
+                                  >
+                                    <strong>Inquire Now</strong>
+                                  </a>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
