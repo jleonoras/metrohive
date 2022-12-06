@@ -51,94 +51,87 @@ const SingleListing = () => {
 
   return (
     <section>
-      <div className="container d-flex justify-content-center align-items-center p-5">
+      <div className="container p-5">
         <ul className="list-unstyled">
           {listing.length !== 0 &&
             listing.listing_id !== null &&
             listing.map((item) => {
               return (
                 <li key={item.listing_id}>
-                  <div className="row justify-content-center align-items-center">
-                    <div className="col-md-4">
-                      <figure className="figure">
-                        <div
-                          id={`carouselImage-${item.listing_id}`}
-                          className="carousel slide"
-                          data-bs-ride="false"
-                        >
-                          <div className="carousel-indicators">
-                            <button
-                              type="button"
-                              data-bs-target={`#carouselImage-${item.listing_id}`}
-                              data-bs-slide-to="0"
-                              className="active"
-                            ></button>
-                            <button
-                              type="button"
-                              data-bs-target={`#carouselImage-${item.listing_id}`}
-                              data-bs-slide-to="1"
-                            ></button>
-                            <button
-                              type="button"
-                              data-bs-target={`#carouselImage-${item.listing_id}`}
-                              data-bs-slide-to="2"
-                            ></button>
-                          </div>
-                          <div className="carousel-inner">
-                            <div className="carousel-item active">
-                              <img
-                                src={item.image1}
-                                alt={item.description}
-                                loading="lazy"
-                                className="d-block img-fluid"
-                              ></img>
+                  <div className="row mx-auto my-auto justify-content-center">
+                    <div
+                      id="recipeCarousel"
+                      className="carousel slide"
+                      data-bs-ride="carousel"
+                    >
+                      <div className="carousel-inner" role="listbox">
+                        <div className="carousel-item active">
+                          <div className="col-md-3">
+                            <div className="card">
+                              <div className="card-img">
+                                <img
+                                  src={item.image1}
+                                  alt={item.description}
+                                  className="img-fluid"
+                                  loading="lazy"
+                                ></img>
+                              </div>
                             </div>
-                            <div className="carousel-item ">
-                              <img
-                                src={item.image2}
-                                alt={item.description}
-                                loading="lazy"
-                                className="d-block img-fluid"
-                              ></img>
-                            </div>
-                            <div className="carousel-item">
-                              <img
-                                src={item.image3}
-                                alt={item.description}
-                                loading="lazy"
-                                className="d-block img-fluid"
-                              ></img>
-                            </div>
-                            {/* <!-- Controls --> */}
-                            <button
-                              className="carousel-control-prev"
-                              type="button"
-                              data-bs-target={`#carouselImage-${item.listing_id}`}
-                              data-bs-slide="prev"
-                            >
-                              <span
-                                className="carousel-control-prev-icon"
-                                aria-hidden="true"
-                              ></span>
-                              <span className="visually-hidden">Previous</span>
-                            </button>
-                            <button
-                              className="carousel-control-next"
-                              type="button"
-                              data-bs-target={`#carouselImage-${item.listing_id}`}
-                              data-bs-slide="next"
-                            >
-                              <span
-                                className="carousel-control-next-icon"
-                                aria-hidden="true"
-                              ></span>
-                              <span className="visually-hidden">Next</span>
-                            </button>
                           </div>
                         </div>
-                      </figure>
+                        <div className="carousel-item">
+                          <div className="col-md-3">
+                            <div className="card">
+                              <div className="card-img">
+                                <img
+                                  src={item.image2}
+                                  alt={item.description}
+                                  className="img-fluid"
+                                  loading="lazy"
+                                ></img>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="carousel-item">
+                          <div className="col-md-3">
+                            <div className="card">
+                              <div className="card-img">
+                                <img
+                                  src={item.image3}
+                                  alt={item.description}
+                                  className="img-fluid"
+                                  loading="lazy"
+                                ></img>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <a
+                        className="carousel-control-prev bg-transparent w-aut"
+                        href="#recipeCarousel"
+                        role="button"
+                        data-bs-slide="prev"
+                      >
+                        <span
+                          className="carousel-control-prev-icon"
+                          aria-hidden="true"
+                        ></span>
+                      </a>
+                      <a
+                        className="carousel-control-next bg-transparent w-aut"
+                        href="#recipeCarousel"
+                        role="button"
+                        data-bs-slide="next"
+                      >
+                        <span
+                          className="carousel-control-next-icon"
+                          aria-hidden="true"
+                        ></span>
+                      </a>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col">
                       <div className="h-100">
                         <div>
                           <strong>
