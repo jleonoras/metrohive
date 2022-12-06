@@ -50,62 +50,149 @@ const SingleListing = () => {
   }, [id]);
 
   return (
-    <section className="App">
-      <div className="App-header">
-        <div>
-          <h3>This is the Single Listing Page.</h3>
-        </div>
-        <div>
-          <ul>
-            {listing.length !== 0 &&
-              listing.listing_id !== null &&
-              listing.map((item) => {
-                return (
-                  <li key={item.listing_id}>
-                    <figure>
-                      <img
-                        src={item.image1}
-                        alt={item.description}
-                        loading="lazy"
-                      ></img>
-                      <img
-                        src={item.image2}
-                        alt={item.description}
-                        loading="lazy"
-                      ></img>
-                      <img
-                        src={item.image3}
-                        alt={item.description}
-                        loading="lazy"
-                      ></img>
-                    </figure>
-                    <div>
-                      <h3>Price:</h3>
-                      <p>₱{item.price}</p>
+    <section>
+      <div className="container d-flex justify-content-center align-items-center p-5">
+        <ul className="list-unstyled">
+          {listing.length !== 0 &&
+            listing.listing_id !== null &&
+            listing.map((item) => {
+              return (
+                <li key={item.listing_id}>
+                  <div className="row justify-content-center align-items-center">
+                    <div className="col-md-4">
+                      <figure className="figure">
+                        <div
+                          id={`carouselImage-${item.listing_id}`}
+                          className="carousel slide"
+                          data-bs-ride="false"
+                        >
+                          <div className="carousel-indicators">
+                            <button
+                              type="button"
+                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-slide-to="0"
+                              className="active"
+                            ></button>
+                            <button
+                              type="button"
+                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-slide-to="1"
+                            ></button>
+                            <button
+                              type="button"
+                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-slide-to="2"
+                            ></button>
+                          </div>
+                          <div className="carousel-inner">
+                            <div className="carousel-item active">
+                              <img
+                                src={item.image1}
+                                alt={item.description}
+                                loading="lazy"
+                                className="d-block img-fluid"
+                              ></img>
+                            </div>
+                            <div className="carousel-item ">
+                              <img
+                                src={item.image2}
+                                alt={item.description}
+                                loading="lazy"
+                                className="d-block img-fluid"
+                              ></img>
+                            </div>
+                            <div className="carousel-item">
+                              <img
+                                src={item.image3}
+                                alt={item.description}
+                                loading="lazy"
+                                className="d-block img-fluid"
+                              ></img>
+                            </div>
+                            {/* <!-- Controls --> */}
+                            <button
+                              className="carousel-control-prev"
+                              type="button"
+                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-slide="prev"
+                            >
+                              <span
+                                className="carousel-control-prev-icon"
+                                aria-hidden="true"
+                              ></span>
+                              <span className="visually-hidden">Previous</span>
+                            </button>
+                            <button
+                              className="carousel-control-next"
+                              type="button"
+                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-slide="next"
+                            >
+                              <span
+                                className="carousel-control-next-icon"
+                                aria-hidden="true"
+                              ></span>
+                              <span className="visually-hidden">Next</span>
+                            </button>
+                          </div>
+                        </div>
+                      </figure>
                     </div>
-                    <div>
-                      <h3>Description:</h3>
-                      <p>{item.description}</p>
+                    <div className="col-md-4">
+                      <div className="h-100">
+                        <div>
+                          <strong>
+                            {new Intl.NumberFormat("en-PH", {
+                              currency: "PHP",
+                              style: "currency",
+                            }).format(`${item.price}`)}
+                          </strong>
+                        </div>
+                        <div>
+                          <p>{item.description}</p>
+                        </div>
+                        <div>
+                          <strong>
+                            <p>{item.location}</p>
+                          </strong>
+                        </div>
+                        <div>
+                          <h6>Owner:</h6>
+                          <p>
+                            {item.fname} {item.lname}
+                          </p>
+                          <address>
+                            <p>{item.email}</p>
+                            <button
+                              type="button"
+                              className="btn btn-warning bg-gradient"
+                            >
+                              <a
+                                className="text-decoration-none text-body"
+                                href={`mailto:${
+                                  item.email
+                                }?subject=Inquire ${new Intl.NumberFormat(
+                                  "en-PH",
+                                  {
+                                    currency: "PHP",
+                                    style: "currency",
+                                  }
+                                ).format(`${item.price}`)} - ${
+                                  item.description
+                                }`}
+                              >
+                                <strong>Inquire Now</strong>
+                              </a>
+                            </button>
+                          </address>
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <h3>Location:</h3>
-                      <p>{item.location}</p>
-                    </div>
-                    <div>
-                      <h3>Owner:</h3>
-                      <p>
-                        {item.fname} {item.lname}
-                      </p>
-                    </div>
-                    <div>
-                      <h3>Email:</h3>
-                      <p>{item.email}</p>
-                    </div>
-                  </li>
-                );
-              })}
-          </ul>
-        </div>
+                  </div>
+                </li>
+              );
+            })}
+        </ul>
       </div>
     </section>
   );
