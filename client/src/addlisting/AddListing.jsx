@@ -46,75 +46,94 @@ const AddListing = () => {
 
   return (
     <section>
-      <div className="App-header">
-        <h1>Add Listing</h1>
-        <p>This is the Add Listing page.</p>
-        <form
-          onSubmit={(e) => {
-            onSubmitForm(e);
-          }}
-          encType="multipart/form-data"
-        >
-          <label htmlFor="description">Description:</label>
-          <br />
-          <textarea
-            id="description"
-            type="text"
-            name="description"
-            rows="2"
-            cols="25"
-            required
-            autoFocus
-            onChange={(e) => {
-              const { value } = e.target;
-              setDescription(value);
+      <div className="container-fluid d-flex align-items-center justify-content-center py-5 vh-100">
+        <div className="p-4 shadow">
+          <div className="text-center text-muted">
+            <h3>Add Listing</h3>
+          </div>
+          <form
+            onSubmit={(e) => {
+              onSubmitForm(e);
             }}
-          ></textarea>
-          <br />
-          <label htmlFor="location">Location:</label>
-          <br />
-          <input
-            type="text"
-            name="location"
-            id="location"
-            onChange={(e) => {
-              const { value } = e.target;
-              setLocation(value);
-            }}
-            required
-          />
-          <br />
-          <label htmlFor="price">Price:</label>
-          <br />
-          <input
-            type="number"
-            name="price"
-            id="price"
-            onChange={(e) => {
-              const { value } = e.target;
-              setPrice(value);
-            }}
-            required
-          />
-          <br />
-          <label htmlFor="file">Add Image:</label>
-          <br />
-          <input
-            type="file"
-            name="file"
-            id="file"
-            accept="image/*"
-            multiple
-            required
-            onChange={(e) => {
-              const file = e.target.files;
-              // console.log(file);
-              setFiles(file);
-            }}
-          />
-          <br />
-          <button type="submit">Submit</button>
-        </form>
+            encType="multipart/form-data"
+          >
+            <div className="form-outline">
+              <label className="form-label" htmlFor="description"></label>
+              <textarea
+                className="form-control"
+                placeholder="Description"
+                id="description"
+                type="text"
+                name="description"
+                rows="3"
+                cols="30  "
+                required
+                autoFocus
+                onChange={(e) => {
+                  const { value } = e.target;
+                  setDescription(value);
+                }}
+              ></textarea>
+            </div>
+            <div className="form-outline">
+              <label className="form-label" htmlFor="location"></label>
+              <input
+                className="form-control"
+                placeholder="Location"
+                type="text"
+                name="location"
+                id="location"
+                onChange={(e) => {
+                  const { value } = e.target;
+                  setLocation(value);
+                }}
+                required
+              />
+            </div>
+            <div className="form-outline">
+              <label className="form-label" htmlFor="price"></label>
+              <input
+                className="form-control"
+                placeholder="Price"
+                type="number"
+                name="price"
+                id="price"
+                onChange={(e) => {
+                  const { value } = e.target;
+                  setPrice(value);
+                }}
+                required
+              />
+            </div>
+            <div className="form-outline mb-4 pt-3">
+              <label className="form-label text-muted" htmlFor="file">
+                Add Image:
+              </label>
+              <input
+                className="form-control"
+                type="file"
+                name="file"
+                id="file"
+                accept="image/*"
+                multiple
+                required
+                onChange={(e) => {
+                  const file = e.target.files;
+                  // console.log(file);
+                  setFiles(file);
+                }}
+              />
+            </div>
+            <div className="d-grid justify-content-md-center">
+              <button
+                className="btn btn-primary px-4 py-2 bg-gradient"
+                type="button submit"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </section>
   );
