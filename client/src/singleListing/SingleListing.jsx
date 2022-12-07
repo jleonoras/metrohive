@@ -52,7 +52,7 @@ const SingleListing = () => {
 
   return (
     <section>
-      <div className="container py-2 px-4">
+      <div className="container justify-content-center align-item-center py-2 px-4 vh-100">
         <div>
           <Search />
         </div>
