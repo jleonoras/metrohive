@@ -54,7 +54,7 @@ const Login = ({ setAuth }) => {
     <section>
       <div className="container d-flex align-items-center justify-content-center py-5 vh-100">
         <div className="p-4 shadow">
-          <div className="text-center">
+          <div className="text-center text-muted">
             <h3>Login</h3>
           </div>
           <form onSubmit={onSubmitForm}>
