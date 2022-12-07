@@ -13,7 +13,7 @@ const Result = () => {
   const [searchListing, setSearchListing] = useState([]);
 
   useEffect(() => {
-    document.title = "Search Listing | Metrohyve";
+    document.title = "Search Result | Metrohyve";
 
     const fetchData = async () => {
       try {
