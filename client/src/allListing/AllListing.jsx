@@ -50,7 +50,7 @@ const AllListing = () => {
 
   return (
     <section>
-      <div className="container">
+      <div className="container justify-content-center align-items-center vh-100">
         <ul className="row row-cols-1 row-cols-md-4 g-4 list-unstyled">
           {allListing.length !== 0 &&
             allListing[0].listing_id !== null &&
