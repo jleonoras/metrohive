@@ -8,10 +8,6 @@ const DELETE_LISTING_API_URL = "/api/v1/listing";
 
 const UserListing = () => {
   const [itemListing, setItemListing] = useState([]);
-  const [itemDescription, setItemDescription] = useState("");
-  const [itemPrice, setItemPrice] = useState("");
-  const [pesoSign, setPesoSign] = useState("");
-  const [itemLocation, setItemLocation] = useState("");
 
   const getUserListing = async () => {
     try {
@@ -26,6 +22,7 @@ const UserListing = () => {
 
       const itemListing = parseRes.map((item) => {
         return new ListingClass({
+          total_listing: item.total_listing,
           listing_id: item.listing_id,
           description: item.description,
           location: item.location,
@@ -37,10 +34,6 @@ const UserListing = () => {
       });
 
       setItemListing(itemListing);
-      setItemDescription("Description:");
-      setItemPrice("Price:");
-      setPesoSign("₱");
-      setItemLocation("Location:");
     } catch (error) {
       console.log(error);
       console.error(error.message);
@@ -72,38 +65,126 @@ const UserListing = () => {
 
   return (
     <section>
-      <div>
-        <ul>
+      <div className="justify-content-center align-items-center vh-100 py-5">
+        <ul className="row row-cols-1 row-cols-md-4 g-4 list-unstyled">
           {itemListing.length !== 0 &&
             itemListing[0].listing_id !== null &&
             itemListing.map((item) => {
               return (
-                <li key={item.listing_id}>
-                  <figure>
-                    <img
-                      src={item.image1}
-                      alt={item.description}
-                      loading="lazy"
-                    ></img>
-                  </figure>
-                  <div>
-                    <h3>{itemPrice}</h3>
-                    <p>
-                      {pesoSign}
-                      {item.price}
-                    </p>
+                <li className="col" key={item.listing_id}>
+                  <div className="card h-100 shadow-sm">
+                    <figure className="figure">
+                      <div
+                        id={`carouselImage-${item.listing_id}`}
+                        className="carousel slide"
+                        data-bs-ride="false"
+                      >
+                        <div className="carousel-indicators">
+                          <button
+                            type="button"
+                            data-bs-target={`#carouselImage-${item.listing_id}`}
+                            data-bs-slide-to="0"
+                            className="active"
+                          ></button>
+                          <button
+                            type="button"
+                            data-bs-target={`#carouselImage-${item.listing_id}`}
+                            data-bs-slide-to="1"
+                          ></button>
+                          <button
+                            type="button"
+                            data-bs-target={`#carouselImage-${item.listing_id}`}
+                            data-bs-slide-to="2"
+                          ></button>
+                        </div>
+                        <div className="carousel-inner">
+                          <div className="carousel-item active ratio ratio-4x3">
+                            <img
+                              src={item.image1}
+                              alt={item.description}
+                              loading="lazy"
+                              className="card-img-top d-block w-100 img-fluid"
+                            ></img>
+                          </div>
+                          <div className="carousel-item ratio ratio-4x3">
+                            <img
+                              src={item.image2}
+                              alt={item.description}
+                              loading="lazy"
+                              className="card-img-top d-block w-100 img-fluid"
+                            ></img>
+                          </div>
+                          <div className="carousel-item ratio ratio-4x3">
+                            <img
+                              src={item.image3}
+                              alt={item.description}
+                              loading="lazy"
+                              className="card-img-top d-block w-100 img-fluid"
+                            ></img>
+                          </div>
+                          {/* <!-- Controls --> */}
+                          <button
+                            className="carousel-control-prev"
+                            type="button"
+                            data-bs-target={`#carouselImage-${item.listing_id}`}
+                            data-bs-slide="prev"
+                          >
+                            <span
+                              className="carousel-control-prev-icon"
+                              aria-hidden="true"
+                            ></span>
+                            <span className="visually-hidden">Previous</span>
+                          </button>
+                          <button
+                            className="carousel-control-next"
+                            type="button"
+                            data-bs-target={`#carouselImage-${item.listing_id}`}
+                            data-bs-slide="next"
+                          >
+                            <span
+                              className="carousel-control-next-icon"
+                              aria-hidden="true"
+                            ></span>
+                            <span className="visually-hidden">Next</span>
+                          </button>
+                        </div>
+                      </div>
+                    </figure>
+                    <div className="card-body">
+                      <div>
+                        <div>
+                          <strong>
+                            {new Intl.NumberFormat("en-PH", {
+                              currency: "PHP",
+                              style: "currency",
+                            }).format(`${item.price}`)}
+                          </strong>
+                        </div>
+                        <div>
+                          <p>{item.description}</p>
+                          <p>{item.total_listing}</p>
+                        </div>
+                        <div>
+                          <strong>{item.location}</strong>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-center">
+                      {/* <button
+                        className="btn btn-warning bg-gradient col-md-4 m-3"
+                        type="button"
+                      >
+                        Edit
+                      </button> */}
+                      <button
+                        className="btn btn-danger bg-gradient col-md-4 m-3"
+                        type="button"
+                        onClick={() => deleteUserListing(item.listing_id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                  <div>
-                    <h3>{itemDescription}</h3>
-                    <p>{item.description}</p>
-                  </div>
-                  <div>
-                    <h3>{itemLocation}</h3>
-                    <p>{item.location}</p>
-                  </div>
-                  <button onClick={() => deleteUserListing(item.listing_id)}>
-                    Delete
-                  </button>
                 </li>
               );
             })}
