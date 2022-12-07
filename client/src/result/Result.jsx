@@ -68,7 +68,7 @@ const Result = () => {
 
   return (
     <section>
-      <div className="container py-5">
+      <div className="container justify-content-center align-items-center py-5 vh-100">
         <div>
           <h6>
             Search Result for "<strong>{toTitleCase(location)}</strong>"
@@ -185,7 +185,7 @@ const Result = () => {
                 );
               })
             ) : (
-              <div className="container py-5">
+              <div className="container justify-content-center align-items-center py-5 vh-100">
                 <div className="d-flex justify-content-center align-items-center">
                   <span>
                     No Result for "<strong>{toTitleCase(location)}</strong>"
