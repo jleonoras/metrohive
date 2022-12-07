@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
 import UserListing from "../userListing/UserListing";
 import { useNavigate } from "react-router-dom";
+import avatar from "../avatar.png";
 
 const PROFILE_URL = "/api/v1/profile";
 
@@ -52,23 +53,47 @@ const Dashboard = ({ setAuth }) => {
   };
 
   return (
-    <section className="App">
-      <div className="App-header">
-        <h1>Dashboard</h1>
-        <p>This is the Dashboard page.</p>
-        <div>
-          <h2>
-            {fname} {lname}
-          </h2>
+    <section>
+      <div className="container py-5 vh-100">
+        <div className="col-md-4 shadow">
+          <div className="card-mb-4 m-2 py-4">
+            <div className="card-body text-center">
+              <img
+                className="rounded-circle img-fluid w-25"
+                src={avatar}
+                alt="avatar"
+                loading="lazy"
+              />
+              <h5 className="my-2">
+                {fname} {lname}
+              </h5>
+            </div>
+            <div className="d-flex justify-content-center mb-2">
+              <span>{email}</span>
+            </div>
+            <div className="justify-content-center text-center">
+              <div>
+                <button
+                  className="btn btn-warning bg-gradient col-md-3 btn-sm"
+                  type="button"
+                  onClick={(e) => handleUpdate(e)}
+                >
+                  Edit Profile
+                </button>
+              </div>
+              <div>
+                <button
+                  className="btn btn-danger bg-gradient col-md-3 m-2 btn-sm"
+                  type="button"
+                  onClick={(e) => handleLogout(e)}
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <h5>{email}</h5>
-        </div>
-        <div>
-          <button onClick={(e) => handleUpdate(e)}>Update</button>
-          <button onClick={(e) => handleLogout(e)}>Logout</button>
-        </div>
-        <div>
+        <div className="col">
           <UserListing />
         </div>
       </div>
