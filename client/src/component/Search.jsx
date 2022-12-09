@@ -15,23 +15,20 @@ const Search = () => {
   };
 
   return (
-    <div className="container-fluid p-5">
-      <div className="container-fluid w-50">
+    <div className="pt-5">
+      <div className="container-fluid col-md-5">
         <form className="input-group shadow-sm" onSubmit={handleQuery}>
           <label htmlFor="location"></label>
           <input
             type="search text"
             name="location"
             value={query}
-            placeholder="Search location . . ."
+            placeholder="Search location..."
             onChange={(e) => setQuery(e.target.value)}
             required
             className="form-control"
           ></input>
-          <button
-            type="submit button"
-            className="btn btn-outline-secondary bg-gradient"
-          >
+          <button type="button submit" className="btn btn-warning bg-gradient">
             <span>Search</span>
           </button>
         </form>
