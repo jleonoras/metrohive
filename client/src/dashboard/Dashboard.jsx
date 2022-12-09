@@ -17,7 +17,7 @@ const Dashboard = ({ setAuth }) => {
   useEffect(() => {
     document.title = "Account | Metrohyve";
 
-    const getProfile = async () => {
+    const fetchData = async () => {
       try {
         const response = await axios.get(PROFILE_URL, {
           headers: {
@@ -36,7 +36,7 @@ const Dashboard = ({ setAuth }) => {
         console.log(error);
       }
     };
-    getProfile();
+    fetchData();
   }, []);
 
   const handleLogout = (e) => {
@@ -54,36 +54,44 @@ const Dashboard = ({ setAuth }) => {
 
   return (
     <section>
-      <div className="container py-5 vh-100">
-        <div className="col-md-4 shadow">
-          <div className="card-mb-4 m-2 py-4">
-            <div className="card-body text-center">
-              <img
-                className="rounded-circle img-fluid w-25"
-                src={avatar}
-                alt="avatar"
-                loading="lazy"
-              />
-              <h5 className="my-2">
-                {fname} {lname}
-              </h5>
-            </div>
-            <div className="d-flex justify-content-center mb-2">
-              <span>{email}</span>
-            </div>
-            <div className="justify-content-center text-center">
-              <div>
-                <button
-                  className="btn btn-warning bg-gradient col-md-3 btn-sm"
-                  type="button"
-                  onClick={(e) => handleUpdate(e)}
-                >
-                  Edit Profile
-                </button>
+      <div className="container pt-5">
+        <div className="p-4 shadow rounded bg-gradient bg-dark">
+          <div className="d-flex position-relative">
+            <div className="w-100">
+              <div className="w-100 d-grid justify-content-center text-center">
+                <div className="w-100">
+                  <img
+                    className="rounded-circle img-fluid w-25"
+                    src={avatar}
+                    alt="avatar"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="py-2">
+                  <div className="text-light">
+                    <h5>
+                      {fname} {lname}
+                    </h5>
+                  </div>
+                  <div className="text-light">
+                    <span>{email}</span>
+                  </div>
+                  <div className="pt-3">
+                    <button
+                      className="btn btn-warning bg-gradient btn-sm"
+                      type="button"
+                      onClick={(e) => handleUpdate(e)}
+                    >
+                      Edit Profile
+                    </button>
+                  </div>
+                </div>
               </div>
-              <div>
+            </div>
+            <div>
+              <div className="position-absolute top-0 end-0">
                 <button
-                  className="btn btn-danger bg-gradient col-md-3 m-2 btn-sm"
+                  className="btn btn-danger bg-gradient btn-sm"
                   type="button"
                   onClick={(e) => handleLogout(e)}
                 >
@@ -93,7 +101,8 @@ const Dashboard = ({ setAuth }) => {
             </div>
           </div>
         </div>
-        <div className="col">
+
+        <div>
           <UserListing />
         </div>
       </div>
