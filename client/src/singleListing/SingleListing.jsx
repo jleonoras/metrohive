@@ -52,117 +52,118 @@ const SingleListing = () => {
 
   return (
     <section>
-      <div className="container justify-content-center align-item-center py-2 px-4 vh-100">
+      <div className="container">
         <div>
           <Search />
         </div>
-        <ul className="list-unstyled">
-          {listing.length !== 0 &&
-            listing.listing_id !== null &&
-            listing.map((item) => {
-              return (
-                <li key={item.listing_id}>
-                  <div className="">
-                    <div className="">
-                      <figure>
-                        <div className="row justify-content-center align-items-center shadow">
-                          <div className="col-md ratio ratio-4x3 card">
-                            <img
-                              src={item.image1}
-                              alt={item.description}
-                              className="img-fluid"
-                              loading="lazy"
-                            ></img>
-                          </div>
-                          <div className="col-md ratio ratio-4x3 card">
-                            <img
-                              src={item.image2}
-                              alt={item.description}
-                              className="img-fluid"
-                              loading="lazy"
-                            ></img>
-                          </div>
-
-                          <div className="col-md ratio ratio-4x3 card">
-                            <img
-                              src={item.image3}
-                              alt={item.description}
-                              className="img-fluid"
-                              loading="lazy"
-                            ></img>
-                          </div>
-                        </div>
-                      </figure>
-                    </div>
-                    <div className="row py-4">
-                      <div className="col-md">
-                        <div>
-                          <strong>
-                            {new Intl.NumberFormat("en-PH", {
-                              currency: "PHP",
-                              style: "currency",
-                            }).format(`${item.price}`)}
-                          </strong>
-                        </div>
-                        <div>
-                          <p>{item.description}</p>
-                        </div>
-                        <div>
-                          <strong>
-                            <p>{item.location}</p>
-                          </strong>
-                        </div>
-                      </div>
-                      <div className="col-sm">
-                        <div className="container">
+        <div className="pt-5">
+          <ul className="list-unstyled">
+            {listing.length !== 0 &&
+              listing.listing_id !== null &&
+              listing.map((item) => {
+                return (
+                  <li key={item.listing_id}>
+                    <div className="px-4">
+                      <div>
+                        <figure>
                           <div className="row">
-                            <div className="col-sm">
-                              <h6>Meet the owner:</h6>
+                            <div className="col-md w-100 ratio ratio-4x3 card border-light overflow-hidden">
+                              <img
+                                src={item.image1}
+                                alt={item.description}
+                                className="img-fluid"
+                                loading="lazy"
+                              ></img>
                             </div>
-                            <div className="col-sm-5">
-                              <div className="row">
-                                <address>
-                                  <span className="col">
-                                    {item.fname} {item.lname}
-                                  </span>
-                                  <p className="col">{item.email}</p>
-                                </address>
+                            <div className="col-md w-100 ratio ratio-4x3 card border-light overflow-hidden">
+                              <img
+                                src={item.image2}
+                                alt={item.description}
+                                className="img-fluid"
+                                loading="lazy"
+                              ></img>
+                            </div>
+                            <div className="col-md ratio ratio-4x3 card border-light overflow-hidden">
+                              <img
+                                src={item.image3}
+                                alt={item.description}
+                                className="img-fluid"
+                                loading="lazy"
+                              ></img>
+                            </div>
+                          </div>
+                        </figure>
+                      </div>
+                      <div className="row py-4">
+                        <div className="col">
+                          <div>
+                            <strong>
+                              {new Intl.NumberFormat("en-PH", {
+                                currency: "PHP",
+                                style: "currency",
+                              }).format(`${item.price}`)}
+                            </strong>
+                          </div>
+                          <div>
+                            <p>{item.description}</p>
+                          </div>
+                          <div>
+                            <strong>
+                              <p>{item.location}</p>
+                            </strong>
+                          </div>
+                        </div>
+                        <div className="col">
+                          <div>
+                            <div className="row">
+                              <div className="col">
+                                <h6>Meet the owner:</h6>
                               </div>
-                            </div>
-                            <div className="col-sm-3">
-                              <div className="row">
-                                <button
-                                  type="button"
-                                  className="btn btn-warning bg-gradient"
-                                >
-                                  <a
-                                    className="text-decoration-none text-body"
-                                    href={`mailto:${
-                                      item.email
-                                    }?subject=Inquire ${new Intl.NumberFormat(
-                                      "en-PH",
-                                      {
-                                        currency: "PHP",
-                                        style: "currency",
-                                      }
-                                    ).format(`${item.price}`)} - ${
-                                      item.description
-                                    }`}
+                              <div className="col">
+                                <div className="row text-center">
+                                  <address>
+                                    <span>
+                                      {item.fname} {item.lname}
+                                    </span>
+                                    <p>{item.email}</p>
+                                  </address>
+                                </div>
+                              </div>
+                              <div className="col-md">
+                                <div className="d-grid">
+                                  <button
+                                    type="button"
+                                    className="btn btn-warning btn-sm bg-gradient"
                                   >
-                                    <strong>Inquire Now</strong>
-                                  </a>
-                                </button>
+                                    <a
+                                      className="text-decoration-none text-body"
+                                      href={`mailto:${
+                                        item.email
+                                      }?subject=Inquire ${new Intl.NumberFormat(
+                                        "en-PH",
+                                        {
+                                          currency: "PHP",
+                                          style: "currency",
+                                        }
+                                      ).format(`${item.price}`)} - ${
+                                        item.description
+                                      }`}
+                                    >
+                                      <strong>Inquire Now</strong>
+                                    </a>
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-              );
-            })}
-        </ul>
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
       </div>
     </section>
   );
