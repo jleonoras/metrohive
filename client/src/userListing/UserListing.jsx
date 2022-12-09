@@ -46,13 +46,11 @@ const UserListing = () => {
 
   const deleteUserListing = async (id) => {
     try {
-      const response = await axios.delete(`${DELETE_LISTING_API_URL}/${id}`, {
+      await axios.delete(`${DELETE_LISTING_API_URL}/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-
-      console.log(response);
 
       setItemListing(
         itemListing.filter((listing) => listing.listing_id !== id)
@@ -65,129 +63,131 @@ const UserListing = () => {
 
   return (
     <section>
-      <div className="justify-content-center align-items-center vh-100 py-5">
-        <ul className="row row-cols-1 row-cols-md-4 g-4 list-unstyled">
-          {itemListing.length !== 0 &&
-            itemListing[0].listing_id !== null &&
-            itemListing.map((item) => {
-              return (
-                <li className="col" key={item.listing_id}>
-                  <div className="card h-100 shadow-sm">
-                    <figure className="figure">
-                      <div
-                        id={`carouselImage-${item.listing_id}`}
-                        className="carousel slide"
-                        data-bs-ride="false"
-                      >
-                        <div className="carousel-indicators">
-                          <button
-                            type="button"
-                            data-bs-target={`#carouselImage-${item.listing_id}`}
-                            data-bs-slide-to="0"
-                            className="active"
-                          ></button>
-                          <button
-                            type="button"
-                            data-bs-target={`#carouselImage-${item.listing_id}`}
-                            data-bs-slide-to="1"
-                          ></button>
-                          <button
-                            type="button"
-                            data-bs-target={`#carouselImage-${item.listing_id}`}
-                            data-bs-slide-to="2"
-                          ></button>
+      <div className="pt-5">
+        <ul className="list-unstyled">
+          <div className="row row-cols-1 row-cols-md-3 g-4">
+            {itemListing.length !== 0 &&
+              itemListing[0].listing_id !== null &&
+              itemListing.map((item) => {
+                return (
+                  <li className="col" key={item.listing_id}>
+                    <div className="card h-100 shadow-sm">
+                      <figure className="figure">
+                        <div
+                          id={`carouselImage-${item.listing_id}`}
+                          className="carousel slide"
+                          data-bs-ride="false"
+                        >
+                          <div className="carousel-indicators">
+                            <button
+                              type="button"
+                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-slide-to="0"
+                              className="active"
+                            ></button>
+                            <button
+                              type="button"
+                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-slide-to="1"
+                            ></button>
+                            <button
+                              type="button"
+                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-slide-to="2"
+                            ></button>
+                          </div>
+                          <div className="carousel-inner">
+                            <div className="carousel-item active ratio ratio-4x3">
+                              <img
+                                src={item.image1}
+                                alt={item.description}
+                                loading="lazy"
+                                className="card-img-top d-block w-100 img-fluid"
+                              ></img>
+                            </div>
+                            <div className="carousel-item ratio ratio-4x3">
+                              <img
+                                src={item.image2}
+                                alt={item.description}
+                                loading="lazy"
+                                className="card-img-top d-block w-100 img-fluid"
+                              ></img>
+                            </div>
+                            <div className="carousel-item ratio ratio-4x3">
+                              <img
+                                src={item.image3}
+                                alt={item.description}
+                                loading="lazy"
+                                className="card-img-top d-block w-100 img-fluid"
+                              ></img>
+                            </div>
+                            {/* <!-- Controls --> */}
+                            <button
+                              className="carousel-control-prev"
+                              type="button"
+                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-slide="prev"
+                            >
+                              <span
+                                className="carousel-control-prev-icon"
+                                aria-hidden="true"
+                              ></span>
+                              <span className="visually-hidden">Previous</span>
+                            </button>
+                            <button
+                              className="carousel-control-next"
+                              type="button"
+                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-slide="next"
+                            >
+                              <span
+                                className="carousel-control-next-icon"
+                                aria-hidden="true"
+                              ></span>
+                              <span className="visually-hidden">Next</span>
+                            </button>
+                          </div>
                         </div>
-                        <div className="carousel-inner">
-                          <div className="carousel-item active ratio ratio-4x3">
-                            <img
-                              src={item.image1}
-                              alt={item.description}
-                              loading="lazy"
-                              className="card-img-top d-block w-100 img-fluid"
-                            ></img>
+                      </figure>
+                      <div className="card-body">
+                        <div>
+                          <div>
+                            <strong>
+                              {new Intl.NumberFormat("en-PH", {
+                                currency: "PHP",
+                                style: "currency",
+                              }).format(`${item.price}`)}
+                            </strong>
                           </div>
-                          <div className="carousel-item ratio ratio-4x3">
-                            <img
-                              src={item.image2}
-                              alt={item.description}
-                              loading="lazy"
-                              className="card-img-top d-block w-100 img-fluid"
-                            ></img>
+                          <div>
+                            <p>{item.description}</p>
+                            <p>{item.total_listing}</p>
                           </div>
-                          <div className="carousel-item ratio ratio-4x3">
-                            <img
-                              src={item.image3}
-                              alt={item.description}
-                              loading="lazy"
-                              className="card-img-top d-block w-100 img-fluid"
-                            ></img>
+                          <div>
+                            <strong>{item.location}</strong>
                           </div>
-                          {/* <!-- Controls --> */}
-                          <button
-                            className="carousel-control-prev"
-                            type="button"
-                            data-bs-target={`#carouselImage-${item.listing_id}`}
-                            data-bs-slide="prev"
-                          >
-                            <span
-                              className="carousel-control-prev-icon"
-                              aria-hidden="true"
-                            ></span>
-                            <span className="visually-hidden">Previous</span>
-                          </button>
-                          <button
-                            className="carousel-control-next"
-                            type="button"
-                            data-bs-target={`#carouselImage-${item.listing_id}`}
-                            data-bs-slide="next"
-                          >
-                            <span
-                              className="carousel-control-next-icon"
-                              aria-hidden="true"
-                            ></span>
-                            <span className="visually-hidden">Next</span>
-                          </button>
                         </div>
                       </div>
-                    </figure>
-                    <div className="card-body">
-                      <div>
-                        <div>
-                          <strong>
-                            {new Intl.NumberFormat("en-PH", {
-                              currency: "PHP",
-                              style: "currency",
-                            }).format(`${item.price}`)}
-                          </strong>
-                        </div>
-                        <div>
-                          <p>{item.description}</p>
-                          <p>{item.total_listing}</p>
-                        </div>
-                        <div>
-                          <strong>{item.location}</strong>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="d-flex justify-content-center">
-                      {/* <button
+                      <div className="d-flex justify-content-center">
+                        {/* <button
                         className="btn btn-warning bg-gradient col-md-4 m-3"
                         type="button"
                       >
                         Edit
                       </button> */}
-                      <button
-                        className="btn btn-danger bg-gradient col-md-4 m-3"
-                        type="button"
-                        onClick={() => deleteUserListing(item.listing_id)}
-                      >
-                        Delete
-                      </button>
+                        <button
+                          className="btn btn-danger bg-gradient col-md-4 m-3"
+                          type="button"
+                          onClick={() => deleteUserListing(item.listing_id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </li>
-              );
-            })}
+                  </li>
+                );
+              })}
+          </div>
         </ul>
       </div>
     </section>
