@@ -50,99 +50,99 @@ const AllListing = () => {
 
   return (
     <section>
-      <div className="container justify-content-center align-items-center vh-100">
-        <ul className="row row-cols-1 row-cols-md-4 g-4 list-unstyled">
-          {allListing.length !== 0 &&
-            allListing[0].listing_id !== null &&
-            allListing.map((item, index) => {
-              return (
-                <li className="col" key={index}>
-                  <div className="card h-100 shadow-sm">
-                    <figure className="figure">
+      <div className="pt-5">
+        <ul className="list-unstyled">
+          <div className="row row-cols-1 row-cols-md-3 g-4">
+            {allListing.length !== 0 &&
+              allListing[0].listing_id !== null &&
+              allListing.map((item, index) => {
+                return (
+                  <li className="col" key={index}>
+                    <div className="card h-100">
+                      <figure className="figure">
+                        <div
+                          id={`carouselImage-${item.listing_id}`}
+                          className="carousel slide"
+                          data-bs-ride="false"
+                        >
+                          <div className="carousel-indicators">
+                            <button
+                              type="button"
+                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-slide-to="0"
+                              className="active"
+                            ></button>
+                            <button
+                              type="button"
+                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-slide-to="1"
+                            ></button>
+                            <button
+                              type="button"
+                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-slide-to="2"
+                            ></button>
+                          </div>
+                          <div className="carousel-inner">
+                            <div className="carousel-item active ratio ratio-4x3">
+                              <img
+                                src={item.image1}
+                                alt={item.description}
+                                loading="lazy"
+                                className="card-img-top d-block w-100 img-fluid"
+                              ></img>
+                            </div>
+                            <div className="carousel-item ratio ratio-4x3">
+                              <img
+                                src={item.image2}
+                                alt={item.description}
+                                loading="lazy"
+                                className="card-img-top d-block w-100 img-fluid"
+                              ></img>
+                            </div>
+                            <div className="carousel-item ratio ratio-4x3">
+                              <img
+                                src={item.image3}
+                                alt={item.description}
+                                loading="lazy"
+                                className="card-img-top d-block w-100 img-fluid"
+                              ></img>
+                            </div>
+                            {/* <!-- Controls --> */}
+                            <button
+                              className="carousel-control-prev"
+                              type="button"
+                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-slide="prev"
+                            >
+                              <span
+                                className="carousel-control-prev-icon"
+                                aria-hidden="true"
+                              ></span>
+                              <span className="visually-hidden">Previous</span>
+                            </button>
+                            <button
+                              className="carousel-control-next"
+                              type="button"
+                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-slide="next"
+                            >
+                              <span
+                                className="carousel-control-next-icon"
+                                aria-hidden="true"
+                              ></span>
+                              <span className="visually-hidden">Next</span>
+                            </button>
+                          </div>
+                        </div>
+                      </figure>
                       <div
-                        id={`carouselImage-${item.listing_id}`}
-                        className="carousel slide"
-                        data-bs-ride="false"
+                        type="button"
+                        className="card-body"
+                        onClick={() => {
+                          handleListingSelect(item.listing_id);
+                        }}
                       >
-                        <div className="carousel-indicators">
-                          <button
-                            type="button"
-                            data-bs-target={`#carouselImage-${item.listing_id}`}
-                            data-bs-slide-to="0"
-                            className="active"
-                          ></button>
-                          <button
-                            type="button"
-                            data-bs-target={`#carouselImage-${item.listing_id}`}
-                            data-bs-slide-to="1"
-                          ></button>
-                          <button
-                            type="button"
-                            data-bs-target={`#carouselImage-${item.listing_id}`}
-                            data-bs-slide-to="2"
-                          ></button>
-                        </div>
-                        <div className="carousel-inner">
-                          <div className="carousel-item active ratio ratio-4x3">
-                            <img
-                              src={item.image1}
-                              alt={item.description}
-                              loading="lazy"
-                              className="card-img-top d-block w-100 img-fluid"
-                            ></img>
-                          </div>
-                          <div className="carousel-item ratio ratio-4x3">
-                            <img
-                              src={item.image2}
-                              alt={item.description}
-                              loading="lazy"
-                              className="card-img-top d-block w-100 img-fluid"
-                            ></img>
-                          </div>
-                          <div className="carousel-item ratio ratio-4x3">
-                            <img
-                              src={item.image3}
-                              alt={item.description}
-                              loading="lazy"
-                              className="card-img-top d-block w-100 img-fluid"
-                            ></img>
-                          </div>
-                          {/* <!-- Controls --> */}
-                          <button
-                            className="carousel-control-prev"
-                            type="button"
-                            data-bs-target={`#carouselImage-${item.listing_id}`}
-                            data-bs-slide="prev"
-                          >
-                            <span
-                              className="carousel-control-prev-icon"
-                              aria-hidden="true"
-                            ></span>
-                            <span className="visually-hidden">Previous</span>
-                          </button>
-                          <button
-                            className="carousel-control-next"
-                            type="button"
-                            data-bs-target={`#carouselImage-${item.listing_id}`}
-                            data-bs-slide="next"
-                          >
-                            <span
-                              className="carousel-control-next-icon"
-                              aria-hidden="true"
-                            ></span>
-                            <span className="visually-hidden">Next</span>
-                          </button>
-                        </div>
-                      </div>
-                    </figure>
-                    <div
-                      type="button"
-                      className="card-body"
-                      onClick={() => {
-                        handleListingSelect(item.listing_id);
-                      }}
-                    >
-                      <div>
                         <div>
                           <strong>
                             {new Intl.NumberFormat("en-PH", {
@@ -159,10 +159,10 @@ const AllListing = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-              );
-            })}
+                  </li>
+                );
+              })}
+          </div>
         </ul>
       </div>
     </section>
