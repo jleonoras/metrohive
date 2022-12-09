@@ -4,7 +4,7 @@ import axios from "../api/axios";
 const UPDATE_USER_URL = "/api/v1/user/update";
 const USER_DATA_URL = "api/v1/profile";
 
-const UpdateProfile = () => {
+const UpdateProfile = ({ setAuth }) => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -21,7 +21,7 @@ const UpdateProfile = () => {
           },
         });
 
-        const parseRes = response.data;
+        const parseRes = await response.data;
 
         setFirstname(parseRes.fname);
         setLastname(parseRes.lname);
@@ -50,7 +50,11 @@ const UpdateProfile = () => {
         },
       });
 
-      console.log(updateProfile);
+      if (updateProfile.status === 200 && updateProfile.statusText === "OK") {
+        alert(
+          `Your profile ${firstname} ${lastname} has been updated successfully!`
+        );
+      }
     } catch (error) {
       console.log(error);
       alert(error.message);
@@ -59,50 +63,68 @@ const UpdateProfile = () => {
 
   return (
     <section>
-      <div className="App-header">
-        <div>
-          <h1>Update Profile</h1>
+      <div className="container d-flex align-items-center justify-content-center py-5 vh-100">
+        <div className="p-4 bg-gradient bg-dark shadow rounded">
+          <div className="text-center text-light">
+            <h5>Update Profile</h5>
+          </div>
+          <form
+            onSubmit={(e) => {
+              handleSubmit(e);
+            }}
+          >
+            <div className="form-outline mb-2">
+              <label className="form-label text-light" htmlFor="firstname">
+                First name:
+              </label>
+              <input
+                className="form-control"
+                name="firstname"
+                value={firstname}
+                type="text"
+                onChange={(e) => {
+                  setFirstname(e.target.value);
+                }}
+              />
+            </div>
+            <div className="form-outline mb-2">
+              <label className="form-label text-light" htmlFor="lastname">
+                Last name:
+              </label>
+              <input
+                className="form-control"
+                name="lastname"
+                value={lastname}
+                type="text"
+                onChange={(e) => {
+                  setLastname(e.target.value);
+                }}
+              />
+            </div>
+            <div className="form-outline mb-4">
+              <label className="form-label text-light" htmlFor="email">
+                Email address:
+              </label>
+              <input
+                className="form-control"
+                name="email"
+                value={email}
+                type="email"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+            </div>
+            <div className="d-grid">
+              <button
+                className="btn btn-warning btn-block mb-2 px-4 bg-gradient"
+                type="submit button"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
         </div>
-        <form
-          onSubmit={(e) => {
-            handleSubmit(e);
-          }}
-        >
-          <div>
-            <label htmlFor="firstname">First Name:</label>
-            <input
-              name="firstname"
-              value={firstname}
-              type="text"
-              onChange={(e) => {
-                setFirstname(e.target.value);
-              }}
-            />
-          </div>
-          <div>
-            <label htmlFor="lastname">Last Name:</label>
-            <input
-              name="lastname"
-              value={lastname}
-              type="text"
-              onChange={(e) => {
-                setLastname(e.target.value);
-              }}
-            />
-          </div>
-          <div>
-            <label htmlFor="email">Email:</label>
-            <input
-              name="email"
-              value={email}
-              type="email"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-          </div>
-          <button type="submit">Submit</button>
-        </form>
       </div>
     </section>
   );
