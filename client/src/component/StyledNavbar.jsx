@@ -3,43 +3,42 @@ import { Link, NavLink } from "react-router-dom";
 
 const Topnav = () => {
   return (
-    <nav className="navbar navbar-expand-md navbar-light bg-light bg-gradient p-3 sticky-top">
+    <nav className="navbar navbar-expand-md navbar-light bg-dark bg-gradient p-3 sticky-top shadow">
       <div className="container-md" id="topnav">
-        <Link
-          className="navbar-brand mb-0 h1 text-danger text-opacity-75"
-          to="/"
-        >
+        <Link className="navbar-brand mb-0 h1 text-danger" to="/">
           <strong>Metrohyve</strong>
         </Link>
-        <button
-          className="navbar-toggler"
-          data-bs-toggle="collapse"
-          data-bs-target="#nav"
-          type="button"
-          aria-controls="nav"
-          aria-label="Expand Navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+        <div className="bg-secondary bg-gradient rounded">
+          <button
+            className="navbar-toggler"
+            data-bs-toggle="collapse"
+            data-bs-target="#nav"
+            type="button"
+            aria-controls="nav"
+            aria-label="Expand Navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+        </div>
         <div
-          className="navbar-collapse collapse justify-content-between text-secondary"
+          className="navbar-collapse collapse justify-content-between"
           id="nav"
         >
-          <ul className="navbar-nav">
+          <ul className="navbar-nav nav-pills mx-2">
             <li className="nav-item">
-              <NavLink className="nav-link" to="/" end>
+              <NavLink className="nav-link text-light" to="/" end>
                 Home
               </NavLink>
             </li>
           </ul>
-          <ul className="navbar-nav">
+          <ul className="navbar-nav nav-pills mx-2 add-listing">
             <li className="nav-item ">
-              <NavLink className="nav-link" to="/add-listing">
+              <NavLink className="nav-link text-light" to="/add-listing">
                 Add Listing
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/dashboard">
+              <NavLink className="nav-link text-light" to="/dashboard">
                 Account
               </NavLink>
             </li>
