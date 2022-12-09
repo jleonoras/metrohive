@@ -3,7 +3,7 @@ import axios from "../api/axios";
 
 const NEW_LISTING_URL = "/api/v1/user/new/listing";
 
-const AddListing = () => {
+const AddListing = ({ setAuth }) => {
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [price, setPrice] = useState("");
@@ -46,9 +46,9 @@ const AddListing = () => {
 
   return (
     <section>
-      <div className="container-fluid d-flex align-items-center justify-content-center py-5 vh-100">
-        <div className="p-4 shadow">
-          <div className="text-center text-muted">
+      <div className="container-fluid d-grid align-items-center justify-content-center py-5 vh-100">
+        <div className="p-4 bg-dark bg-gradient rounded shadow">
+          <div className="text-center text-light">
             <h3>Add Listing</h3>
           </div>
           <form
@@ -106,7 +106,7 @@ const AddListing = () => {
               />
             </div>
             <div className="form-outline mb-4 pt-3">
-              <label className="form-label text-muted" htmlFor="file">
+              <label className="form-label text-light" htmlFor="file">
                 Add Image:
               </label>
               <input
@@ -124,9 +124,9 @@ const AddListing = () => {
                 }}
               />
             </div>
-            <div className="d-grid justify-content-md-center">
+            <div className="d-grid">
               <button
-                className="btn btn-primary px-4 py-2 bg-gradient"
+                className="btn btn-warning px-4 py-2 bg-gradient"
                 type="button submit"
               >
                 Submit
