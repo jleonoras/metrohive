@@ -6,7 +6,7 @@ const Footer = () => {
 
   return (
     <section>
-      <div className="sticky-bottom pt-5">
+      <div className="sticky-bottom pt-auto">
         <footer className="bg-dark bg-gradient">
           {/* <!-- Copyright --> */}
           <div className="text-center text-light p-3">
