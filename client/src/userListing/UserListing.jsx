@@ -71,7 +71,7 @@ const UserListing = () => {
               itemListing.map((item) => {
                 return (
                   <li className="col" key={item.listing_id}>
-                    <div className="card h-100 shadow-sm">
+                    <div className="card h-100">
                       <figure className="figure">
                         <div
                           id={`carouselImage-${item.listing_id}`}
@@ -168,7 +168,7 @@ const UserListing = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="d-flex justify-content-center">
+                      <div className="d-grid">
                         {/* <button
                         className="btn btn-warning bg-gradient col-md-4 m-3"
                         type="button"
@@ -176,7 +176,7 @@ const UserListing = () => {
                         Edit
                       </button> */}
                         <button
-                          className="btn btn-danger bg-gradient col-md-4 m-3"
+                          className="btn btn-danger bg-gradient m-3"
                           type="button"
                           onClick={() => deleteUserListing(item.listing_id)}
                         >
