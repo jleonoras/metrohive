@@ -52,7 +52,7 @@ const AllListing = () => {
     <section>
       <div className="pt-5">
         <ul className="list-unstyled">
-          <div className="row row-cols-1 row-cols-md-3 g-4">
+          <div className="row row-cols-1 row-cols-md-3 g-3">
             {allListing.length !== 0 &&
               allListing[0].listing_id !== null &&
               allListing.map((item, index) => {
@@ -137,8 +137,8 @@ const AllListing = () => {
                         </div>
                       </figure>
                       <div
-                        type="button"
                         className="card-body"
+                        type="button"
                         onClick={() => {
                           handleListingSelect(item.listing_id);
                         }}
