@@ -82,7 +82,7 @@ const Result = () => {
                 searchListing.map((item, index) => {
                   return (
                     <li className="col" key={index}>
-                      <div className="card h-100 shadow-sm">
+                      <div className="card h-100">
                         <figure className="figure">
                           <div
                             id={`carouselImage-${item.listing_id}`}
@@ -189,14 +189,14 @@ const Result = () => {
                   );
                 })
               ) : (
-                <div className="container justify-content-center align-items-center py-5 vh-100">
+                <div className="container justify-content-center align-items-center py-5">
                   <div className="d-flex justify-content-center align-items-center">
                     <span>
                       No Result for "<strong>{toTitleCase(location)}</strong>"
                     </span>
                   </div>
                   <div
-                    className="d-flex justify-content-center align-items-center py-3"
+                    className="d-grid justify-content-center align-items-center py-3"
                     onClick={handleBackToHome}
                   >
                     <button
