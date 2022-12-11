@@ -142,6 +142,7 @@ app.get("/api/v1/verify", auth, async (request, response) => {
 });
 
 // Add New Listing
+
 app.post(
   "/api/v1/user/new/listing",
   auth,
@@ -165,9 +166,11 @@ app.post(
         "INSERT INTO public.listing (description, location, price, image1, image2, image3, user_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *",
         [description, location, price, image1, image2, image3, userId]
       );
+
       response.json(newListing.rows[0]);
     } catch (error) {
       console.log(error);
+      console.error(error.message);
     }
   }
 );
