@@ -66,7 +66,7 @@ const AddListing = ({ setAuth }) => {
                 type="text"
                 name="description"
                 rows="3"
-                cols="30  "
+                cols="30 "
                 required
                 autoFocus
                 onChange={(e) => {
@@ -107,7 +107,7 @@ const AddListing = ({ setAuth }) => {
             </div>
             <div className="form-outline mb-4 pt-3">
               <label className="form-label text-light" htmlFor="file">
-                Add Image:
+                Add Image: (3 images required)
               </label>
               <input
                 className="form-control"
@@ -116,6 +116,8 @@ const AddListing = ({ setAuth }) => {
                 id="file"
                 accept="image/*"
                 multiple
+                min="3"
+                max="3"
                 required
                 onChange={(e) => {
                   const file = e.target.files;
