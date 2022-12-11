@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import axios from "../api/axios";
 
 const UPDATE_USER_URL = "/api/v1/user/update";
@@ -54,7 +55,9 @@ const UpdateProfile = ({ setAuth }) => {
         alert(
           `Your profile ${firstname} ${lastname} has been updated successfully!`
         );
+        window.location.reload();
       }
+      <Navigate to="/dashboard" />;
     } catch (error) {
       console.log(error);
       alert(error.message);
