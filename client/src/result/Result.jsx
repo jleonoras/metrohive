@@ -70,9 +70,13 @@ const Result = () => {
     <section>
       <div className="container pt-5">
         <div>
-          <h6>
-            Search Result for "<strong>{toTitleCase(location)}</strong>"
-          </h6>
+          {searchListing.length !== 0 && searchListing.listing_id !== null ? (
+            <h6>
+              Search Result for "<strong>{toTitleCase(location)}</strong>"
+            </h6>
+          ) : (
+            ""
+          )}
         </div>
         <div>
           <ul className="list-unstyled">
@@ -189,22 +193,21 @@ const Result = () => {
                   );
                 })
               ) : (
-                <div className="container justify-content-center align-items-center py-5">
-                  <div className="d-flex justify-content-center align-items-center">
-                    <span>
-                      No Result for "<strong>{toTitleCase(location)}</strong>"
-                    </span>
-                  </div>
-                  <div
-                    className="d-grid justify-content-center align-items-center py-3"
-                    onClick={handleBackToHome}
-                  >
-                    <button
-                      className="btn btn-warning bg-gradient"
-                      type="button"
-                    >
-                      Back to Home
-                    </button>
+                <div className="container">
+                  <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+                    <div>
+                      <span>
+                        No Result for "<strong>{toTitleCase(location)}</strong>"
+                      </span>
+                    </div>
+                    <div className="py-3" onClick={handleBackToHome}>
+                      <button
+                        className="btn btn-warning bg-gradient"
+                        type="button"
+                      >
+                        Back to Home
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
