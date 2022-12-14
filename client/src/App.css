@@ -17,7 +17,7 @@ body {
   text-decoration-line: underline;
   text-underline-position: below;
   text-decoration-style: solid;
-  text-decoration-color: whitesmoke;
+  text-decoration-color: gray;
   text-decoration-thickness: 15%;
   text-underline-offset: 50%;
 }
