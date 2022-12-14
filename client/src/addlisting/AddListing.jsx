@@ -47,8 +47,8 @@ const AddListing = ({ setAuth }) => {
   return (
     <section>
       <div className="container-fluid d-grid align-items-center justify-content-center py-5 vh-100">
-        <div className="p-4 bg-dark bg-gradient rounded shadow">
-          <div className="text-center text-light">
+        <div className="p-4 bg-light bg-gradient rounded shadow">
+          <div className="text-center text-secondary">
             <h3>Add Listing</h3>
           </div>
           <form
@@ -106,7 +106,7 @@ const AddListing = ({ setAuth }) => {
               />
             </div>
             <div className="form-outline mb-4 pt-3">
-              <label className="form-label text-light" htmlFor="file">
+              <label className="form-label text-secondary" htmlFor="file">
                 Add Image: (3 images required)
               </label>
               <input
