@@ -316,7 +316,7 @@ app.get("/api/v1/location", async (request, response) => {
     const { location } = request.query;
 
     const listing = await pool.query(
-      "SELECT public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3, public.user.user_id, public.user.fname, public.user.lname, public.user.email FROM public.user LEFT JOIN public.listing ON public.user.user_id = public.listing.user_id WHERE location || ' ' || description ILIKE $1",
+      "SELECT public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3, public.user.user_id, public.user.fname, public.user.lname, public.user.email FROM public.user LEFT JOIN public.listing ON public.user.user_id = public.listing.user_id WHERE location ILIKE $1",
       [`%${location}%`]
     );
 
