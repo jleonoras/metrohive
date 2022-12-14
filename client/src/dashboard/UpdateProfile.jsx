@@ -67,8 +67,8 @@ const UpdateProfile = ({ setAuth }) => {
   return (
     <section>
       <div className="container d-flex align-items-center justify-content-center py-5 vh-100">
-        <div className="p-4 bg-gradient bg-dark shadow rounded">
-          <div className="text-center text-light">
+        <div className="p-4 bg-gradient bg-light shadow rounded">
+          <div className="text-center text-secondary">
             <h5>Update Profile</h5>
           </div>
           <form
@@ -77,7 +77,7 @@ const UpdateProfile = ({ setAuth }) => {
             }}
           >
             <div className="form-outline mb-2">
-              <label className="form-label text-light" htmlFor="firstname">
+              <label className="form-label text-secondary" htmlFor="firstname">
                 First name:
               </label>
               <input
@@ -91,7 +91,7 @@ const UpdateProfile = ({ setAuth }) => {
               />
             </div>
             <div className="form-outline mb-2">
-              <label className="form-label text-light" htmlFor="lastname">
+              <label className="form-label text-secondary" htmlFor="lastname">
                 Last name:
               </label>
               <input
@@ -105,7 +105,7 @@ const UpdateProfile = ({ setAuth }) => {
               />
             </div>
             <div className="form-outline mb-4">
-              <label className="form-label text-light" htmlFor="email">
+              <label className="form-label text-secondary" htmlFor="email">
                 Email address:
               </label>
               <input
