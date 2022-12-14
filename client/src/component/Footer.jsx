@@ -7,9 +7,9 @@ const Footer = () => {
   return (
     <section>
       <div className="sticky-bottom pt-auto">
-        <footer className="bg-dark bg-gradient">
+        <footer className="bg-light bg-gradient">
           {/* <!-- Copyright --> */}
-          <div className="text-center text-light p-3">
+          <div className="text-center text-secondary p-3">
             <span>{`Copyright © ${year} by `}</span>
             <Link className="text-danger text-decoration-none" to="/">
               <strong>Metrohyve</strong>
