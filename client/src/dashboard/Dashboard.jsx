@@ -55,7 +55,7 @@ const Dashboard = ({ setAuth }) => {
   return (
     <section>
       <div className="container pt-5">
-        <div className="p-4 shadow rounded bg-gradient bg-dark">
+        <div className="p-4 shadow rounded bg-gradient bg-primary">
           <div className="d-flex position-relative">
             <div className="w-100">
               <div className="w-100 d-grid justify-content-center text-center">
