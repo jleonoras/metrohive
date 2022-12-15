@@ -32,9 +32,8 @@ const App = () => {
 
         const parseRes = await response.data;
 
-        parseRes === true
-          ? setIsAuthenticated(true)
-          : setIsAuthenticated(false);
+        setIsAuthenticated(parseRes);
+
         // console.log(parseRes);
       } catch (error) {
         console.error(error.message);
