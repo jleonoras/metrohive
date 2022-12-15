@@ -24,6 +24,7 @@ const AllListing = () => {
 
         const allListing = parseRes.map((item) => {
           return new ListingClass({
+            totalListing: item.totalListing,
             listingId: item.listing_id,
             description: item.description,
             location: item.location,
