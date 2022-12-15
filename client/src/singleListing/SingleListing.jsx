@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "../api/axios";
-import imageUrl from "../component/ImagePath";
+import imageUrl from "../constants/constants";
 import Search from "../component/Search";
 import ListingClass from "../listing/ListingClass";
 

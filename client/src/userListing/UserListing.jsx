@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
 import ListingClass from "../listing/ListingClass";
-import imageUrl from "../component/ImagePath";
+import imageUrl from "../constants/constants";
 
 const USER_LISTING_URL = "/api/v1/user/listing";
 const DELETE_LISTING_API_URL = "/api/v1/listing";

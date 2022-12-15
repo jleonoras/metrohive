@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "../api/axios";
-import imageUrl from "../component/ImagePath";
+import imageUrl from "../constants/constants";
 import ListingClass from "../listing/ListingClass";
 
 const SEARCH_LISTING_URL = "/api/v1/location/?location=";
