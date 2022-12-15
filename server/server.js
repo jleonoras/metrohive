@@ -201,7 +201,7 @@ app.get("/api/v1/listing", async (request, response) => {
     );
 
     response.json({
-      total_listing: listing.rows.length,
+      totalListing: listing.rows.length,
       listing: listing.rows,
     });
   } catch (error) {
