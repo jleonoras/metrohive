@@ -7,7 +7,7 @@ const USER_LISTING_URL = "/api/v1/user/listing";
 const DELETE_LISTING_API_URL = "/api/v1/listing";
 
 const UserListing = () => {
-  const [itemListing, setItemListing] = useState([]);
+  const [listings, setListings] = useState([]);
 
   const getUserListing = async () => {
     try {
@@ -22,7 +22,7 @@ const UserListing = () => {
 
       const itemListing = parseRes.map((item) => {
         return new ListingClass({
-          totalListing: item.total_listing,
+          totalListing: item.totalListing,
           listingId: item.listing_id,
           description: item.description,
           location: item.location,
@@ -33,7 +33,7 @@ const UserListing = () => {
         });
       });
 
-      setItemListing(itemListing);
+      setListings(itemListing);
     } catch (error) {
       console.log(error);
       console.error(error.message);
@@ -52,7 +52,7 @@ const UserListing = () => {
         },
       });
 
-      setItemListing(itemListing.filter((listing) => listing.listingId !== id));
+      setListings(listings.filter((listing) => listing.listingId !== id));
     } catch (error) {
       console.log(error);
       alert(error.message);
@@ -64,9 +64,9 @@ const UserListing = () => {
       <div className="pt-5">
         <ul className="list-unstyled">
           <div className="row row-cols-1 row-cols-md-3 g-4">
-            {itemListing.length !== 0 &&
-              itemListing[0].listingId !== null &&
-              itemListing.map((item) => {
+            {listings.length !== 0 &&
+              listings[0].listingId !== null &&
+              listings.map((item) => {
                 return (
                   <li className="col" key={item.listingId}>
                     <div className="card h-100">
