@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./home/Home";
 import Login from "./login/Login";
-import Error from "./error/Error";
+import NotFound from "./notFound/NotFound";
 import Register from "./register/Register";
 import Dashboard from "./dashboard/Dashboard";
 import axios from "./api/axios";
@@ -120,7 +120,7 @@ const App = () => {
             <Route path="/listing/:id" element={<SingleListing />} />
             <Route path="/listing/search/:location" element={<Result />} />
             {/* Route to error page */}
-            <Route path="*" element={<Error />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </section>
