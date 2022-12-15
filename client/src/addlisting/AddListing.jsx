@@ -51,12 +51,7 @@ const AddListing = ({ setAuth }) => {
           <div className="text-center text-secondary">
             <h3>Add Listing</h3>
           </div>
-          <form
-            onSubmit={(e) => {
-              onSubmitForm(e);
-            }}
-            encType="multipart/form-data"
-          >
+          <form onSubmit={onSubmitForm} encType="multipart/form-data">
             <div className="form-outline">
               <label className="form-label" htmlFor="description"></label>
               <textarea
