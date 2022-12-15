@@ -3,7 +3,7 @@ class ListingClass {
     fname,
     lname,
     email,
-    listing_id,
+    listingId,
     description,
     location,
     price,
@@ -14,7 +14,7 @@ class ListingClass {
     this.fname = fname;
     this.lname = lname;
     this.email = email;
-    this.listing_id = listing_id;
+    this.listingId = listingId;
     this.description = description;
     this.location = location;
     this.price = price;

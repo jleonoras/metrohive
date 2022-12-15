@@ -22,8 +22,8 @@ const UserListing = () => {
 
       const itemListing = parseRes.map((item) => {
         return new ListingClass({
-          total_listing: item.total_listing,
-          listing_id: item.listing_id,
+          totalListing: item.total_listing,
+          listingId: item.listing_id,
           description: item.description,
           location: item.location,
           price: item.price,
@@ -52,9 +52,7 @@ const UserListing = () => {
         },
       });
 
-      setItemListing(
-        itemListing.filter((listing) => listing.listing_id !== id)
-      );
+      setItemListing(itemListing.filter((listing) => listing.listingId !== id));
     } catch (error) {
       console.log(error);
       alert(error.message);
@@ -67,32 +65,32 @@ const UserListing = () => {
         <ul className="list-unstyled">
           <div className="row row-cols-1 row-cols-md-3 g-4">
             {itemListing.length !== 0 &&
-              itemListing[0].listing_id !== null &&
+              itemListing[0].listingId !== null &&
               itemListing.map((item) => {
                 return (
-                  <li className="col" key={item.listing_id}>
+                  <li className="col" key={item.listingId}>
                     <div className="card h-100">
                       <figure className="figure">
                         <div
-                          id={`carouselImage-${item.listing_id}`}
+                          id={`carouselImage-${item.listingId}`}
                           className="carousel slide"
                           data-bs-ride="false"
                         >
                           <div className="carousel-indicators">
                             <button
                               type="button"
-                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-target={`#carouselImage-${item.listingId}`}
                               data-bs-slide-to="0"
                               className="active"
                             ></button>
                             <button
                               type="button"
-                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-target={`#carouselImage-${item.listingId}`}
                               data-bs-slide-to="1"
                             ></button>
                             <button
                               type="button"
-                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-target={`#carouselImage-${item.listingId}`}
                               data-bs-slide-to="2"
                             ></button>
                           </div>
@@ -125,7 +123,7 @@ const UserListing = () => {
                             <button
                               className="carousel-control-prev"
                               type="button"
-                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-target={`#carouselImage-${item.listingId}`}
                               data-bs-slide="prev"
                             >
                               <span
@@ -137,7 +135,7 @@ const UserListing = () => {
                             <button
                               className="carousel-control-next"
                               type="button"
-                              data-bs-target={`#carouselImage-${item.listing_id}`}
+                              data-bs-target={`#carouselImage-${item.listingId}`}
                               data-bs-slide="next"
                             >
                               <span
@@ -161,7 +159,7 @@ const UserListing = () => {
                           </div>
                           <div>
                             <p>{item.description}</p>
-                            <p>{item.total_listing}</p>
+                            <p>{item.totalListing}</p>
                           </div>
                           <div>
                             <strong>{item.location}</strong>
@@ -178,7 +176,7 @@ const UserListing = () => {
                         <button
                           className="btn btn-danger bg-gradient m-3"
                           type="button"
-                          onClick={() => deleteUserListing(item.listing_id)}
+                          onClick={() => deleteUserListing(item.listingId)}
                         >
                           Delete
                         </button>

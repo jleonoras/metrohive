@@ -26,7 +26,7 @@ const Result = () => {
 
         const searchListing = parseRes.map((item) => {
           return new ListingClass({
-            listing_id: item.listing_id,
+            listingId: item.listing_id,
             description: item.description,
             location: item.location,
             price: item.price,
@@ -48,8 +48,8 @@ const Result = () => {
     fetchData();
   }, [location]);
 
-  const handleListingSelect = (listing_id) => {
-    navigate(`/listing/${listing_id}`);
+  const handleListingSelect = (listingId) => {
+    navigate(`/listing/${listingId}`);
   };
 
   const toTitleCase = (string) => {
@@ -70,7 +70,7 @@ const Result = () => {
     <section>
       <div className="container pt-5">
         <div>
-          {searchListing.length !== 0 && searchListing.listing_id !== null ? (
+          {searchListing.length !== 0 && searchListing.listingId !== null ? (
             <h6>
               Search Result for "<strong>{toTitleCase(location)}</strong>"
             </h6>
@@ -82,32 +82,32 @@ const Result = () => {
           <ul className="list-unstyled">
             <div className="row row-cols-1 row-cols-md-3 g-4">
               {searchListing.length !== 0 &&
-              searchListing.listing_id !== null ? (
+              searchListing.listingId !== null ? (
                 searchListing.map((item, index) => {
                   return (
                     <li className="col" key={index}>
                       <div className="card h-100">
                         <figure className="figure">
                           <div
-                            id={`carouselImage-${item.listing_id}`}
+                            id={`carouselImage-${item.listingId}`}
                             className="carousel slide"
                             data-bs-ride="false"
                           >
                             <div className="carousel-indicators">
                               <button
                                 type="button"
-                                data-bs-target={`#carouselImage-${item.listing_id}`}
+                                data-bs-target={`#carouselImage-${item.listingId}`}
                                 data-bs-slide-to="0"
                                 className="active"
                               ></button>
                               <button
                                 type="button"
-                                data-bs-target={`#carouselImage-${item.listing_id}`}
+                                data-bs-target={`#carouselImage-${item.listingId}`}
                                 data-bs-slide-to="1"
                               ></button>
                               <button
                                 type="button"
-                                data-bs-target={`#carouselImage-${item.listing_id}`}
+                                data-bs-target={`#carouselImage-${item.listingId}`}
                                 data-bs-slide-to="2"
                               ></button>
                             </div>
@@ -140,7 +140,7 @@ const Result = () => {
                               <button
                                 className="carousel-control-prev"
                                 type="button"
-                                data-bs-target={`#carouselImage-${item.listing_id}`}
+                                data-bs-target={`#carouselImage-${item.listingId}`}
                                 data-bs-slide="prev"
                               >
                                 <span
@@ -154,7 +154,7 @@ const Result = () => {
                               <button
                                 className="carousel-control-next"
                                 type="button"
-                                data-bs-target={`#carouselImage-${item.listing_id}`}
+                                data-bs-target={`#carouselImage-${item.listingId}`}
                                 data-bs-slide="next"
                               >
                                 <span
@@ -170,7 +170,7 @@ const Result = () => {
                           type="button"
                           className="card-body"
                           onClick={() => {
-                            handleListingSelect(item.listing_id);
+                            handleListingSelect(item.listingId);
                           }}
                         >
                           <div>

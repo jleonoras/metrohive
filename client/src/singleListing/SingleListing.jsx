@@ -28,7 +28,7 @@ const SingleListing = () => {
 
         const listing = parseRes.map((item) => {
           return new ListingClass({
-            listing_id: item.listing_id,
+            listingId: item.listing_id,
             description: item.description,
             location: item.location,
             price: item.price,
@@ -59,10 +59,10 @@ const SingleListing = () => {
         <div className="pt-5">
           <ul className="list-unstyled">
             {listing.length !== 0 &&
-              listing.listing_id !== null &&
+              listing.listingId !== null &&
               listing.map((item) => {
                 return (
-                  <li key={item.listing_id}>
+                  <li key={item.listingId}>
                     <div className="px-2">
                       <div>
                         <figure>
