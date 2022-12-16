@@ -22,7 +22,7 @@ const AllListing = () => {
 
         const parseRes = await response.data.listing;
 
-        const allListing = parseRes.map((item) => {
+        const listings = parseRes.map((item) => {
           return new ListingClass({
             totalListing: item.totalListing,
             listingId: item.listing_id,
@@ -35,7 +35,7 @@ const AllListing = () => {
           });
         });
 
-        setAllListing(allListing);
+        setAllListing(listings);
       } catch (error) {
         console.log(error);
         console.error(error.message);
