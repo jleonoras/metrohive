@@ -1,57 +1,44 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 
-const Navbar = () => {
+const Topnav = () => {
   return (
-    <nav className="navbar navbar-expand-md navbar-dark bg-black fixed-top">
-      <div className="container" id="topnav">
-        <Link className="navbar-brand container-inline" to="/">
-          <img
-            className="d-inline-block align-top"
-            src="https://getbootstrap.com/docs/5.2/assets/brand/bootstrap-logo.svg"
-            alt=""
-            width="35"
-            height="30"
-            loading="lazy"
-            id="brandLogo"
-          ></img>
-          Metrohive
+    <nav className="navbar navbar-expand-md navbar-light bg-light bg-gradient p-3 sticky-top shadow-sm">
+      <div className="container-md" id="topnav">
+        <Link className="navbar-brand mb-0 h1 text-danger" to="/">
+          <strong>Metrohyve</strong>
         </Link>
-
-        <button
-          className="navbar-toggler"
-          data-bs-toggle="collapse"
-          data-bs-target="#nav"
-          type="button"
-          aria-controls="nav"
-          aria-label="Expand Navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+        <div className="bg-light bg-gradient rounded">
+          <button
+            className="navbar-toggler"
+            data-bs-toggle="collapse"
+            data-bs-target="#nav"
+            type="button"
+            aria-controls="nav"
+            aria-label="Expand Navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+        </div>
         <div
           className="navbar-collapse collapse justify-content-between"
           id="nav"
         >
-          <ul className="navbar-nav  nav-pills">
+          <ul className="navbar-nav nav-pills mx-2">
             <li className="nav-item">
-              <NavLink className="nav-link" to="/" end>
+              <NavLink className="nav-link text-secondary" to="/" end>
                 Home
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/listing">
-                Listing
-              </NavLink>
-            </li>
           </ul>
-          <ul className="navbar-nav nav-pills">
+          <ul className="navbar-nav nav-pills mx-2 add-listing">
             <li className="nav-item ">
-              <NavLink className="nav-link" to="/addlisting">
+              <NavLink className="nav-link text-secondary" to="/add-listing">
                 Add Listing
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/dashboard">
+              <NavLink className="nav-link text-secondary" to="/dashboard">
                 Account
               </NavLink>
             </li>
@@ -62,4 +49,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Topnav;

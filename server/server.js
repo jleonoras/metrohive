@@ -7,27 +7,43 @@ import { auth } from "./middleware/auth.js";
 import { v4 as uuidv4 } from "uuid";
 import cors from "cors";
 import { upload } from "./middleware/upload.js";
+import fs from "fs";
+import path from "path";
+import helmet from "helmet";
 
 const app = express();
 const pool = connectDatabase();
-const port = 8000;
+const host = "localhost";
+const port = process.env.serverPort;
 
 app.use(cors());
+
 app.use(express.json()); // req.body
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(
+  helmet({
+    frameguard: {
+      action: "deny",
+    },
+    xssFilter: true,
+    crossOriginResourcePolicy: {
+      policy: "cross-origin",
+    },
+  })
+);
 
 app.use("/image", express.static("public/uploads"));
 
 app.get("/", (request, response) => {
-  response.json({
-    status: "success",
-  });
+  response.send("<h1 style='text-align: center'>METROHYVE API</h1>");
 });
 
 // Register User
 app.post("/api/v1/register", async (request, response) => {
   try {
-    //take the email and password from the req.body
+    //take the firstname, lastname, email and password from the req.body
     const { fname, lname, email, password } = request.body;
 
     //Check if the account is already existing
@@ -40,7 +56,6 @@ app.post("/api/v1/register", async (request, response) => {
     }
 
     //Setup Bcrypt for password hashing
-
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
 
@@ -127,6 +142,7 @@ app.get("/api/v1/verify", auth, async (request, response) => {
 });
 
 // Add New Listing
+
 app.post(
   "/api/v1/user/new/listing",
   auth,
@@ -143,16 +159,18 @@ app.post(
 
       const userId = request.user.user_id;
 
-      console.log(request.body);
-      console.log(request.files);
+      // console.log(request.body);
+      // console.log(request.files);
 
       const newListing = await pool.query(
         "INSERT INTO public.listing (description, location, price, image1, image2, image3, user_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *",
         [description, location, price, image1, image2, image3, userId]
       );
+
       response.json(newListing.rows[0]);
     } catch (error) {
       console.log(error);
+      console.error(error.message);
     }
   }
 );
@@ -165,7 +183,10 @@ app.get("/api/v1/user/listing", auth, async (request, response) => {
       [request.user.user_id]
     );
 
-    response.json(userListing.rows);
+    response.json({
+      totalListing: userListing.rows.length,
+      listing: userListing.rows,
+    });
     // console.log(user.rows);
   } catch (error) {
     console.error(error.message);
@@ -179,7 +200,10 @@ app.get("/api/v1/listing", async (request, response) => {
       "Select listing_id, description, location, price, image1, image2, image3 FROM public.listing ORDER BY public.listing.listing_id DESC"
     );
 
-    response.json(listing.rows);
+    response.json({
+      totalListing: listing.rows.length,
+      listing: listing.rows,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -199,12 +223,118 @@ app.get("/api/v1/listing/:id", async (request, response) => {
   }
 });
 
+// Update listing
+app.put("/api/v1/listing/:id", auth, async (request, response) => {
+  try {
+    const listingId = request.params.id;
+    const userId = request.user.user_id;
+    const { price, description, location } = request.body;
+
+    const updateListing = await pool.query(
+      "UPDATE public.listing SET price = $1, description = $2, location = $3 WHERE user_id = $4 AND listing_id = $5 RETURNING *",
+      [price, description, location, userId, listingId]
+    );
+
+    if (updateListing.rows.length === 0) {
+      return response.json(
+        "You are not authorize to edit/update this listing!"
+      );
+    }
+
+    response.json(updateListing.rows);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//  Delete listing
+app.delete("/api/v1/listing/:id", auth, async (request, response) => {
+  try {
+    const listingId = request.params.id;
+    const userId = request.user.user_id;
+
+    const __dirname = path.resolve();
+    const directoryPath = path.join(__dirname, "/public/uploads/");
+
+    const deleteListing = await pool.query(
+      "DELETE FROM public.listing WHERE listing_id = $1 AND user_id = $2 RETURNING *",
+      [listingId, userId]
+    );
+
+    if (deleteListing.rows.length === 0) {
+      return response.json("You are not authorize to delete this listing!");
+    }
+
+    // response.json("Listing was deleted!");
+    response.json(deleteListing.rows);
+
+    const image1 = deleteListing.rows[0].image1;
+    const image2 = deleteListing.rows[0].image2;
+    const image3 = deleteListing.rows[0].image3;
+
+    const image = [image1, image2, image3];
+
+    for (let index = 0; index < image.length; index++) {
+      fs.unlinkSync(directoryPath + image[index]);
+    }
+
+    // const deleteImage = (file) => {
+    //   return image.map(fs.unlink(directoryPath + file));
+    // };
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Update user profile
+app.put("/api/v1/user/update", auth, async (request, response) => {
+  try {
+    const userId = request.user.user_id;
+    const userPass = request.user.password;
+    const { fname, lname, email } = request.body;
+
+    const updateProfile = await pool.query(
+      "UPDATE public.user SET fname = $1, lname = $2, email = $3 WHERE user_id = $4 AND password = $5 RETURNING fname, lname, email",
+      [fname, lname, email, userId, userPass]
+    );
+
+    if (updateProfile.rows.length === 0) {
+      return response.json(
+        "You are not authorize to edit/update this profile!"
+      );
+    }
+
+    response.json(updateProfile.rows);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Search listing (by location)
+app.get("/api/v1/location", async (request, response) => {
+  try {
+    const { location } = request.query;
+
+    const listing = await pool.query(
+      "SELECT public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price, public.listing.image1, public.listing.image2, public.listing.image3, public.user.user_id, public.user.fname, public.user.lname, public.user.email FROM public.user LEFT JOIN public.listing ON public.user.user_id = public.listing.user_id WHERE location ILIKE $1",
+      [`%${location}%`]
+    );
+
+    response.json({
+      total_listing: listing.rows.length,
+      listing: listing.rows,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 pool.connect((error) => {
   if (error) {
     console.log(error);
   } else {
-    app.listen(port, () => {
-      console.log(`Server has started and running on http://localhost:${port}`);
+    app.listen(port, host, () => {
+      console.log(`Server has started and running on http://${host}:${port}`);
     });
   }
 });

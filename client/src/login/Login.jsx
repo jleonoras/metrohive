@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "../api/axios";
 import { Link } from "react-router-dom";
@@ -29,7 +29,7 @@ const Login = ({ setAuth }) => {
         },
       });
       // console.log(JSON.stringify(response?.data));
-      const parseRes = response?.data;
+      const parseRes = response.data;
 
       if (parseRes.token) {
         // localstorage
@@ -38,48 +38,74 @@ const Login = ({ setAuth }) => {
       } else {
         setAuth(false);
         console.log("Something went wrong");
+        alert("Something went wrong");
       }
     } catch (error) {
-      console.error(error.message);
+      console.log(error);
+      alert(error.message);
     }
   };
 
+  useEffect(() => {
+    document.title = "Login | Metrohyve";
+  }, []);
+
   return (
     <section>
-      <div className="App-header">
-        <h1>Login</h1>
-        <form className="login-form" onSubmit={onSubmitForm}>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            name="email"
-            autoComplete="email"
-            required
-            autoFocus
-            onChange={(e) => {
-              onChange(e);
-            }}
-          />
-          <br />
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            autoComplete="current-password"
-            required
-            onChange={(e) => {
-              onChange(e);
-            }}
-          />
-          <br />
-          <button type="submit" className="submit-btn">
-            Submit
-          </button>
-        </form>
-        <Link to="/register">Register</Link>
+      <div className="container d-flex align-items-center justify-content-center py-5 vh-100">
+        <div className="p-4 bg-light bg-gradient rounded shadow">
+          <div className="text-center text-secondary">
+            <h3>Login</h3>
+          </div>
+          <form onSubmit={onSubmitForm}>
+            <div className="form-outline">
+              <label className="form-label" htmlFor="email"></label>
+              <input
+                className="form-control"
+                placeholder="Email address"
+                type="email"
+                id="email"
+                value={email}
+                name="email"
+                autoComplete="email"
+                required
+                autoFocus
+                onChange={(e) => {
+                  onChange(e);
+                }}
+              />
+            </div>
+            <div className="form-outline mb-4">
+              <label className="form-label" htmlFor="password"></label>
+              <input
+                className="form-control"
+                placeholder="Password"
+                type="password"
+                id="password"
+                name="password"
+                autoComplete="current-password"
+                required
+                onChange={(e) => {
+                  onChange(e);
+                }}
+              />
+            </div>
+            <div className="d-grid">
+              <button
+                type="button submit"
+                className="btn btn-warning btn-block mb-4 px-4 bg-gradient"
+              >
+                Submit
+              </button>
+            </div>
+            <div className="text-secondary">
+              <span>Don't have an account? </span>
+              <Link to="/register">
+                <strong>Register</strong>
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
     </section>
   );
