@@ -16,8 +16,10 @@ const UpdateProfile = ({ setAuth }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(USER_DATA_URL, {
+          withCredentials: true,
+          credentials: "include",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Accept: "applicaiton/json",
             "Content-Type": "application/json",
           },
         });
@@ -45,8 +47,10 @@ const UpdateProfile = ({ setAuth }) => {
 
     try {
       const updateProfile = await axios.put(UPDATE_USER_URL, body, {
+        withCredentials: true,
+        credentials: "include",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Accept: "applicaiton/json",
           "Content-Type": "application/json",
         },
       });

@@ -3,6 +3,7 @@ import axios from "../api/axios";
 import UserListing from "../userListing/UserListing";
 import { useNavigate } from "react-router-dom";
 import avatar from "../avatar.png";
+import Logout from "../logout/Logout";
 
 const PROFILE_URL = "/api/v1/profile";
 
@@ -20,8 +21,10 @@ const Dashboard = ({ setAuth }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(PROFILE_URL, {
+          withCredentials: true,
+          credentials: "include",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Accept: "applicaiton/json",
             "Content-Type": "application/json",
           },
         });
@@ -39,14 +42,14 @@ const Dashboard = ({ setAuth }) => {
     fetchData();
   }, []);
 
-  const handleLogout = (e) => {
-    try {
-      localStorage.removeItem("token");
-      setAuth(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const handleLogout = (e) => {
+  //   try {
+  //     localStorage.removeItem("token");
+  //     setAuth(false);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const handleUpdate = (e) => {
     navigate(`/dashboard/update/${fname}/${userId}`);
@@ -90,13 +93,7 @@ const Dashboard = ({ setAuth }) => {
             </div>
             <div>
               <div className="position-absolute top-0 end-0">
-                <button
-                  className="btn btn-danger bg-gradient btn-sm"
-                  type="button"
-                  onClick={(e) => handleLogout(e)}
-                >
-                  Logout
-                </button>
+                <Logout />
               </div>
             </div>
           </div>

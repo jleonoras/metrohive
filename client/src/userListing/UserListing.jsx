@@ -12,8 +12,10 @@ const UserListing = () => {
   const getUserListing = async () => {
     try {
       const response = await axios.get(USER_LISTING_URL, {
+        withCredentials: true,
+        credentials: "include",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Accept: "applicaiton/json",
           "Content-Type": "application/json",
         },
       });

@@ -29,7 +29,10 @@ const Register = ({ setAuth }) => {
         password: password,
       };
       const response = await axios.post(REG_URL, JSON.stringify(body), {
+        withCredentials: true,
+        credentials: "include",
         headers: {
+          Accept: "applicaiton/json",
           "Content-Type": "application/json",
         },
       });

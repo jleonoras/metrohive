@@ -24,8 +24,10 @@ const App = () => {
     const checkAuthenticated = async () => {
       try {
         const response = await axios.get(VERIFY_URL, {
+          withCredentials: true,
+          credentials: "include",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Accept: "applicaiton/json",
             "Content-Type": "application/json",
           },
         });
