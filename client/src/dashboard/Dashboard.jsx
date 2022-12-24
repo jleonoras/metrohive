@@ -3,9 +3,9 @@ import axios from "../api/axios";
 import UserListing from "../userListing/UserListing";
 import { useNavigate } from "react-router-dom";
 import avatar from "../avatar.png";
-import Logout from "../logout/Logout";
 
 const PROFILE_URL = "/api/v1/profile";
+const LOGOUT_URL = "/api/v1/logout";
 
 const Dashboard = ({ setAuth }) => {
   const [fname, setFName] = useState("");
@@ -51,7 +51,23 @@ const Dashboard = ({ setAuth }) => {
   //   }
   // };
 
-  const handleUpdate = (e) => {
+  const handleLogout = async () => {
+    try {
+      await axios.get(LOGOUT_URL, {
+        withCredentials: true,
+        credentials: "include",
+        headers: {
+          Accept: "applicaiton/json",
+          "Content-Type": "application/json",
+        },
+      });
+      setAuth(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleUpdate = () => {
     navigate(`/dashboard/update/${fname}/${userId}`);
   };
 
@@ -93,7 +109,14 @@ const Dashboard = ({ setAuth }) => {
             </div>
             <div>
               <div className="position-absolute top-0 end-0">
-                <Logout />
+                {/* <Logout /> */}
+                <button
+                  className="btn btn-danger bg-gradient btn-sm"
+                  type="button"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
               </div>
             </div>
           </div>
