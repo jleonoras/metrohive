@@ -35,8 +35,6 @@ const App = () => {
         const parseRes = await response.data;
 
         setIsAuthenticated(parseRes);
-
-        // console.log(parseRes);
       } catch (error) {
         console.error(error.message);
       }

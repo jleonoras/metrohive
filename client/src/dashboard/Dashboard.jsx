@@ -34,22 +34,12 @@ const Dashboard = ({ setAuth }) => {
         setLName(parseRes.lname);
         setEmail(parseRes.email);
         setUserId(parseRes.user_id);
-        // console.log(parseRes);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
   }, []);
-
-  // const handleLogout = (e) => {
-  //   try {
-  //     localStorage.removeItem("token");
-  //     setAuth(false);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const handleLogout = async () => {
     try {
@@ -109,7 +99,6 @@ const Dashboard = ({ setAuth }) => {
             </div>
             <div>
               <div className="position-absolute top-0 end-0">
-                {/* <Logout /> */}
                 <button
                   className="btn btn-danger bg-gradient btn-sm"
                   type="button"
@@ -121,7 +110,6 @@ const Dashboard = ({ setAuth }) => {
             </div>
           </div>
         </div>
-
         <div>
           <UserListing />
         </div>
