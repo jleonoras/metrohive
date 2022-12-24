@@ -49,8 +49,11 @@ const UserListing = () => {
   const deleteUserListing = async (id) => {
     try {
       await axios.delete(`${DELETE_LISTING_API_URL}/${id}`, {
+        withCredentials: true,
+        credentials: "include",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Accept: "applicaiton/json",
+          "Content-Type": "application/json",
         },
       });
 

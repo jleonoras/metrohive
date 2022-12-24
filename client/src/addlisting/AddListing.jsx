@@ -23,9 +23,11 @@ const AddListing = ({ setAuth }) => {
 
     try {
       const response = await axios.post(NEW_LISTING_URL, formData, {
+        withCredentials: true,
+        credentials: "include",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "multipart/form-data",
+          Accept: "applicaiton/json",
+          "Content-Type": "application/json",
         },
       });
 
