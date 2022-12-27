@@ -5,7 +5,7 @@ import axios from "../api/axios";
 const UPDATE_USER_URL = "/api/v1/user/update";
 const USER_DATA_URL = "api/v1/profile";
 
-const UpdateProfile = ({ setAuth }) => {
+const UpdateProfile = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -30,7 +30,7 @@ const UpdateProfile = ({ setAuth }) => {
         setLastname(parseRes.lname);
         setEmail(parseRes.email);
       } catch (error) {
-        console.log(error);
+        console.log(error.response.data);
       }
     };
     fetchData();
