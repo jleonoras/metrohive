@@ -35,7 +35,7 @@ const Dashboard = ({ setAuth }) => {
         setEmail(parseRes.email);
         setUserId(parseRes.user_id);
       } catch (error) {
-        console.log(error);
+        console.log(error.response.data);
       }
     };
     fetchData();
@@ -64,7 +64,7 @@ const Dashboard = ({ setAuth }) => {
   return (
     <section>
       <div className="container pt-5">
-        <div className="p-4 shadow rounded bg-gradient bg-primary">
+        <div className="p-4 shadow rounded bg-gradient bg-light">
           <div className="d-flex position-relative">
             <div className="w-100">
               <div className="w-100 d-grid justify-content-center text-center">
@@ -77,12 +77,12 @@ const Dashboard = ({ setAuth }) => {
                   />
                 </div>
                 <div className="py-2">
-                  <div className="text-light">
+                  <div className="text-secondary">
                     <h5>
                       {fname} {lname}
                     </h5>
                   </div>
-                  <div className="text-light">
+                  <div className="text-secondary">
                     <span>{email}</span>
                   </div>
                   <div className="pt-3">
