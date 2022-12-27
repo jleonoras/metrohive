@@ -3,7 +3,7 @@ import axios from "../api/axios";
 
 const NEW_LISTING_URL = "/api/v1/user/new/listing";
 
-const AddListing = ({ setAuth }) => {
+const AddListing = () => {
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [price, setPrice] = useState("");
@@ -37,7 +37,7 @@ const AddListing = ({ setAuth }) => {
         e.target.reset();
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data);
       alert(error.message);
     }
   };
