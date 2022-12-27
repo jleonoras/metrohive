@@ -9,41 +9,39 @@ const DELETE_LISTING_API_URL = "/api/v1/listing";
 const UserListing = () => {
   const [listings, setListings] = useState([]);
 
-  const getUserListing = async () => {
-    try {
-      const response = await axios.get(USER_LISTING_URL, {
-        withCredentials: true,
-        credentials: "include",
-        headers: {
-          Accept: "applicaiton/json",
-          "Content-Type": "application/json",
-        },
-      });
-
-      const parseRes = await response.data.listing;
-
-      const itemListing = parseRes.map((item) => {
-        return new ListingClass({
-          totalListing: item.totalListing,
-          listingId: item.listing_id,
-          description: item.description,
-          location: item.location,
-          price: item.price,
-          image1: `${imageUrl}/${item.image1}`,
-          image2: `${imageUrl}/${item.image2}`,
-          image3: `${imageUrl}/${item.image3}`,
-        });
-      });
-
-      setListings(itemListing);
-    } catch (error) {
-      console.log(error);
-      console.error(error.message);
-    }
-  };
-
   useEffect(() => {
-    getUserListing();
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(USER_LISTING_URL, {
+          withCredentials: true,
+          credentials: "include",
+          headers: {
+            Accept: "applicaiton/json",
+            "Content-Type": "application/json",
+          },
+        });
+
+        const parseRes = await response.data.listing;
+
+        const itemListing = parseRes.map((item) => {
+          return new ListingClass({
+            totalListing: item.totalListing,
+            listingId: item.listing_id,
+            description: item.description,
+            location: item.location,
+            price: item.price,
+            image1: `${imageUrl}/${item.image1}`,
+            image2: `${imageUrl}/${item.image2}`,
+            image3: `${imageUrl}/${item.image3}`,
+          });
+        });
+
+        setListings(itemListing);
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    };
+    fetchData();
   }, []);
 
   const deleteUserListing = async (id) => {
