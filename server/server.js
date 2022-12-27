@@ -126,7 +126,7 @@ app.post("/api/v1/login", async (request, response) => {
 //  Logout
 app.get("/api/v1/logout", (request, response) => {
   try {
-    response.cookie("accessToken", null).send({
+    response.clearCookie("accessToken", null).send({
       authenticated: false,
       message: "Logout Successful.",
     });
@@ -146,6 +146,7 @@ app.get("/api/v1/profile", auth, async (request, response) => {
       "SELECT user_id, fname, lname, email FROM public.user WHERE user_id = $1",
       [request.user.user_id]
     );
+
     response.json(user.rows[0]);
   } catch (error) {
     console.error(error.message);
