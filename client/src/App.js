@@ -13,6 +13,7 @@ import UpdateProfile from "./dashboard/UpdateProfile";
 import Result from "./result/Result";
 import Topnav from "./component/StyledNavbar";
 import Footer from "./component/Footer";
+import "react-datepicker/dist/react-datepicker.css";
 
 const VERIFY_URL = "/api/v1/verify";
 
