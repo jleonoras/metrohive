@@ -354,6 +354,25 @@ app.get("/api/v1/location", async (request, response) => {
   }
 });
 
+// Add booking
+app.post("/api/v1/booking", auth, async (request, response) => {
+  const dateBooked = new Date().toLocaleDateString();
+
+  const { start_date, end_date, listing_id } = request.body;
+
+  const userId = request.user.user_id;
+  try {
+    const newBooking = await pool.query(
+      "INSERT INTO public.booking (date_booked, start_date, end_date, listing_id, user_id) VALUES($1, $2, $3, $4, $5) RETURNING *",
+      [dateBooked, start_date, end_date, listing_id, userId]
+    );
+
+    response.json(newBooking.rows[0]);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 pool.connect((error) => {
   if (error) {
     console.log(error);
