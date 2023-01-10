@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import axios from "../api/axios";
-import { Navigate } from "react-router-dom";
 
 const BOOKING_URL = "/api/v1/booking";
 
