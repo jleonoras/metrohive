@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import axios from "../api/axios";
+import { Navigate } from "react-router-dom";
 
 const BOOKING_URL = "/api/v1/booking";
 
@@ -18,9 +19,7 @@ const SelectDate = ({ listingId }) => {
         listing_id: listingId,
       };
 
-      console.log(data);
-
-      const response = await axios.post(BOOKING_URL, JSON.stringify(data), {
+      const response = await axios.post(BOOKING_URL, data, {
         withCredentials: true,
         credentials: "include",
         headers: {
@@ -29,8 +28,14 @@ const SelectDate = ({ listingId }) => {
         },
       });
 
-      const parseRes = response.data;
-      console.log(parseRes);
+      if (response.status === 200 && response.statusText === "OK") {
+        // Clear input field after submit
+        alert("Booked successfully!");
+        window.location.reload();
+      }
+      // <Navigate to="/dashboard" />;
+      // const parseRes = response.data;
+      // console.log(parseRes);
     } catch (error) {
       console.log(error);
     }
@@ -50,7 +55,7 @@ const SelectDate = ({ listingId }) => {
               startDate={startDate}
               endDate={endDate}
             />
-            <input
+            {/* <input
               type="text"
               value={startDate}
               name="startDate"
@@ -59,7 +64,7 @@ const SelectDate = ({ listingId }) => {
                 setStartDate(e.target.value);
               }}
               required
-            ></input>
+            ></input> */}
 
             <label htmlFor="endDate"></label>
 
@@ -72,7 +77,7 @@ const SelectDate = ({ listingId }) => {
               minDate={startDate}
             />
 
-            <input
+            {/* <input
               type="text"
               value={endDate}
               name="endDate"
@@ -81,7 +86,7 @@ const SelectDate = ({ listingId }) => {
                 setEndDate(e.target.value);
               }}
               required
-            ></input>
+            ></input> */}
 
             <div className="d-grid">
               <button
