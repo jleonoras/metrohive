@@ -37,62 +37,57 @@ const SelectDate = ({ listingId }) => {
       // console.log(parseRes);
     } catch (error) {
       console.log(error);
+      if (
+        error.response.data.message === "Authorization denied!" &&
+        error.response.status === 403 &&
+        error.response.statusText === "Forbidden"
+      ) {
+        alert("Please login...");
+      }
     }
   };
 
   return (
-    <div className="row p-2">
-      <div>
+    <div>
+      <div className="row">
         <div className="col-md">
           <form onSubmit={onSubmitForm}>
-            <label htmlFor="startDate"></label>
-
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              selectsStart
-              startDate={startDate}
-              endDate={endDate}
-            />
-            {/* <input
-              type="text"
-              value={startDate}
-              name="startDate"
-              id="startDate"
-              onChange={(e) => {
-                setStartDate(e.target.value);
-              }}
-              required
-            ></input> */}
-
-            <label htmlFor="endDate"></label>
-
-            <DatePicker
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
-              selectsEnd
-              startDate={startDate}
-              endDate={endDate}
-              minDate={startDate}
-            />
-
-            {/* <input
-              type="text"
-              value={endDate}
-              name="endDate"
-              id="endDate"
-              onChange={(e) => {
-                setEndDate(e.target.value);
-              }}
-              required
-            ></input> */}
-
-            <div className="d-grid">
+            <div className="py-2">
+              <div className="py-1">
+                <label
+                  className="form-label text-secondary"
+                  htmlFor="startDate"
+                >
+                  Start date:
+                </label>
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                  selectsStart
+                  startDate={startDate}
+                  endDate={endDate}
+                />
+              </div>
+              <div className="py-1">
+                <label className="form-label text-secondary" htmlFor="endDate">
+                  End date:
+                </label>
+                <DatePicker
+                  selected={endDate}
+                  onChange={(date) => setEndDate(date)}
+                  selectsEnd
+                  startDate={startDate}
+                  endDate={endDate}
+                  minDate={startDate}
+                />
+              </div>
+            </div>
+            <div className="d-block py-2">
               <button
                 type="button submit"
-                className="btn btn-warning btn-block mb-4 px-4 bg-gradient"
+                className="btn btn-warning btn-sm btn-block bg-gradient"
               >
-                Submit
+                <strong>Reserve Now</strong>
               </button>
             </div>
           </form>
