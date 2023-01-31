@@ -113,7 +113,7 @@ const SingleListing = () => {
                               <p>{item.location}</p>
                             </strong>
                           </div>
-                          <div>
+                          <div className="col-md">
                             <div>
                               <h6>Meet the owner:</h6>
                             </div>
@@ -125,7 +125,7 @@ const SingleListing = () => {
                                 <p>{item.email}</p>
                               </address>
                             </div>
-                            <div>
+                            <div className="my-3">
                               <button
                                 type="button"
                                 className="btn btn-warning btn-sm bg-gradient"
@@ -155,7 +155,6 @@ const SingleListing = () => {
                             <div>
                               <h6>Reservation:</h6>
                             </div>
-                            <form></form>
                             <div className="text-center">
                               <div>Pick a date</div>
                               <SelectDate listingId={item.listingId} />
