@@ -110,8 +110,57 @@ const Dashboard = ({ setAuth }) => {
             </div>
           </div>
         </div>
-        <div>
-          <UserListing />
+        <div className="container p-2 my-4 rounded bg-gradient bg-light shadow">
+          <ul className="nav nav-tabs" id="myTab" role="tablist">
+            <li className="nav-item" role="presentation">
+              <button
+                className="nav-link active"
+                id="myListing-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#myListing-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="myListing-tab-pane"
+                aria-selected="true"
+              >
+                My Listing
+              </button>
+            </li>
+            <li className="nav-item" role="presentation">
+              <button
+                className="nav-link"
+                id="myBooking-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#myBooking-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="myBooking-tab-pane"
+                aria-selected="false"
+              >
+                My Booking
+              </button>
+            </li>
+          </ul>
+          <div className="tab-content" id="myTabContent">
+            <div
+              className="tab-pane fade show active"
+              id="myListing-tab-pane"
+              role="tabpanel"
+              aria-labelledby="myListing-tab"
+              tabIndex="0"
+            >
+              <UserListing />
+            </div>
+            <div
+              className="tab-pane fade"
+              id="myBooking-tab-pane"
+              role="tabpanel"
+              aria-labelledby="myBooking-tab"
+              tabIndex="0"
+            >
+              Booking
+            </div>
+          </div>
         </div>
       </div>
     </section>
