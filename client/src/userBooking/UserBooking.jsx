@@ -1,10 +1,8 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
 import BookingClass from "../booking/bookingClass";
 
-const USER_LISTING_API_URL = "/api/v1/user/booking";
+const USER_BOOKING_API_URL = "/api/v1/user/booking";
 
 const UserBooking = () => {
   const [userBooking, setUserBooking] = useState([]);
@@ -12,7 +10,7 @@ const UserBooking = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(USER_LISTING_API_URL, {
+        const response = await axios.get(USER_BOOKING_API_URL, {
           withCredentials: true,
           credentials: "include",
           headers: {
@@ -53,12 +51,12 @@ const UserBooking = () => {
   };
 
   return (
-    <div className="py-2">
+    <div className="p-2 shadow">
       <div className="table-responsive-md">
         <table className="table table-striped table-hover">
-          <thead className="table-dark bg-gradient">
+          <thead className="table-primary">
             <tr>
-              <th scope="col">Date Booked</th>
+              <th scope="col">Date Reserved</th>
               <th scope="col">Description</th>
               <th scope="col">Location</th>
               <th scope="col">Price</th>
