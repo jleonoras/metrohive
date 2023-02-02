@@ -3,6 +3,7 @@ import axios from "../api/axios";
 import UserListing from "../userListing/UserListing";
 import { useNavigate } from "react-router-dom";
 import avatar from "../avatar.png";
+import UserBooking from "../userBooking/UserBooking";
 
 const PROFILE_URL = "/api/v1/profile";
 const LOGOUT_URL = "/api/v1/logout";
@@ -158,7 +159,7 @@ const Dashboard = ({ setAuth }) => {
               aria-labelledby="myBooking-tab"
               tabIndex="0"
             >
-              Booking
+              <UserBooking />
             </div>
           </div>
         </div>
