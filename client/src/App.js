@@ -14,6 +14,7 @@ import Result from "./result/Result";
 import Topnav from "./component/StyledNavbar";
 import Footer from "./component/Footer";
 import "react-datepicker/dist/react-datepicker.css";
+import BookedListing from "./bookedListing/BookedListing";
 
 const VERIFY_URL = "/api/v1/verify";
 
@@ -112,6 +113,18 @@ const App = () => {
               element={
                 isAuthenticated ? (
                   <UpdateProfile setAuth={setAuth} />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              // Route to bookings by listing id
+              // If user token is authenticated will redirect to update profile page if not redirected to login
+              path="/listing/:id/reservations"
+              element={
+                isAuthenticated ? (
+                  <BookedListing setAuth={setAuth} />
                 ) : (
                   <Navigate to="/login" />
                 )
