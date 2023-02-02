@@ -124,7 +124,7 @@ const Dashboard = ({ setAuth }) => {
                 aria-controls="myListing-tab-pane"
                 aria-selected="true"
               >
-                My Listing
+                My Listings
               </button>
             </li>
             <li className="nav-item" role="presentation">
@@ -138,7 +138,7 @@ const Dashboard = ({ setAuth }) => {
                 aria-controls="myBooking-tab-pane"
                 aria-selected="false"
               >
-                My Booking
+                My Reservations
               </button>
             </li>
           </ul>
