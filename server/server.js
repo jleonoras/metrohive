@@ -373,6 +373,22 @@ app.post("/api/v1/booking", auth, async (request, response) => {
   }
 });
 
+app.get("/api/v1/user/booking", auth, async (request, response) => {
+  try {
+    const userBooking = await pool.query(
+      "SELECT public.booking.user_id, public.booking.booking_id, public.booking.date_booked, public.booking.start_date, public.booking.end_date, public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price FROM public.booking LEFT JOIN public.listing ON public.booking.listing_id = public.listing.listing_id WHERE public.booking.user_id = $1 ORDER BY public.booking.booking_id DESC",
+      [request.user.user_id]
+    );
+
+    response.json({
+      totalBooking: userBooking.rows.length,
+      booking: userBooking.rows,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 pool.connect((error) => {
   if (error) {
     console.log(error);
