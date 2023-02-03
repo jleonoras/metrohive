@@ -1,20 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import axios from "../api/axios";
+import BookingClass from "../booking/bookingClass";
 
 const BOOKING_URL = "/api/v1/booking";
+const DATE_BOOKED_LISTING_API_URL = "/api/v1/date";
 
 const SelectDate = ({ listingId }) => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const [excludeDates, setExcludeDates] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${DATE_BOOKED_LISTING_API_URL}/${listingId}`,
+          {
+            withCredentials: true,
+            credentials: "include",
+            headers: {
+              Accept: "applicaiton/json",
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const parseRes = await response.data.date;
+
+        const itemDateBookedListing = parseRes.map((item) => {
+          return new BookingClass({
+            startDate: item.start_date,
+            endDate: item.end_date,
+          });
+        });
+
+        setExcludeDates(itemDateBookedListing);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [listingId]);
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
 
     try {
       const data = {
-        start_date: startDate,
-        end_date: endDate,
+        start_date: startDate.toLocaleDateString(),
+        end_date: endDate.toLocaleDateString(),
         listing_id: listingId,
       };
 
@@ -30,22 +66,27 @@ const SelectDate = ({ listingId }) => {
       if (response.status === 200 && response.statusText === "OK") {
         // Clear input field after submit
         alert("Booked successfully!");
+        setStartDate("");
+        setEndDate("");
         window.location.reload();
       }
-      // <Navigate to="/dashboard" />;
-      // const parseRes = response.data;
-      // console.log(parseRes);
     } catch (error) {
       console.log(error);
       if (
-        error.response.data.message === "Authorization denied!" &&
-        error.response.status === 403 &&
-        error.response.statusText === "Forbidden"
+        error.response.data.message === "Authorization denied!" ||
+        error.response.status === 403 ||
+        error.response.statusText === "Forbidden" ||
+        error.response.data === "jwt expired"
       ) {
         alert("Please login...");
       }
     }
   };
+
+  const disabledDateRanges = excludeDates.map((range) => ({
+    start: new Date(range.startDate),
+    end: new Date(range.endDate),
+  }));
 
   return (
     <div>
@@ -57,21 +98,25 @@ const SelectDate = ({ listingId }) => {
                 <label
                   className="form-label text-secondary"
                   htmlFor="startDate"
-                >
-                  Start date:
-                </label>
+                ></label>
                 <DatePicker
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
                   selectsStart
                   startDate={startDate}
                   endDate={endDate}
+                  minDate={new Date()}
+                  placeholderText="Check-in"
+                  excludeDateIntervals={disabledDateRanges}
+                  isClearable
+                  required
                 />
               </div>
               <div className="py-1">
-                <label className="form-label text-secondary" htmlFor="endDate">
-                  End date:
-                </label>
+                <label
+                  className="form-label text-secondary"
+                  htmlFor="endDate"
+                ></label>
                 <DatePicker
                   selected={endDate}
                   onChange={(date) => setEndDate(date)}
@@ -79,6 +124,10 @@ const SelectDate = ({ listingId }) => {
                   startDate={startDate}
                   endDate={endDate}
                   minDate={startDate}
+                  placeholderText="Check-out"
+                  excludeDateIntervals={disabledDateRanges}
+                  isClearable
+                  required
                 />
               </div>
             </div>
