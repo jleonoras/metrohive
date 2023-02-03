@@ -59,7 +59,7 @@ const AllListing = () => {
               allListing.map((item, index) => {
                 return (
                   <li className="col" key={index}>
-                    <div className="card h-100">
+                    <div className="card h-100 overflow-hidden">
                       <figure className="figure">
                         <div
                           id={`carouselImage-${item.listingId}`}
@@ -138,7 +138,7 @@ const AllListing = () => {
                         </div>
                       </figure>
                       <div
-                        className="card-body"
+                        className="card-body overflow-hidden"
                         type="button"
                         onClick={() => {
                           handleListingSelect(item.listingId);
