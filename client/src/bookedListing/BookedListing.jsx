@@ -12,7 +12,7 @@ const BookedListing = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    document.title = "Booked | Metrohyve";
+    document.title = "Bookings | Metrohyve";
 
     const fetchData = async () => {
       try {
@@ -23,8 +23,6 @@ const BookedListing = () => {
         });
 
         const parseRes = await response.data;
-        // console.log(parseRes);
-        // console.log(response);
 
         const listing = parseRes.map((item) => {
           return new ListingClass({
@@ -54,7 +52,7 @@ const BookedListing = () => {
     <section>
       <div className="container">
         <div className="pt-5">
-          <div className="shadow">
+          <div className="shadow rounded">
             <ul className="list-unstyled">
               {listing.length !== 0 &&
                 listing.listingId !== null &&
@@ -90,7 +88,10 @@ const BookedListing = () => {
                                 ></img>
                               </div>
                               <div>
-                                <div className="py-2">
+                                <hr />
+                              </div>
+                              <div>
+                                <div>
                                   <div>
                                     <strong>
                                       {new Intl.NumberFormat("en-PH", {
@@ -119,7 +120,35 @@ const BookedListing = () => {
             </ul>
           </div>
         </div>
-        <BookedListingTable />
+        <div className="container p-2 my-4 rounded bg-gradient bg-light shadow">
+          <ul className="nav nav-tabs" id="myTab" role="tablist">
+            <li className="nav-item" role="presentation">
+              <button
+                className="nav-link active"
+                id="booking-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#booking-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="booking-tab-pane"
+                aria-selected="true"
+              >
+                Bookings
+              </button>
+            </li>
+          </ul>
+          <div className="tab-content" id="myTabContent">
+            <div
+              className="tab-pane fade show active"
+              id="booking-tab-pane"
+              role="tabpanel"
+              aria-labelledby="booking-tab"
+              tabIndex="0"
+            >
+              <BookedListingTable listingId={id} />
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
