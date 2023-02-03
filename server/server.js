@@ -72,8 +72,6 @@ app.post("/api/v1/register", async (request, response) => {
     //generate and return the JWT token
     const token = generateJwt(newUser.rows[0]);
 
-    // response.json({ token });
-
     response
       .cookie("accessToken", token, {
         httpOnly: true,
@@ -109,7 +107,6 @@ app.post("/api/v1/login", async (request, response) => {
 
     //generate and return the JWT
     const token = generateJwt(user.rows[0]);
-    // response.json({ token });
     response
       .cookie("accessToken", token, {
         httpOnly: true,
@@ -138,10 +135,6 @@ app.get("/api/v1/logout", (request, response) => {
 // provide the auth middleware
 app.get("/api/v1/profile", auth, async (request, response) => {
   try {
-    //return the user object
-    // response.json(request.user.user_id);
-    // response.json(request.user);
-
     const user = await pool.query(
       "SELECT user_id, fname, lname, email FROM public.user WHERE user_id = $1",
       [request.user.user_id]
@@ -159,7 +152,6 @@ app.get("/api/v1/profile", auth, async (request, response) => {
 // Verify the current user token if authenticated
 app.get("/api/v1/verify", auth, async (request, response) => {
   try {
-    // response.json(request.user);
     response.json(true);
   } catch (error) {
     console.error(error.message);
@@ -183,9 +175,6 @@ app.post(
       const { description, location, price } = request.body;
 
       const userId = request.user.user_id;
-
-      // console.log(request.body);
-      // console.log(request.files);
 
       const newListing = await pool.query(
         "INSERT INTO public.listing (description, location, price, image1, image2, image3, user_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *",
@@ -302,10 +291,6 @@ app.delete("/api/v1/listing/:id", auth, async (request, response) => {
     for (let index = 0; index < image.length; index++) {
       fs.unlinkSync(directoryPath + image[index]);
     }
-
-    // const deleteImage = (file) => {
-    //   return image.map(fs.unlink(directoryPath + file));
-    // };
   } catch (error) {
     console.log(error);
   }
@@ -401,13 +386,27 @@ app.get("/api/v1/booking/:listing_id", auth, async (request, response) => {
       [listingId, userId]
     );
 
-    if (bookedListing.rows.length === 0) {
-      return response.json("You have no reservations for this listing!");
-    }
-
     response.json({
       totalBooking: bookedListing.rows.length,
       booking: bookedListing.rows,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Get get booking date by listing id
+app.get("/api/v1/date/:listing_id", async (request, response) => {
+  try {
+    const listingId = request.params.listing_id;
+    const dateBooked = await pool.query(
+      "SELECT public.booking.booking_id, public.booking.date_booked, public.booking.start_date, public.booking.end_date, public.booking.listing_id FROM public.booking WHERE public.booking.listing_id = $1 ORDER BY public.booking.booking_id DESC",
+      [listingId]
+    );
+
+    response.json({
+      totalBooking: dateBooked.rows.length,
+      date: dateBooked.rows,
     });
   } catch (error) {
     console.log(error);
