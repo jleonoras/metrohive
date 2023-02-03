@@ -51,7 +51,7 @@ const UserBooking = () => {
   };
 
   return (
-    <div className="p-2 shadow">
+    <div className="p-2 shadow rounded bg-gradient bg-light">
       <div className="table-responsive-md">
         <table className="table table-striped table-hover">
           <thead className="table-primary">
@@ -60,8 +60,8 @@ const UserBooking = () => {
               <th scope="col">Description</th>
               <th scope="col">Location</th>
               <th scope="col">Price</th>
-              <th scope="col">Start Date</th>
-              <th scope="col">End Date</th>
+              <th scope="col">Check-in</th>
+              <th scope="col">Check-out</th>
             </tr>
           </thead>
           <tbody>
