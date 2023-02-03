@@ -65,7 +65,7 @@ const SingleListing = () => {
                 return (
                   <li key={item.listingId}>
                     <div className="px-2">
-                      <div>
+                      <div className="shadow rounded bg-gradient bg-light">
                         <figure>
                           <div className="row row-cols-1 g-1">
                             <div className="col-md w-100 ratio ratio-4x3 card overflow-hidden">
@@ -95,7 +95,10 @@ const SingleListing = () => {
                           </div>
                         </figure>
                       </div>
-                      <div className="row">
+                      <div>
+                        <hr />
+                      </div>
+                      <div className="row py-3 shadow rounded bg-gradient bg-light">
                         <div className="col">
                           <div>
                             <strong>
@@ -153,10 +156,14 @@ const SingleListing = () => {
                         <div className="col-md">
                           <div className="row">
                             <div>
-                              <h6>Reservation:</h6>
+                              <strong>
+                                <h6>Reservation:</h6>
+                              </strong>
                             </div>
                             <div className="text-center">
-                              <div>Pick a date</div>
+                              <div className="py-2">
+                                <strong>Pick a date</strong>
+                              </div>
                               <SelectDate listingId={item.listingId} />
                             </div>
                           </div>
