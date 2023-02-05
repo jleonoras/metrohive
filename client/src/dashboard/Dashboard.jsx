@@ -36,11 +36,17 @@ const Dashboard = ({ setAuth }) => {
         setEmail(parseRes.email);
         setUserId(parseRes.user_id);
       } catch (error) {
-        console.log(error.response.data);
+        if (
+          error.response.status === 403 &&
+          error.response.data === "jwt expired"
+        ) {
+          setAuth(false);
+          console.log("Session expired!");
+        }
       }
     };
     fetchData();
-  }, []);
+  }, [setAuth]);
 
   const handleLogout = async () => {
     try {

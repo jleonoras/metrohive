@@ -38,7 +38,12 @@ const BookedListingTable = ({ listingId }) => {
 
         setBookedListing(itemBookedListing);
       } catch (error) {
-        console.log(error);
+        if (
+          error.response.data === "jwt expired" &&
+          error.message === "Request failed with status code 403"
+        ) {
+          console.log(error.message);
+        }
       }
     };
     fetchData();

@@ -7,7 +7,7 @@ import BookedListingTable from "./BookedListingTable";
 
 const SINGLE_LISTING_API_URL = "/api/v1/listing";
 
-const BookedListing = () => {
+const BookedListing = ({ setAuth }) => {
   const [listing, setListing] = useState([]);
   const { id } = useParams();
 
@@ -41,12 +41,16 @@ const BookedListing = () => {
 
         setListing(listing);
       } catch (error) {
-        console.log(error);
+        if (error.response.data === "jwt expired") {
+          setAuth(false);
+
+          console.log("Session expired!");
+        }
       }
     };
 
     fetchData();
-  }, [id]);
+  }, [id, setAuth]);
 
   return (
     <section>

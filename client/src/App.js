@@ -38,7 +38,9 @@ const App = () => {
 
         setIsAuthenticated(parseRes);
       } catch (error) {
-        console.log(error.response.data);
+        if (error.response.data === "jwt expired") {
+          console.log("Session expired!");
+        }
       }
     };
     checkAuthenticated();
