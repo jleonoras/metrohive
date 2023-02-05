@@ -2,12 +2,37 @@ import React, { useState, useEffect } from "react";
 import axios from "../api/axios";
 
 const NEW_LISTING_URL = "/api/v1/user/new/listing";
+const PROFILE_URL = "/api/v1/profile";
 
-const AddListing = () => {
+const AddListing = ({ setAuth }) => {
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [price, setPrice] = useState("");
   const [files, setFiles] = useState([]);
+
+  useEffect(() => {
+    document.title = "Add Listing | Metrohyve";
+
+    const fetchData = async () => {
+      try {
+        await axios.get(PROFILE_URL, {
+          withCredentials: true,
+          credentials: "include",
+          headers: {
+            Accept: "applicaiton/json",
+            "Content-Type": "application/json",
+          },
+        });
+      } catch (error) {
+        if (error.response.data === "jwt expired") {
+          setAuth(false);
+
+          console.log("Session expired!");
+        }
+      }
+    };
+    fetchData();
+  }, [setAuth]);
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
@@ -37,14 +62,9 @@ const AddListing = () => {
         e.target.reset();
       }
     } catch (error) {
-      console.log(error.response.data);
       alert(error.message);
     }
   };
-
-  useEffect(() => {
-    document.title = "Add Listing | Metrohyve";
-  }, []);
 
   return (
     <section>
