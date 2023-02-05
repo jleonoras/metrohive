@@ -29,12 +29,12 @@ const App = () => {
           withCredentials: true,
           credentials: "include",
           headers: {
-            Accept: "applicaiton/json",
+            Accept: "application/json",
             "Content-Type": "application/json",
           },
         });
 
-        const parseRes = await response.data;
+        const parseRes = response.data;
 
         setIsAuthenticated(parseRes);
       } catch (error) {

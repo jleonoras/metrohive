@@ -27,7 +27,7 @@ const Login = ({ setAuth }) => {
         withCredentials: true,
         credentials: "include",
         headers: {
-          Accept: "applicaiton/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
         },
       });
@@ -42,8 +42,8 @@ const Login = ({ setAuth }) => {
         alert("Something went wrong");
       }
     } catch (error) {
-      console.log(error);
-      alert(error.message);
+      console.log(error.message);
+      alert(error.response.data);
     }
   };
 

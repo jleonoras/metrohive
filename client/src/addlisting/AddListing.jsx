@@ -51,7 +51,7 @@ const AddListing = ({ setAuth }) => {
         withCredentials: true,
         credentials: "include",
         headers: {
-          Accept: "applicaiton/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
         },
       });

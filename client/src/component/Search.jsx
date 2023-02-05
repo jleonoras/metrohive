@@ -3,11 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 const Search = () => {
   const navigate = useNavigate();
-  // const queryRef = useRef(null);
+
   const [query, setQuery] = useState("");
 
   const handleQuery = (e) => {
-    // const location = queryRef.current.value;
     e.preventDefault();
 
     const location = query;

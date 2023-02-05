@@ -21,13 +21,13 @@ const SelectDate = ({ listingId }) => {
             withCredentials: true,
             credentials: "include",
             headers: {
-              Accept: "applicaiton/json",
+              Accept: "application/json",
               "Content-Type": "application/json",
             },
           }
         );
 
-        const parseRes = await response.data.date;
+        const parseRes = response.data.date;
 
         const itemDateBookedListing = parseRes.map((item) => {
           return new BookingClass({
@@ -71,13 +71,8 @@ const SelectDate = ({ listingId }) => {
         window.location.reload();
       }
     } catch (error) {
-      console.log(error);
-      if (
-        error.response.data.message === "Authorization denied!" ||
-        error.response.status === 403 ||
-        error.response.statusText === "Forbidden" ||
-        error.response.data === "jwt expired"
-      ) {
+      console.log(error.message);
+      if (error.response.data.message === "Authorization denied!") {
         alert("Please login...");
       }
     }

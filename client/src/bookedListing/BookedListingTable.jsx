@@ -16,13 +16,13 @@ const BookedListingTable = ({ listingId }) => {
             withCredentials: true,
             credentials: "include",
             headers: {
-              Accept: "applicaiton/json",
+              Accept: "application/json",
               "Content-Type": "application/json",
             },
           }
         );
 
-        const parseRes = await response?.data?.booking;
+        const parseRes = response.data.booking;
 
         const itemBookedListing = parseRes.map((item) => {
           return new BookingClass({

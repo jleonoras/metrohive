@@ -25,12 +25,12 @@ const Dashboard = ({ setAuth }) => {
           withCredentials: true,
           credentials: "include",
           headers: {
-            Accept: "applicaiton/json",
+            Accept: "application/json",
             "Content-Type": "application/json",
           },
         });
 
-        const parseRes = await response.data;
+        const parseRes = response.data;
         setFName(parseRes.fname);
         setLName(parseRes.lname);
         setEmail(parseRes.email);

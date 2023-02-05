@@ -19,12 +19,12 @@ const UserListing = () => {
           withCredentials: true,
           credentials: "include",
           headers: {
-            Accept: "applicaiton/json",
+            Accept: "application/json",
             "Content-Type": "application/json",
           },
         });
 
-        const parseRes = await response.data.listing;
+        const parseRes = response.data.listing;
 
         const itemListing = parseRes.map((item) => {
           return new ListingClass({

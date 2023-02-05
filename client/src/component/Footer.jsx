@@ -10,7 +10,7 @@ const Footer = () => {
         <footer className="bg-light bg-gradient">
           {/* <!-- Copyright --> */}
           <div className="text-center text-secondary p-3">
-            <span>{`Copyright © ${year} by `}</span>
+            <span>{`Copyright © 2022 - ${year} by `}</span>
             <Link className="text-danger text-decoration-none" to="/">
               <strong>Metrohyve</strong>
             </Link>

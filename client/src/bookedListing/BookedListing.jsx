@@ -22,7 +22,7 @@ const BookedListing = ({ setAuth }) => {
           },
         });
 
-        const parseRes = await response.data;
+        const parseRes = response.data;
 
         const listing = parseRes.map((item) => {
           return new ListingClass({

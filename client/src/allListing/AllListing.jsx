@@ -20,7 +20,7 @@ const AllListing = () => {
           },
         });
 
-        const parseRes = await response.data.listing;
+        const parseRes = response.data.listing;
 
         const listings = parseRes.map((item) => {
           return new ListingClass({

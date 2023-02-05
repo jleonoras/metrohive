@@ -19,12 +19,12 @@ const UpdateProfile = ({ setAuth }) => {
           withCredentials: true,
           credentials: "include",
           headers: {
-            Accept: "applicaiton/json",
+            Accept: "application/json",
             "Content-Type": "application/json",
           },
         });
 
-        const parseRes = await response.data;
+        const parseRes = response.data;
 
         setFirstname(parseRes.fname);
         setLastname(parseRes.lname);

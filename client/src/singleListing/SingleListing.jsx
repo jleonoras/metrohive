@@ -23,9 +23,7 @@ const SingleListing = () => {
           },
         });
 
-        const parseRes = await response.data;
-        // console.log(parseRes);
-        // console.log(response);
+        const parseRes = response.data;
 
         const listing = parseRes.map((item) => {
           return new ListingClass({
