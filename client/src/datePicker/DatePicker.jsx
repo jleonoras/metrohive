@@ -95,6 +95,7 @@ const SelectDate = ({ listingId }) => {
                   htmlFor="startDate"
                 ></label>
                 <DatePicker
+                  className="form-control-sm"
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
                   selectsStart
@@ -113,6 +114,7 @@ const SelectDate = ({ listingId }) => {
                   htmlFor="endDate"
                 ></label>
                 <DatePicker
+                  className="form-control-sm"
                   selected={endDate}
                   onChange={(date) => setEndDate(date)}
                   selectsEnd
