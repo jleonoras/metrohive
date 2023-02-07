@@ -343,13 +343,15 @@ app.get("/api/v1/location", async (request, response) => {
 app.post("/api/v1/booking", auth, async (request, response) => {
   const dateBooked = new Date().toLocaleDateString();
 
+  const status = "PENDING";
+
   const { start_date, end_date, listing_id } = request.body;
 
   const userId = request.user.user_id;
   try {
     const newBooking = await pool.query(
-      "INSERT INTO public.booking (date_booked, start_date, end_date, listing_id, user_id) VALUES($1, $2, $3, $4, $5) RETURNING *",
-      [dateBooked, start_date, end_date, listing_id, userId]
+      "INSERT INTO public.booking (date_booked, start_date, end_date, listing_id, user_id, status) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
+      [dateBooked, start_date, end_date, listing_id, userId, status]
     );
 
     response.json(newBooking.rows[0]);
