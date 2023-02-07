@@ -101,3 +101,9 @@ npm start
 ```
 
 Go to http://localhost:3000 to view the app running on your browser.
+
+# Feedback
+
+John Leonoras - [@johnleonoras](https://twitter.com/johnleonoras) - leonorasjohn@gmail.com
+
+Poject Link: [https://github.com/jleonoras/metrohyve](https://github.com/jleonoras/metrohyve)
