@@ -365,7 +365,7 @@ app.get("/api/v1/user/booking", auth, async (request, response) => {
   try {
     const userId = request.user.user_id;
     const userBooking = await pool.query(
-      "SELECT public.booking.user_id, public.booking.booking_id, public.booking.date_booked, public.booking.start_date, public.booking.end_date, public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price FROM public.booking LEFT JOIN public.listing ON public.booking.listing_id = public.listing.listing_id WHERE public.booking.user_id = $1 ORDER BY public.booking.booking_id DESC",
+      "SELECT public.booking.user_id, public.booking.booking_id, public.booking.date_booked, public.booking.start_date, public.booking.end_date, public.booking.status, public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price FROM public.booking LEFT JOIN public.listing ON public.booking.listing_id = public.listing.listing_id WHERE public.booking.user_id = $1 ORDER BY public.booking.booking_id DESC",
       [userId]
     );
 
@@ -384,7 +384,7 @@ app.get("/api/v1/booking/:listing_id", auth, async (request, response) => {
     const listingId = request.params.listing_id;
     const userId = request.user.user_id;
     const bookedListing = await pool.query(
-      "SELECT public.booking.booking_id, public.booking.date_booked, public.booking.start_date, public.booking.end_date, public.booking.listing_id, public.booking.user_id, public.user.fname, public.user.lname, public.user.email FROM public.booking LEFT JOIN public.user ON public.booking.user_id = public.user.user_id LEFT JOIN public.listing ON public.booking.listing_id = public.listing.listing_id WHERE public.booking.listing_id = $1 AND public.listing.user_id = $2 ORDER BY public.booking.booking_id DESC",
+      "SELECT public.booking.booking_id, public.booking.date_booked, public.booking.start_date, public.booking.end_date, public.booking.listing_id, public.booking.user_id, public.booking.status, public.user.fname, public.user.lname, public.user.email FROM public.booking LEFT JOIN public.user ON public.booking.user_id = public.user.user_id LEFT JOIN public.listing ON public.booking.listing_id = public.listing.listing_id WHERE public.booking.listing_id = $1 AND public.listing.user_id = $2 ORDER BY public.booking.booking_id DESC",
       [listingId, userId]
     );
 
@@ -402,7 +402,7 @@ app.get("/api/v1/date/:listing_id", async (request, response) => {
   try {
     const listingId = request.params.listing_id;
     const dateBooked = await pool.query(
-      "SELECT public.booking.booking_id, public.booking.date_booked, public.booking.start_date, public.booking.end_date, public.booking.listing_id FROM public.booking WHERE public.booking.listing_id = $1 ORDER BY public.booking.booking_id DESC",
+      "SELECT public.booking.booking_id, public.booking.date_booked, public.booking.start_date, public.booking.end_date, public.booking.status, public.booking.listing_id FROM public.booking WHERE public.booking.listing_id = $1 ORDER BY public.booking.booking_id DESC",
       [listingId]
     );
 
