@@ -279,7 +279,6 @@ app.delete("/api/v1/listing/:id", auth, async (request, response) => {
       return response.json("You are not authorize to delete this listing!");
     }
 
-    // response.json("Listing was deleted!");
     response.json(deleteListing.rows);
 
     const image1 = deleteListing.rows[0].image1;
@@ -397,19 +396,56 @@ app.get("/api/v1/booking/:listing_id", auth, async (request, response) => {
   }
 });
 
-// Get get booking date by listing id
+// Get booking date by listing id
 app.get("/api/v1/date/:listing_id", async (request, response) => {
   try {
     const listingId = request.params.listing_id;
+    const status = "ACCEPTED";
     const dateBooked = await pool.query(
-      "SELECT public.booking.booking_id, public.booking.date_booked, public.booking.start_date, public.booking.end_date, public.booking.status, public.booking.listing_id FROM public.booking WHERE public.booking.listing_id = $1 ORDER BY public.booking.booking_id DESC",
-      [listingId]
+      "SELECT public.booking.booking_id, public.booking.date_booked, public.booking.start_date, public.booking.end_date, public.booking.status, public.booking.listing_id FROM public.booking WHERE public.booking.listing_id = $1 AND public.booking.status = $2 ORDER BY public.booking.booking_id DESC",
+      [listingId, status]
     );
 
     response.json({
       totalBooking: dateBooked.rows.length,
       date: dateBooked.rows,
     });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Accept booking
+app.put("/api/v1/accept/:booking_id", auth, async (request, response) => {
+  try {
+    const updateStatus = "ACCEPTED";
+    const bookingId = request.params.booking_id;
+    const userId = request.user.user_id;
+
+    const acceptBooking = await pool.query(
+      "UPDATE booking SET status = $1 FROM booking LEFT JOIN listing ON booking.listing_id = listing.listing_id LEFT JOIN user ON listing.user_id = user.user_id WHERE booking.booking_id = $2 AND listing.user_id = $3 RETURNING *",
+      [updateStatus, bookingId, userId]
+    );
+
+    response.json(acceptBooking.rows);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Decline booking
+app.put("/api/v1/decline/:booking_id", auth, async (request, response) => {
+  try {
+    const updateStatus = "DECLINED";
+    const bookingId = request.params.booking_id;
+    const userId = request.user.user_id;
+
+    const declineBooking = await pool.query(
+      "UPDATE booking SET status = $1 WHERE booking_id = $2 RETURNING *",
+      [updateStatus, bookingId]
+    );
+
+    response.json(declineBooking.rows);
   } catch (error) {
     console.log(error);
   }
