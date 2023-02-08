@@ -56,7 +56,7 @@ const BookedListing = ({ setAuth }) => {
     <section>
       <div className="container">
         <div className="pt-5">
-          <div className="shadow rounded">
+          <div className="pb-2 shadow rounded">
             <ul className="list-unstyled">
               {listing.length !== 0 &&
                 listing.listingId !== null &&
@@ -108,9 +108,12 @@ const BookedListing = ({ setAuth }) => {
                                     <p>{item.description}</p>
                                   </div>
                                   <div>
-                                    <strong>
-                                      <p>{item.location}</p>
-                                    </strong>
+                                    <span>
+                                      <i className="fa-solid fa-location-dot"></i>
+                                    </span>
+                                    <span>
+                                      <strong> {item.location}</strong>
+                                    </span>
                                   </div>
                                 </div>
                               </div>

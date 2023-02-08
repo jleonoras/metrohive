@@ -183,7 +183,13 @@ const UserListing = () => {
                             <p>{item.totalListing}</p>
                           </div>
                           <div>
-                            <strong>{item.location}</strong>
+                            <span>
+                              <i className="fa-solid fa-location-dot">
+                                <span>
+                                  <strong> {item.location}</strong>
+                                </span>
+                              </i>
+                            </span>
                           </div>
                         </div>
                       </div>

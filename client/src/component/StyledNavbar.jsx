@@ -27,19 +27,31 @@ const Topnav = () => {
           <ul className="navbar-nav nav-pills mx-2">
             <li className="nav-item">
               <NavLink className="nav-link text-secondary" to="/" end>
-                Home
+                <span>
+                  <i className="fa-solid fa-house">
+                    <span> Home</span>
+                  </i>
+                </span>
               </NavLink>
             </li>
           </ul>
           <ul className="navbar-nav nav-pills mx-2 add-listing">
             <li className="nav-item ">
               <NavLink className="nav-link text-secondary" to="/add-listing">
-                Add Listing
+                <span>
+                  <i className="fa-solid fa-plus">
+                    <span> Add Listing</span>
+                  </i>
+                </span>
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link text-secondary" to="/dashboard">
-                Account
+                <span>
+                  <i className="fa-solid fa-user">
+                    <span> Account</span>
+                  </i>
+                </span>
               </NavLink>
             </li>
           </ul>

@@ -20,9 +20,9 @@ const Search = () => {
           <label htmlFor="location"></label>
           <input
             type="search text"
-            name="location"
+            name="search"
             value={query}
-            placeholder="Search location..."
+            placeholder="Search Location..."
             onChange={(e) => setQuery(e.target.value)}
             required
             className="form-control"

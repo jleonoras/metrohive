@@ -85,12 +85,19 @@ const Dashboard = ({ setAuth }) => {
                 </div>
                 <div className="py-2">
                   <div className="text-secondary">
-                    <h5>
-                      {fname} {lname}
-                    </h5>
+                    <span>
+                      <i className="fa-solid fa-user">
+                        <span> {fname}</span>
+                        <span> {lname}</span>
+                      </i>
+                    </span>
                   </div>
                   <div className="text-secondary">
-                    <span>{email}</span>
+                    <span>
+                      <i className="fa-solid fa-envelope">
+                        <span> {email}</span>
+                      </i>
+                    </span>
                   </div>
                   <div className="pt-3">
                     <button

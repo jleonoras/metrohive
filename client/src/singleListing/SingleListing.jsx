@@ -110,20 +110,31 @@ const SingleListing = () => {
                             <p>{item.description}</p>
                           </div>
                           <div>
-                            <strong>
-                              <p>{item.location}</p>
-                            </strong>
+                            <i className="fa-solid fa-location-dot">
+                              <strong> {item.location}</strong>
+                            </i>
                           </div>
-                          <div className="col-md">
+                          <div className="col-md pt-4">
                             <div>
                               <h6>Meet the owner:</h6>
                             </div>
                             <div>
                               <address>
+                                <div>
+                                  <span>
+                                    <i className="fa-solid fa-user">
+                                      <span>
+                                        <span> {item.fname}</span>
+                                        <span> {item.lname}</span>
+                                      </span>
+                                    </i>
+                                  </span>
+                                </div>
                                 <span>
-                                  {item.fname} {item.lname}
+                                  <i className="fa-regular fa-envelope">
+                                    <span> {item.email}</span>
+                                  </i>
                                 </span>
-                                <p>{item.email}</p>
                               </address>
                             </div>
                             <div className="my-3">
@@ -160,7 +171,13 @@ const SingleListing = () => {
                             </div>
                             <div className="text-center">
                               <div className="py-2">
-                                <strong>Pick a date</strong>
+                                <span>
+                                  <i className="fa-solid fa-calendar">
+                                    <span>
+                                      <strong> Pick a date</strong>
+                                    </span>
+                                  </i>
+                                </span>
                               </div>
                               <SelectDate listingId={item.listingId} />
                             </div>

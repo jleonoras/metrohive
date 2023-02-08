@@ -156,7 +156,9 @@ const AllListing = () => {
                           <p>{item.description}</p>
                         </div>
                         <div>
-                          <strong>{item.location}</strong>
+                          <i className="fa-solid fa-location-dot">
+                            <strong> {item.location}</strong>
+                          </i>
                         </div>
                       </div>
                     </div>

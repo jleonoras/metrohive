@@ -33,6 +33,7 @@ const BookedListingTable = ({ listingId }) => {
             email: item.email,
             startDate: item.start_date,
             endDate: item.end_date,
+            status: item.status,
           });
         });
 
@@ -58,17 +59,46 @@ const BookedListingTable = ({ listingId }) => {
     return `${month}/${day}/${year}`;
   };
 
+  const toTitleCase = (string) => {
+    return string
+      .toLowerCase()
+      .split(" ")
+      .map((word) => {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join(" ");
+  };
+
   return (
     <div className="p-2 shadow rounded bg-gradient bg-light">
       <div className="table-responsive-md">
         <table className="table table-striped table-hover">
           <thead className="table-primary">
             <tr>
-              <th scope="col">Date Reserved</th>
-              <th scope="col">Client Name</th>
-              <th scope="col">Client Email</th>
-              <th scope="col">Check-in</th>
-              <th scope="col">Check-out</th>
+              <th scope="col" className="text-center">
+                Date Reserved
+              </th>
+              <th scope="col" className="text-center">
+                Client Name
+              </th>
+              <th scope="col" className="text-center">
+                Client Email
+              </th>
+              <th scope="col" className="text-center">
+                Check-in
+              </th>
+              <th scope="col" className="text-center">
+                Check-out
+              </th>
+              <th scope="col" className="text-center">
+                Status
+              </th>
+              <th scope="col" className="text-center">
+                <i className="fa-solid fa-circle-check"></i>
+              </th>
+              <th scope="col" className="text-center">
+                <i className="fa-solid fa-circle-xmark"></i>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -77,13 +107,36 @@ const BookedListingTable = ({ listingId }) => {
               bookedListing.map((item) => {
                 return (
                   <tr key={item.bookingId}>
-                    <td>{convertToMDY(`${item.dateBooked}`)}</td>
-                    <td>
+                    <td className="text-center">
+                      {convertToMDY(`${item.dateBooked}`)}
+                    </td>
+                    <td className="text-center">
                       {item.fname} {item.lname}
                     </td>
-                    <td>{item.email}</td>
-                    <td>{convertToMDY(`${item.startDate}`)}</td>
-                    <td>{convertToMDY(`${item.endDate}`)}</td>
+                    <td className="text-center">{item.email}</td>
+                    <td className="text-center">
+                      {convertToMDY(`${item.startDate}`)}
+                    </td>
+                    <td className="text-center">
+                      {convertToMDY(`${item.endDate}`)}
+                    </td>
+                    <td className="text-center">{toTitleCase(item.status)}</td>
+                    <td className="text-center">
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-warning bg-gradient"
+                      >
+                        Accept
+                      </button>
+                    </td>
+                    <td className="text-center">
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-danger bg-gradient"
+                      >
+                        Decline
+                      </button>
+                    </td>
                   </tr>
                 );
               })}
