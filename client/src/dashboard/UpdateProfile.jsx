@@ -84,7 +84,7 @@ const UpdateProfile = ({ setAuth }) => {
               handleSubmit(e);
             }}
           >
-            <div className="form-outline mb-4">
+            <div className="form-outline mb-2">
               <label
                 className="form-label text-secondary pt-2"
                 htmlFor="firstname"
