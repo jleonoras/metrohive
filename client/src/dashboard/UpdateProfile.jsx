@@ -76,16 +76,19 @@ const UpdateProfile = ({ setAuth }) => {
     <section>
       <div className="container d-flex align-items-center justify-content-center py-5 vh-100">
         <div className="p-4 bg-gradient bg-light shadow rounded">
-          <div className="text-center text-secondary">
-            <h5>Update Profile</h5>
+          <div className="text-center text-secondary shadow-sm rounded py-2">
+            <h3>Update Profile</h3>
           </div>
           <form
             onSubmit={(e) => {
               handleSubmit(e);
             }}
           >
-            <div className="form-outline mb-2">
-              <label className="form-label text-secondary" htmlFor="firstname">
+            <div className="form-outline mb-4">
+              <label
+                className="form-label text-secondary pt-2"
+                htmlFor="firstname"
+              >
                 First name:
               </label>
               <input
@@ -128,7 +131,7 @@ const UpdateProfile = ({ setAuth }) => {
             </div>
             <div className="d-grid">
               <button
-                className="btn btn-warning btn-block mb-2 px-4 bg-gradient"
+                className="btn btn-warning btn-block mb-2 px-4 bg-gradient shadow-sm rounded"
                 type="submit button"
               >
                 Submit
