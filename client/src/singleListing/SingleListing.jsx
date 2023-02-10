@@ -4,6 +4,7 @@ import axios from "../api/axios";
 import imageUrl from "../constants/constants";
 import Search from "../component/Search";
 import ListingClass from "../listing/ListingClass";
+import SelectDate from "../datePicker/DatePicker";
 
 const SINGLE_LISTING_API_URL = "/api/v1/listing";
 
@@ -112,48 +113,51 @@ const SingleListing = () => {
                               <p>{item.location}</p>
                             </strong>
                           </div>
+                          <div className="col-md">
+                            <div>
+                              <h6>Meet the owner:</h6>
+                            </div>
+                            <div>
+                              <address>
+                                <span>
+                                  {item.fname} {item.lname}
+                                </span>
+                                <p>{item.email}</p>
+                              </address>
+                            </div>
+                            <div className="my-3">
+                              <button
+                                type="button"
+                                className="btn btn-warning btn-sm bg-gradient"
+                              >
+                                <a
+                                  className="text-decoration-none text-body"
+                                  href={`mailto:${
+                                    item.email
+                                  }?subject=Inquire ${new Intl.NumberFormat(
+                                    "en-PH",
+                                    {
+                                      currency: "PHP",
+                                      style: "currency",
+                                    }
+                                  ).format(`${item.price}`)} - ${
+                                    item.description
+                                  }`}
+                                >
+                                  <strong>Inquire Now</strong>
+                                </a>
+                              </button>
+                            </div>
+                          </div>
                         </div>
                         <div className="col-md">
-                          <div>
-                            <div className="row">
-                              <div className="col">
-                                <h6>Meet the owner:</h6>
-                              </div>
-                              <div className="col-md">
-                                <div className="row text-center">
-                                  <address>
-                                    <span>
-                                      {item.fname} {item.lname}
-                                    </span>
-                                    <p>{item.email}</p>
-                                  </address>
-                                </div>
-                              </div>
-                              <div className="col-md">
-                                <div className="d-grid">
-                                  <button
-                                    type="button"
-                                    className="btn btn-warning btn-sm bg-gradient"
-                                  >
-                                    <a
-                                      className="text-decoration-none text-body"
-                                      href={`mailto:${
-                                        item.email
-                                      }?subject=Inquire ${new Intl.NumberFormat(
-                                        "en-PH",
-                                        {
-                                          currency: "PHP",
-                                          style: "currency",
-                                        }
-                                      ).format(`${item.price}`)} - ${
-                                        item.description
-                                      }`}
-                                    >
-                                      <strong>Inquire Now</strong>
-                                    </a>
-                                  </button>
-                                </div>
-                              </div>
+                          <div className="row">
+                            <div>
+                              <h6>Reservation:</h6>
+                            </div>
+                            <div className="text-center">
+                              <div>Pick a date</div>
+                              <SelectDate listingId={item.listingId} />
                             </div>
                           </div>
                         </div>

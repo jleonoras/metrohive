@@ -13,6 +13,7 @@ import UpdateProfile from "./dashboard/UpdateProfile";
 import Result from "./result/Result";
 import Topnav from "./component/StyledNavbar";
 import Footer from "./component/Footer";
+import "react-datepicker/dist/react-datepicker.css";
 
 const VERIFY_URL = "/api/v1/verify";
 
@@ -24,8 +25,10 @@ const App = () => {
     const checkAuthenticated = async () => {
       try {
         const response = await axios.get(VERIFY_URL, {
+          withCredentials: true,
+          credentials: "include",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Accept: "applicaiton/json",
             "Content-Type": "application/json",
           },
         });
@@ -33,10 +36,8 @@ const App = () => {
         const parseRes = await response.data;
 
         setIsAuthenticated(parseRes);
-
-        // console.log(parseRes);
       } catch (error) {
-        console.error(error.message);
+        console.log(error.response.data);
       }
     };
     checkAuthenticated();

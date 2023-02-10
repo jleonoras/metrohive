@@ -10,14 +10,16 @@ import { upload } from "./middleware/upload.js";
 import fs from "fs";
 import path from "path";
 import helmet from "helmet";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const pool = connectDatabase();
 const host = "localhost";
 const port = process.env.serverPort;
 
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 
+app.use(cookieParser());
 app.use(express.json()); // req.body
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -70,7 +72,13 @@ app.post("/api/v1/register", async (request, response) => {
     //generate and return the JWT token
     const token = generateJwt(newUser.rows[0]);
 
-    response.json({ token });
+    // response.json({ token });
+
+    response
+      .cookie("accessToken", token, {
+        httpOnly: true,
+      })
+      .json({ token });
   } catch (error) {
     console.log(error.message);
     response.status(500).send(error.message);
@@ -101,12 +109,29 @@ app.post("/api/v1/login", async (request, response) => {
 
     //generate and return the JWT
     const token = generateJwt(user.rows[0]);
-    response.json({ token });
+    // response.json({ token });
+    response
+      .cookie("accessToken", token, {
+        httpOnly: true,
+      })
+      .json({ token });
   } catch (error) {
     console.error(error.message);
     response.status(500).send({
       msg: "Unauthenticated",
     });
+  }
+});
+
+//  Logout
+app.get("/api/v1/logout", (request, response) => {
+  try {
+    response.clearCookie("accessToken", null).send({
+      authenticated: false,
+      message: "Logout Successful.",
+    });
+  } catch (error) {
+    console.log(error);
   }
 });
 
@@ -121,6 +146,7 @@ app.get("/api/v1/profile", auth, async (request, response) => {
       "SELECT user_id, fname, lname, email FROM public.user WHERE user_id = $1",
       [request.user.user_id]
     );
+
     response.json(user.rows[0]);
   } catch (error) {
     console.error(error.message);
@@ -142,7 +168,6 @@ app.get("/api/v1/verify", auth, async (request, response) => {
 });
 
 // Add New Listing
-
 app.post(
   "/api/v1/user/new/listing",
   auth,
@@ -323,6 +348,41 @@ app.get("/api/v1/location", async (request, response) => {
     response.json({
       total_listing: listing.rows.length,
       listing: listing.rows,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Add booking
+app.post("/api/v1/booking", auth, async (request, response) => {
+  const dateBooked = new Date().toLocaleDateString();
+
+  const { start_date, end_date, listing_id } = request.body;
+
+  const userId = request.user.user_id;
+  try {
+    const newBooking = await pool.query(
+      "INSERT INTO public.booking (date_booked, start_date, end_date, listing_id, user_id) VALUES($1, $2, $3, $4, $5) RETURNING *",
+      [dateBooked, start_date, end_date, listing_id, userId]
+    );
+
+    response.json(newBooking.rows[0]);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.get("/api/v1/user/booking", auth, async (request, response) => {
+  try {
+    const userBooking = await pool.query(
+      "SELECT public.booking.user_id, public.booking.booking_id, public.booking.date_booked, public.booking.start_date, public.booking.end_date, public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price FROM public.booking LEFT JOIN public.listing ON public.booking.listing_id = public.listing.listing_id WHERE public.booking.user_id = $1 ORDER BY public.booking.booking_id DESC",
+      [request.user.user_id]
+    );
+
+    response.json({
+      totalBooking: userBooking.rows.length,
+      booking: userBooking.rows,
     });
   } catch (error) {
     console.log(error);
