@@ -70,7 +70,7 @@ const AddListing = ({ setAuth }) => {
     <section>
       <div className="container-fluid d-grid align-items-center justify-content-center py-5 vh-100">
         <div className="p-4 bg-light bg-gradient rounded shadow">
-          <div className="text-center text-secondary">
+          <div className="text-center text-secondary shadow-sm rounded py-2">
             <h3>Add Listing</h3>
           </div>
           <form onSubmit={onSubmitForm} encType="multipart/form-data">
@@ -145,7 +145,7 @@ const AddListing = ({ setAuth }) => {
             </div>
             <div className="d-grid">
               <button
-                className="btn btn-warning px-4 py-2 bg-gradient"
+                className="btn btn-warning px-4 py-2 bg-gradient shadow-sm rounded"
                 type="button submit"
               >
                 Submit
