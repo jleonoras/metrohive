@@ -14,7 +14,7 @@ body {
 
 .nav-item .active {
   background-color: transparent !important;
-  text-decoration-line: underline;
+  /* text-decoration-line: underline; */
   text-underline-position: below;
   text-decoration-style: solid;
   text-decoration-color: gray;
