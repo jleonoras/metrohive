@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
 import ListingClass from "../listing/ListingClass";
 import imageUrl from "../constants/constants";
+import { useNavigate } from "react-router-dom";
 
 const USER_LISTING_URL = "/api/v1/user/listing";
 const DELETE_LISTING_API_URL = "/api/v1/listing";
 
 const UserListing = () => {
   const [listings, setListings] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,12 +19,12 @@ const UserListing = () => {
           withCredentials: true,
           credentials: "include",
           headers: {
-            Accept: "applicaiton/json",
+            Accept: "application/json",
             "Content-Type": "application/json",
           },
         });
 
-        const parseRes = await response.data.listing;
+        const parseRes = response.data.listing;
 
         const itemListing = parseRes.map((item) => {
           return new ListingClass({
@@ -38,7 +41,12 @@ const UserListing = () => {
 
         setListings(itemListing);
       } catch (error) {
-        console.log(error.response.data);
+        if (
+          error.response.data === "jwt expired" &&
+          error.message === "Request failed with status code 403"
+        ) {
+          console.log(error.message);
+        }
       }
     };
     fetchData();
@@ -60,6 +68,10 @@ const UserListing = () => {
       console.log(error);
       alert(error.message);
     }
+  };
+
+  const handleViewReservations = (listingId) => {
+    navigate(`/listing/${listingId}/reservations`);
   };
 
   return (
@@ -150,7 +162,13 @@ const UserListing = () => {
                           </div>
                         </div>
                       </figure>
-                      <div className="card-body">
+                      <div
+                        className="card-body"
+                        type="button"
+                        onClick={() => {
+                          handleViewReservations(item.listingId);
+                        }}
+                      >
                         <div>
                           <div>
                             <strong>
@@ -165,11 +183,17 @@ const UserListing = () => {
                             <p>{item.totalListing}</p>
                           </div>
                           <div>
-                            <strong>{item.location}</strong>
+                            <span>
+                              <i className="fa-solid fa-location-dot">
+                                <span>
+                                  <strong> {item.location}</strong>
+                                </span>
+                              </i>
+                            </span>
                           </div>
                         </div>
                       </div>
-                      <div className="d-grid">
+                      <div className="d-flex justify-content-center">
                         {/* <button
                         className="btn btn-warning bg-gradient col-md-4 m-3"
                         type="button"
@@ -177,7 +201,7 @@ const UserListing = () => {
                         Edit
                       </button> */}
                         <button
-                          className="btn btn-danger bg-gradient m-3"
+                          className="btn btn-sm btn-danger bg-gradient col-4 mx-auto mb-3"
                           type="button"
                           onClick={() => deleteUserListing(item.listingId)}
                         >

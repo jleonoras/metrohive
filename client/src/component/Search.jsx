@@ -3,11 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 const Search = () => {
   const navigate = useNavigate();
-  // const queryRef = useRef(null);
+
   const [query, setQuery] = useState("");
 
   const handleQuery = (e) => {
-    // const location = queryRef.current.value;
     e.preventDefault();
 
     const location = query;
@@ -21,9 +20,9 @@ const Search = () => {
           <label htmlFor="location"></label>
           <input
             type="search text"
-            name="location"
+            name="search"
             value={query}
-            placeholder="Search location..."
+            placeholder="Search Location..."
             onChange={(e) => setQuery(e.target.value)}
             required
             className="form-control"

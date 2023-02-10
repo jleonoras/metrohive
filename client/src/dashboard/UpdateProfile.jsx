@@ -5,7 +5,7 @@ import axios from "../api/axios";
 const UPDATE_USER_URL = "/api/v1/user/update";
 const USER_DATA_URL = "api/v1/profile";
 
-const UpdateProfile = () => {
+const UpdateProfile = ({ setAuth }) => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -19,22 +19,26 @@ const UpdateProfile = () => {
           withCredentials: true,
           credentials: "include",
           headers: {
-            Accept: "applicaiton/json",
+            Accept: "application/json",
             "Content-Type": "application/json",
           },
         });
 
-        const parseRes = await response.data;
+        const parseRes = response.data;
 
         setFirstname(parseRes.fname);
         setLastname(parseRes.lname);
         setEmail(parseRes.email);
       } catch (error) {
-        console.log(error.response.data);
+        if (error.response.data === "jwt expired") {
+          setAuth(false);
+
+          console.log("Session expired!");
+        }
       }
     };
     fetchData();
-  }, []);
+  }, [setAuth]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -72,8 +72,6 @@ app.post("/api/v1/register", async (request, response) => {
     //generate and return the JWT token
     const token = generateJwt(newUser.rows[0]);
 
-    // response.json({ token });
-
     response
       .cookie("accessToken", token, {
         httpOnly: true,
@@ -109,7 +107,6 @@ app.post("/api/v1/login", async (request, response) => {
 
     //generate and return the JWT
     const token = generateJwt(user.rows[0]);
-    // response.json({ token });
     response
       .cookie("accessToken", token, {
         httpOnly: true,
@@ -138,10 +135,6 @@ app.get("/api/v1/logout", (request, response) => {
 // provide the auth middleware
 app.get("/api/v1/profile", auth, async (request, response) => {
   try {
-    //return the user object
-    // response.json(request.user.user_id);
-    // response.json(request.user);
-
     const user = await pool.query(
       "SELECT user_id, fname, lname, email FROM public.user WHERE user_id = $1",
       [request.user.user_id]
@@ -159,7 +152,6 @@ app.get("/api/v1/profile", auth, async (request, response) => {
 // Verify the current user token if authenticated
 app.get("/api/v1/verify", auth, async (request, response) => {
   try {
-    // response.json(request.user);
     response.json(true);
   } catch (error) {
     console.error(error.message);
@@ -183,9 +175,6 @@ app.post(
       const { description, location, price } = request.body;
 
       const userId = request.user.user_id;
-
-      // console.log(request.body);
-      // console.log(request.files);
 
       const newListing = await pool.query(
         "INSERT INTO public.listing (description, location, price, image1, image2, image3, user_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *",
@@ -222,7 +211,7 @@ app.get("/api/v1/user/listing", auth, async (request, response) => {
 app.get("/api/v1/listing", async (request, response) => {
   try {
     const listing = await pool.query(
-      "Select listing_id, description, location, price, image1, image2, image3 FROM public.listing ORDER BY public.listing.listing_id DESC"
+      "SELECT listing_id, description, location, price, image1, image2, image3 FROM public.listing ORDER BY public.listing.listing_id DESC"
     );
 
     response.json({
@@ -290,7 +279,6 @@ app.delete("/api/v1/listing/:id", auth, async (request, response) => {
       return response.json("You are not authorize to delete this listing!");
     }
 
-    // response.json("Listing was deleted!");
     response.json(deleteListing.rows);
 
     const image1 = deleteListing.rows[0].image1;
@@ -302,10 +290,6 @@ app.delete("/api/v1/listing/:id", auth, async (request, response) => {
     for (let index = 0; index < image.length; index++) {
       fs.unlinkSync(directoryPath + image[index]);
     }
-
-    // const deleteImage = (file) => {
-    //   return image.map(fs.unlink(directoryPath + file));
-    // };
   } catch (error) {
     console.log(error);
   }
@@ -358,13 +342,15 @@ app.get("/api/v1/location", async (request, response) => {
 app.post("/api/v1/booking", auth, async (request, response) => {
   const dateBooked = new Date().toLocaleDateString();
 
+  const status = "PENDING";
+
   const { start_date, end_date, listing_id } = request.body;
 
   const userId = request.user.user_id;
   try {
     const newBooking = await pool.query(
-      "INSERT INTO public.booking (date_booked, start_date, end_date, listing_id, user_id) VALUES($1, $2, $3, $4, $5) RETURNING *",
-      [dateBooked, start_date, end_date, listing_id, userId]
+      "INSERT INTO public.booking (date_booked, start_date, end_date, listing_id, user_id, status) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
+      [dateBooked, start_date, end_date, listing_id, userId, status]
     );
 
     response.json(newBooking.rows[0]);
@@ -373,17 +359,141 @@ app.post("/api/v1/booking", auth, async (request, response) => {
   }
 });
 
+// Get user booking
 app.get("/api/v1/user/booking", auth, async (request, response) => {
   try {
+    const userId = request.user.user_id;
     const userBooking = await pool.query(
-      "SELECT public.booking.user_id, public.booking.booking_id, public.booking.date_booked, public.booking.start_date, public.booking.end_date, public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price FROM public.booking LEFT JOIN public.listing ON public.booking.listing_id = public.listing.listing_id WHERE public.booking.user_id = $1 ORDER BY public.booking.booking_id DESC",
-      [request.user.user_id]
+      "SELECT public.booking.user_id, public.booking.booking_id, public.booking.date_booked, public.booking.start_date, public.booking.end_date, public.booking.status, public.listing.listing_id, public.listing.description, public.listing.location, public.listing.price FROM public.booking LEFT JOIN public.listing ON public.booking.listing_id = public.listing.listing_id WHERE public.booking.user_id = $1 ORDER BY public.booking.booking_id DESC",
+      [userId]
     );
 
     response.json({
       totalBooking: userBooking.rows.length,
       booking: userBooking.rows,
     });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Get booking by listing id where booking is pending
+app.get("/api/v1/booking/:listing_id", auth, async (request, response) => {
+  try {
+    const listingId = request.params.listing_id;
+    const userId = request.user.user_id;
+    const bookingStatus = "PENDING";
+
+    const bookedListing = await pool.query(
+      "SELECT public.booking.booking_id, public.booking.date_booked, public.booking.start_date, public.booking.end_date, public.booking.listing_id, public.booking.user_id, public.booking.status, public.user.fname, public.user.lname, public.user.email FROM public.booking LEFT JOIN public.user ON public.booking.user_id = public.user.user_id LEFT JOIN public.listing ON public.booking.listing_id = public.listing.listing_id WHERE public.booking.listing_id = $1 AND public.listing.user_id = $2 AND public.booking.status = $3 ORDER BY public.booking.booking_id DESC",
+      [listingId, userId, bookingStatus]
+    );
+
+    response.json({
+      totalBooking: bookedListing.rows.length,
+      booking: bookedListing.rows,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Get booking by listing id where booking is confirmed
+app.get("/api/v1/confirmed/:listing_id", auth, async (request, response) => {
+  try {
+    const listingId = request.params.listing_id;
+    const userId = request.user.user_id;
+    const status = "CONFIRMED";
+
+    const bookedListing = await pool.query(
+      "SELECT public.booking.booking_id, public.booking.date_booked, public.booking.start_date, public.booking.end_date, public.booking.listing_id, public.booking.user_id, public.booking.status, public.user.fname, public.user.lname, public.user.email FROM public.booking LEFT JOIN public.user ON public.booking.user_id = public.user.user_id LEFT JOIN public.listing ON public.booking.listing_id = public.listing.listing_id WHERE public.booking.listing_id = $1 AND public.listing.user_id = $2 AND public.booking.status = $3 ORDER BY public.booking.booking_id DESC",
+      [listingId, userId, status]
+    );
+
+    response.json({
+      totalBooking: bookedListing.rows.length,
+      booking: bookedListing.rows,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Get booking by listing id where booking is declined
+app.get("/api/v1/declined/:listing_id", auth, async (request, response) => {
+  try {
+    const listingId = request.params.listing_id;
+    const userId = request.user.user_id;
+    const status = "DECLINED";
+
+    const bookedListing = await pool.query(
+      "SELECT public.booking.booking_id, public.booking.date_booked, public.booking.start_date, public.booking.end_date, public.booking.listing_id, public.booking.user_id, public.booking.status, public.user.fname, public.user.lname, public.user.email FROM public.booking LEFT JOIN public.user ON public.booking.user_id = public.user.user_id LEFT JOIN public.listing ON public.booking.listing_id = public.listing.listing_id WHERE public.booking.listing_id = $1 AND public.listing.user_id = $2 AND public.booking.status = $3 ORDER BY public.booking.booking_id DESC",
+      [listingId, userId, status]
+    );
+
+    response.json({
+      totalBooking: bookedListing.rows.length,
+      booking: bookedListing.rows,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Get booking date by listing id
+app.get("/api/v1/date/:listing_id", async (request, response) => {
+  try {
+    const listingId = request.params.listing_id;
+    const status = "CONFIRMED";
+    const dateBooked = await pool.query(
+      "SELECT public.booking.booking_id, public.booking.date_booked, public.booking.start_date, public.booking.end_date, public.booking.status, public.booking.listing_id FROM public.booking WHERE public.booking.listing_id = $1 AND public.booking.status = $2 ORDER BY public.booking.booking_id DESC",
+      [listingId, status]
+    );
+
+    response.json({
+      totalBooking: dateBooked.rows.length,
+      date: dateBooked.rows,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Confirm booking
+app.put("/api/v1/confirm/:booking_id", auth, async (request, response) => {
+  try {
+    const initialStatus = "PENDING";
+    const updateStatus = "CONFIRMED";
+    const bookingId = request.params.booking_id;
+    const { startDate, endDate } = request.body;
+    const userId = request.user.user_id;
+
+    const confirmBooking = await pool.query(
+      "UPDATE booking SET status = $1 WHERE booking_id = $2 AND start_date <= $3 AND end_date >= $4 AND status = $5 OR start_date = end_date RETURNING *",
+      [updateStatus, bookingId, endDate, startDate, initialStatus]
+    );
+
+    response.json(confirmBooking.rows);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Decline booking
+app.put("/api/v1/decline/:booking_id", auth, async (request, response) => {
+  try {
+    const initialStatus = "PENDING";
+    const updateStatus = "DECLINED";
+    const bookingId = request.params.booking_id;
+    const { startDate, endDate } = request.body;
+    const userId = request.user.user_id;
+
+    const declineBooking = await pool.query(
+      "UPDATE booking SET status = $1 WHERE booking_id = $2 AND status = $3 RETURNING *",
+      [updateStatus, bookingId, initialStatus]
+    );
+
+    response.json(declineBooking.rows);
   } catch (error) {
     console.log(error);
   }

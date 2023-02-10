@@ -7,6 +7,12 @@ class BookingClass {
     description,
     location,
     price,
+    listingId,
+    userId,
+    status,
+    fname,
+    lname,
+    email,
   }) {
     this.bookingId = bookingId;
     this.dateBooked = dateBooked;
@@ -15,6 +21,12 @@ class BookingClass {
     this.description = description;
     this.location = location;
     this.price = price;
+    this.listingId = listingId;
+    this.userId = userId;
+    this.status = status;
+    this.fname = fname;
+    this.lname = lname;
+    this.email = email;
   }
 }
 

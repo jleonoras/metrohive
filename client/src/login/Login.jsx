@@ -27,7 +27,7 @@ const Login = ({ setAuth }) => {
         withCredentials: true,
         credentials: "include",
         headers: {
-          Accept: "applicaiton/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
         },
       });
@@ -42,8 +42,8 @@ const Login = ({ setAuth }) => {
         alert("Something went wrong");
       }
     } catch (error) {
-      console.log(error);
-      alert(error.message);
+      console.log(error.message);
+      alert(error.response.data);
     }
   };
 
@@ -55,7 +55,7 @@ const Login = ({ setAuth }) => {
     <section>
       <div className="container d-flex align-items-center justify-content-center py-5 vh-100">
         <div className="p-4 bg-light bg-gradient rounded shadow">
-          <div className="text-center text-secondary">
+          <div className="text-center text-secondary shadow-sm rounded py-2">
             <h3>Login</h3>
           </div>
           <form onSubmit={onSubmitForm}>
@@ -94,7 +94,7 @@ const Login = ({ setAuth }) => {
             <div className="d-grid">
               <button
                 type="button submit"
-                className="btn btn-warning btn-block mb-4 px-4 bg-gradient"
+                className="btn btn-warning btn-block mb-4 px-4 bg-gradient shadow-sm rounded"
               >
                 Submit
               </button>

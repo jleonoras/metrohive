@@ -2,12 +2,37 @@ import React, { useState, useEffect } from "react";
 import axios from "../api/axios";
 
 const NEW_LISTING_URL = "/api/v1/user/new/listing";
+const PROFILE_URL = "/api/v1/profile";
 
-const AddListing = () => {
+const AddListing = ({ setAuth }) => {
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [price, setPrice] = useState("");
   const [files, setFiles] = useState([]);
+
+  useEffect(() => {
+    document.title = "Add Listing | Metrohyve";
+
+    const fetchData = async () => {
+      try {
+        await axios.get(PROFILE_URL, {
+          withCredentials: true,
+          credentials: "include",
+          headers: {
+            Accept: "applicaiton/json",
+            "Content-Type": "application/json",
+          },
+        });
+      } catch (error) {
+        if (error.response.data === "jwt expired") {
+          setAuth(false);
+
+          console.log("Session expired!");
+        }
+      }
+    };
+    fetchData();
+  }, [setAuth]);
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
@@ -26,7 +51,7 @@ const AddListing = () => {
         withCredentials: true,
         credentials: "include",
         headers: {
-          Accept: "applicaiton/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
         },
       });
@@ -37,20 +62,15 @@ const AddListing = () => {
         e.target.reset();
       }
     } catch (error) {
-      console.log(error.response.data);
       alert(error.message);
     }
   };
-
-  useEffect(() => {
-    document.title = "Add Listing | Metrohyve";
-  }, []);
 
   return (
     <section>
       <div className="container-fluid d-grid align-items-center justify-content-center py-5 vh-100">
         <div className="p-4 bg-light bg-gradient rounded shadow">
-          <div className="text-center text-secondary">
+          <div className="text-center text-secondary shadow-sm rounded py-2">
             <h3>Add Listing</h3>
           </div>
           <form onSubmit={onSubmitForm} encType="multipart/form-data">
@@ -125,7 +145,7 @@ const AddListing = () => {
             </div>
             <div className="d-grid">
               <button
-                className="btn btn-warning px-4 py-2 bg-gradient"
+                className="btn btn-warning px-4 py-2 bg-gradient shadow-sm rounded"
                 type="button submit"
               >
                 Submit

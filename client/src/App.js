@@ -14,6 +14,7 @@ import Result from "./result/Result";
 import Topnav from "./component/StyledNavbar";
 import Footer from "./component/Footer";
 import "react-datepicker/dist/react-datepicker.css";
+import BookedListing from "./bookedListing/BookedListing";
 
 const VERIFY_URL = "/api/v1/verify";
 
@@ -28,16 +29,18 @@ const App = () => {
           withCredentials: true,
           credentials: "include",
           headers: {
-            Accept: "applicaiton/json",
+            Accept: "application/json",
             "Content-Type": "application/json",
           },
         });
 
-        const parseRes = await response.data;
+        const parseRes = response.data;
 
         setIsAuthenticated(parseRes);
       } catch (error) {
-        console.log(error.response.data);
+        if (error.response.data === "jwt expired") {
+          console.log("Session expired!");
+        }
       }
     };
     checkAuthenticated();
@@ -112,6 +115,18 @@ const App = () => {
               element={
                 isAuthenticated ? (
                   <UpdateProfile setAuth={setAuth} />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              // Route to bookings by listing id
+              // If user token is authenticated will redirect to update profile page if not redirected to login
+              path="/listing/:id/reservations"
+              element={
+                isAuthenticated ? (
+                  <BookedListing setAuth={setAuth} />
                 ) : (
                   <Navigate to="/login" />
                 )

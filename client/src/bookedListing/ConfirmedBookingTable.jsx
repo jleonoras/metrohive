@@ -2,42 +2,45 @@ import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
 import BookingClass from "../booking/bookingClass";
 
-const USER_BOOKING_API_URL = "/api/v1/user/booking";
+const CONFIRMED_BOOKINGS_API_URL = "/api/v1/confirmed";
 
-const UserBooking = () => {
-  const [userBooking, setUserBooking] = useState([]);
+const ConfirmedBookingTable = ({ listingId }) => {
+  const [confirmedBooking, setConfirmedBooking] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(USER_BOOKING_API_URL, {
-          withCredentials: true,
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await axios.get(
+          `${CONFIRMED_BOOKINGS_API_URL}/${listingId}`,
+          {
+            withCredentials: true,
+            credentials: "include",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         const parseRes = response.data.booking;
 
-        const itemBooking = parseRes.map((item) => {
+        const itemConfirmedBooking = parseRes.map((item) => {
           return new BookingClass({
             bookingId: item.booking_id,
             dateBooked: item.date_booked,
+            fname: item.fname,
+            lname: item.lname,
+            email: item.email,
             startDate: item.start_date,
             endDate: item.end_date,
-            description: item.description,
-            location: item.location,
-            price: item.price,
             status: item.status,
           });
         });
 
-        setUserBooking(itemBooking);
+        setConfirmedBooking(itemConfirmedBooking);
       } catch (error) {
         if (
-          error.response.data === "jwt expired" &&
+          error.response.data === "jwt expired" ||
           error.message === "Request failed with status code 403"
         ) {
           console.log(error.message);
@@ -45,7 +48,7 @@ const UserBooking = () => {
       }
     };
     fetchData();
-  }, [userBooking]);
+  }, [listingId]);
 
   const convertToMDY = (dateString) => {
     const date = new Date(dateString);
@@ -57,7 +60,7 @@ const UserBooking = () => {
   };
 
   return (
-    <div className="p-2 shadow rounded bg-gradient bg-light">
+    <div className="p-2 shadow-sm rounded bg-gradient bg-light">
       <div className="table-responsive-md shadow-sm rounded">
         <table className="table table-striped table-hover shadow-sm rounded">
           <thead className="table-primary">
@@ -66,13 +69,10 @@ const UserBooking = () => {
                 Date Reserved
               </th>
               <th scope="col" className="text-center">
-                Description
+                Client Name
               </th>
               <th scope="col" className="text-center">
-                Location
-              </th>
-              <th scope="col" className="text-center">
-                Price
+                Client Email
               </th>
               <th scope="col" className="text-center">
                 Check-in
@@ -86,22 +86,18 @@ const UserBooking = () => {
             </tr>
           </thead>
           <tbody>
-            {userBooking.length !== 0 &&
-              userBooking[0].bookingId !== null &&
-              userBooking.map((item) => {
+            {confirmedBooking.length !== 0 &&
+              confirmedBooking[0].bookingId !== null &&
+              confirmedBooking.map((item) => {
                 return (
                   <tr key={item.bookingId}>
                     <td className="text-center">
                       {convertToMDY(`${item.dateBooked}`)}
                     </td>
-                    <td className="text-center">{item.description}</td>
-                    <td className="text-center">{item.location}</td>
                     <td className="text-center">
-                      {new Intl.NumberFormat("en-PH", {
-                        currency: "PHP",
-                        style: "currency",
-                      }).format(`${item.price}`)}
+                      {item.fname} {item.lname}
                     </td>
+                    <td className="text-center">{item.email}</td>
                     <td className="text-center">
                       {convertToMDY(`${item.startDate}`)}
                     </td>
@@ -119,4 +115,4 @@ const UserBooking = () => {
   );
 };
 
-export default UserBooking;
+export default ConfirmedBookingTable;

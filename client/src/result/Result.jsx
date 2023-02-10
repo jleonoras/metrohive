@@ -22,7 +22,7 @@ const Result = () => {
             "Content-Type": "application/json",
           },
         });
-        const parseRes = await response.data.listing;
+        const parseRes = response.data.listing;
 
         const searchListing = parseRes.map((item) => {
           return new ListingClass({

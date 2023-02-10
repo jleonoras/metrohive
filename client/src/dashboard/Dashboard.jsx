@@ -25,22 +25,28 @@ const Dashboard = ({ setAuth }) => {
           withCredentials: true,
           credentials: "include",
           headers: {
-            Accept: "applicaiton/json",
+            Accept: "application/json",
             "Content-Type": "application/json",
           },
         });
 
-        const parseRes = await response.data;
+        const parseRes = response.data;
         setFName(parseRes.fname);
         setLName(parseRes.lname);
         setEmail(parseRes.email);
         setUserId(parseRes.user_id);
       } catch (error) {
-        console.log(error.response.data);
+        if (
+          error.response.status === 403 &&
+          error.response.data === "jwt expired"
+        ) {
+          setAuth(false);
+          console.log("Session expired!");
+        }
       }
     };
     fetchData();
-  }, []);
+  }, [setAuth]);
 
   const handleLogout = async () => {
     try {
@@ -71,7 +77,7 @@ const Dashboard = ({ setAuth }) => {
               <div className="w-100 d-grid justify-content-center text-center">
                 <div className="w-100">
                   <img
-                    className="rounded-circle img-fluid w-25"
+                    className="rounded-circle img-fluid w-25 shadow-sm"
                     src={avatar}
                     alt="avatar"
                     loading="lazy"
@@ -79,16 +85,23 @@ const Dashboard = ({ setAuth }) => {
                 </div>
                 <div className="py-2">
                   <div className="text-secondary">
-                    <h5>
-                      {fname} {lname}
-                    </h5>
+                    <span>
+                      <i className="fa-solid fa-user">
+                        <span> {fname}</span>
+                        <span> {lname}</span>
+                      </i>
+                    </span>
                   </div>
                   <div className="text-secondary">
-                    <span>{email}</span>
+                    <span>
+                      <i className="fa-solid fa-envelope">
+                        <span> {email}</span>
+                      </i>
+                    </span>
                   </div>
                   <div className="pt-3">
                     <button
-                      className="btn btn-warning bg-gradient btn-sm"
+                      className="btn btn-warning bg-gradient btn-sm shadow-sm"
                       type="button"
                       onClick={(e) => handleUpdate(e)}
                     >
@@ -101,7 +114,7 @@ const Dashboard = ({ setAuth }) => {
             <div>
               <div className="position-absolute top-0 end-0">
                 <button
-                  className="btn btn-danger bg-gradient btn-sm"
+                  className="btn btn-danger bg-gradient btn-sm shadow-sm"
                   type="button"
                   onClick={handleLogout}
                 >
@@ -124,7 +137,7 @@ const Dashboard = ({ setAuth }) => {
                 aria-controls="myListing-tab-pane"
                 aria-selected="true"
               >
-                My Listing
+                My Listings
               </button>
             </li>
             <li className="nav-item" role="presentation">
@@ -138,7 +151,7 @@ const Dashboard = ({ setAuth }) => {
                 aria-controls="myBooking-tab-pane"
                 aria-selected="false"
               >
-                My Booking
+                My Reservations
               </button>
             </li>
           </ul>
@@ -157,7 +170,7 @@ const Dashboard = ({ setAuth }) => {
               id="myBooking-tab-pane"
               role="tabpanel"
               aria-labelledby="myBooking-tab"
-              tabIndex="0"
+              tabIndex="1"
             >
               <UserBooking />
             </div>
