@@ -4,6 +4,8 @@ import axios from "../api/axios";
 import ListingClass from "../listing/ListingClass";
 import imageUrl from "../constants/constants";
 import BookedListingTable from "./BookedListingTable";
+import ConfirmedBookingTable from "./ConfirmedBookingTable";
+import DeclinedBookingTable from "./DeclinedBookingTable";
 
 const SINGLE_LISTING_API_URL = "/api/v1/listing";
 
@@ -56,7 +58,7 @@ const BookedListing = ({ setAuth }) => {
     <section>
       <div className="container">
         <div className="pt-5">
-          <div className="pb-2 shadow rounded">
+          <div className="pb-2 shadow rounded bg-light bg-gradient">
             <ul className="list-unstyled">
               {listing.length !== 0 &&
                 listing.listingId !== null &&
@@ -128,31 +130,83 @@ const BookedListing = ({ setAuth }) => {
           </div>
         </div>
         <div className="container p-2 my-4 rounded bg-gradient bg-light shadow">
+          <div className="text-center py-3 my-1 mb-3 rounded shadow-sm bg-gradient bg-light fs-5">
+            <strong>Bookings</strong>
+          </div>
+          <div>
+            <hr />
+          </div>
           <ul className="nav nav-tabs" id="myTab" role="tablist">
             <li className="nav-item" role="presentation">
               <button
                 className="nav-link active"
-                id="booking-tab"
+                id="pending-tab"
                 data-bs-toggle="tab"
-                data-bs-target="#booking-tab-pane"
+                data-bs-target="#pending-tab-pane"
                 type="button"
                 role="tab"
-                aria-controls="booking-tab-pane"
+                aria-controls="pending-tab-pane"
                 aria-selected="true"
               >
-                Bookings
+                Pending
+              </button>
+            </li>
+            <li className="nav-item" role="presentation">
+              <button
+                className="nav-link"
+                id="confirmed-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#confirmed-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="confirmed-tab-pane"
+                aria-selected="true"
+              >
+                Confirmed
+              </button>
+            </li>
+            <li className="nav-item" role="presentation">
+              <button
+                className="nav-link"
+                id="declined-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#declined-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="declined-tab-pane"
+                aria-selected="true"
+              >
+                Declined
               </button>
             </li>
           </ul>
           <div className="tab-content" id="myTabContent">
             <div
               className="tab-pane fade show active"
-              id="booking-tab-pane"
+              id="pending-tab-pane"
               role="tabpanel"
-              aria-labelledby="booking-tab"
+              aria-labelledby="pending-tab"
               tabIndex="0"
             >
               <BookedListingTable listingId={id} />
+            </div>
+            <div
+              className="tab-pane fade"
+              id="confirmed-tab-pane"
+              role="tabpanel"
+              aria-labelledby="confirmed-tab"
+              tabIndex="1"
+            >
+              <ConfirmedBookingTable listingId={id} />
+            </div>
+            <div
+              className="tab-pane fade"
+              id="declined-tab-pane"
+              role="tabpanel"
+              aria-labelledby="declined-tab"
+              tabIndex="2"
+            >
+              <DeclinedBookingTable listingId={id} />
             </div>
           </div>
         </div>
