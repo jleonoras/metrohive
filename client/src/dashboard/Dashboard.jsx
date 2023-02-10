@@ -77,7 +77,7 @@ const Dashboard = ({ setAuth }) => {
               <div className="w-100 d-grid justify-content-center text-center">
                 <div className="w-100">
                   <img
-                    className="rounded-circle img-fluid w-25"
+                    className="rounded-circle img-fluid w-25 shadow-sm"
                     src={avatar}
                     alt="avatar"
                     loading="lazy"
@@ -101,7 +101,7 @@ const Dashboard = ({ setAuth }) => {
                   </div>
                   <div className="pt-3">
                     <button
-                      className="btn btn-warning bg-gradient btn-sm"
+                      className="btn btn-warning bg-gradient btn-sm shadow-sm"
                       type="button"
                       onClick={(e) => handleUpdate(e)}
                     >
@@ -114,7 +114,7 @@ const Dashboard = ({ setAuth }) => {
             <div>
               <div className="position-absolute top-0 end-0">
                 <button
-                  className="btn btn-danger bg-gradient btn-sm"
+                  className="btn btn-danger bg-gradient btn-sm shadow-sm"
                   type="button"
                   onClick={handleLogout}
                 >
@@ -170,7 +170,7 @@ const Dashboard = ({ setAuth }) => {
               id="myBooking-tab-pane"
               role="tabpanel"
               aria-labelledby="myBooking-tab"
-              tabIndex="0"
+              tabIndex="1"
             >
               <UserBooking />
             </div>
