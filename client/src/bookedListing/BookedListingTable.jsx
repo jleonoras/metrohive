@@ -3,6 +3,8 @@ import axios from "../api/axios";
 import BookingClass from "../booking/bookingClass";
 
 const BOOKED_LISTING_API_URL = "/api/v1/booking";
+const CONFIRM_BOOKING_API_URL = "/api/v1/confirm";
+const DECLINE_BOOKING_API_URL = "/api/v1/decline";
 
 const BookedListingTable = ({ listingId }) => {
   const [bookedListing, setBookedListing] = useState([]);
@@ -40,7 +42,7 @@ const BookedListingTable = ({ listingId }) => {
         setBookedListing(itemBookedListing);
       } catch (error) {
         if (
-          error.response.data === "jwt expired" &&
+          error.response.data === "jwt expired" ||
           error.message === "Request failed with status code 403"
         ) {
           console.log(error.message);
@@ -59,20 +61,64 @@ const BookedListingTable = ({ listingId }) => {
     return `${month}/${day}/${year}`;
   };
 
-  const toTitleCase = (string) => {
-    return string
-      .toLowerCase()
-      .split(" ")
-      .map((word) => {
-        return word.charAt(0).toUpperCase() + word.slice(1);
-      })
-      .join(" ");
+  const handleConfirm = async (bookingId, startDate, endDate) => {
+    try {
+      const data = {
+        bookingId,
+        startDate,
+        endDate,
+      };
+
+      await axios.put(`${CONFIRM_BOOKING_API_URL}/${bookingId}`, data, {
+        withCredentials: true,
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      setBookedListing(
+        bookedListing.filter((booking) => {
+          return booking.bookingId !== bookingId;
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDecline = async (bookingId, startDate, endDate) => {
+    try {
+      const data = {
+        bookingId,
+        startDate,
+        endDate,
+      };
+
+      await axios.put(`${DECLINE_BOOKING_API_URL}/${bookingId}`, data, {
+        withCredentials: true,
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      setBookedListing(
+        bookedListing.filter((booking) => {
+          return booking.bookingId !== bookingId;
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <div className="p-2 shadow rounded bg-gradient bg-light">
-      <div className="table-responsive-md">
-        <table className="table table-striped table-hover">
+    <div className="p-2 shadow-sm rounded bg-gradient bg-light">
+      <div className="table-responsive-md shadow-sm rounded">
+        <table className="table table-striped table-hover shadow-sm rounded">
           <thead className="table-primary">
             <tr>
               <th scope="col" className="text-center">
@@ -89,9 +135,6 @@ const BookedListingTable = ({ listingId }) => {
               </th>
               <th scope="col" className="text-center">
                 Check-out
-              </th>
-              <th scope="col" className="text-center">
-                Status
               </th>
               <th scope="col" className="text-center">
                 <i className="fa-solid fa-circle-check"></i>
@@ -120,19 +163,34 @@ const BookedListingTable = ({ listingId }) => {
                     <td className="text-center">
                       {convertToMDY(`${item.endDate}`)}
                     </td>
-                    <td className="text-center">{toTitleCase(item.status)}</td>
                     <td className="text-center">
                       <button
                         type="button"
-                        className="btn btn-sm btn-warning bg-gradient"
+                        id="confirm"
+                        className="btn btn-sm btn-warning bg-gradient shadow-sm"
+                        onClick={() => {
+                          handleConfirm(
+                            item.bookingId,
+                            item.startDate,
+                            item.endDate
+                          );
+                        }}
                       >
-                        Accept
+                        Confirm
                       </button>
                     </td>
                     <td className="text-center">
                       <button
                         type="button"
-                        className="btn btn-sm btn-danger bg-gradient"
+                        id="decline"
+                        className="btn btn-sm btn-danger bg-gradient shadow-sm"
+                        onClick={() => {
+                          handleDecline(
+                            item.bookingId,
+                            item.startDate,
+                            item.endDate
+                          );
+                        }}
                       >
                         Decline
                       </button>
