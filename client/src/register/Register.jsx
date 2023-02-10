@@ -60,7 +60,7 @@ const Register = ({ setAuth }) => {
     <section>
       <div className="container d-flex align-items-center justify-content-center py-5 vh-100">
         <div className="p-4 bg-light bg-gradient rounded shadow">
-          <div className="text-center text-secondary">
+          <div className="text-center text-secondary shadow-sm rounded py-2">
             <h3>Register</h3>
           </div>
           <form onSubmit={onSubmitForm}>
@@ -124,7 +124,7 @@ const Register = ({ setAuth }) => {
             </div>
             <div className="d-grid">
               <button
-                className="btn btn-warning btn-block mb-4 px-4 bg-gradient"
+                className="btn btn-warning btn-block mb-4 px-4 bg-gradient shadow-sm rounded"
                 type="button submit"
               >
                 Submit
