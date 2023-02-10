@@ -56,20 +56,10 @@ const UserBooking = () => {
     return `${month}/${day}/${year}`;
   };
 
-  const toTitleCase = (string) => {
-    return string
-      .toLowerCase()
-      .split(" ")
-      .map((word) => {
-        return word.charAt(0).toUpperCase() + word.slice(1);
-      })
-      .join(" ");
-  };
-
   return (
     <div className="p-2 shadow rounded bg-gradient bg-light">
-      <div className="table-responsive-md">
-        <table className="table table-striped table-hover">
+      <div className="table-responsive-md shadow-sm rounded">
+        <table className="table table-striped table-hover shadow-sm rounded">
           <thead className="table-primary">
             <tr>
               <th scope="col" className="text-center">
@@ -118,7 +108,7 @@ const UserBooking = () => {
                     <td className="text-center">
                       {convertToMDY(`${item.endDate}`)}
                     </td>
-                    <td className="text-center">{toTitleCase(item.status)}</td>
+                    <td className="text-center">{item.status}</td>
                   </tr>
                 );
               })}
