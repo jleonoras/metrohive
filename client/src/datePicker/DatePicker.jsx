@@ -54,11 +54,16 @@ const SelectDate = ({ listingId }) => {
         listing_id: listingId,
       };
 
+      // For checking!!!
+      if (data.start_date > data.end_date && data.end_date < data.start_date) {
+        return null;
+      }
+
       const response = await axios.post(BOOKING_URL, data, {
         withCredentials: true,
         credentials: "include",
         headers: {
-          Accept: "applicaiton/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
         },
       });
