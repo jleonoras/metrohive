@@ -5,7 +5,7 @@ import Search from "../component/Search";
 
 const Home = () => {
   useEffect(() => {
-    document.title = "Home | Metrohyve";
+    document.title = "Metrohyve";
   }, []);
 
   return (
