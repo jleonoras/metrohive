@@ -4,7 +4,7 @@ const connectDatabase = () => {
   const pool = new pg.Pool({
     user: process.env.dbUser,
     password: process.env.dbPassword,
-    database: "metrohivedb",
+    database: process.env.dbName,
     host: "localhost",
   });
   return pool;
