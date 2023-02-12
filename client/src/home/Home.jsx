@@ -3,6 +3,8 @@ import AllListing from "../allListing/AllListing";
 import "../App.css";
 import Search from "../component/Search";
 
+// Homepage
+
 const Home = () => {
   useEffect(() => {
     document.title = "Metrohyve";
