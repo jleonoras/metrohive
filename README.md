@@ -49,6 +49,8 @@
 
 `dbPassword`
 
+`dbName`
+
 `serverPort`
 
 # Setup
