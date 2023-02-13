@@ -6,17 +6,135 @@ import imageUrl from "../constants/constants";
 import BookedListingTable from "./BookedListingTable";
 import ConfirmedBookingTable from "./ConfirmedBookingTable";
 import DeclinedBookingTable from "./DeclinedBookingTable";
+import BookingClass from "../booking/bookingClass";
 
 const SINGLE_LISTING_API_URL = "/api/v1/listing";
+const DECLINED_BOOKINGS_API_URL = "/api/v1/declined";
+const CONFIRMED_BOOKINGS_API_URL = "/api/v1/confirmed";
+const BOOKED_LISTING_API_URL = "/api/v1/booking";
+
+const CONFIRM_BOOKING_API_URL = "/api/v1/confirm";
+const DECLINE_BOOKING_API_URL = "/api/v1/decline";
 
 const BookedListing = ({ setAuth }) => {
   const [listing, setListing] = useState([]);
+  const [confirmedBooking, setConfirmedBooking] = useState([]);
+  const [bookedListing, setBookedListing] = useState([]);
+  const [declinedBooking, setDeclinedBooking] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
     document.title = "Bookings | Metrohyve";
 
-    const fetchData = async () => {
+    const fetchDeclinedBookings = async () => {
+      try {
+        const response = await axios.get(`${DECLINED_BOOKINGS_API_URL}/${id}`, {
+          withCredentials: true,
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+
+        const parseRes = response.data.booking;
+
+        const itemBookedListing = parseRes.map((item) => {
+          return new BookingClass({
+            bookingId: item.booking_id,
+            dateBooked: item.date_booked,
+            fname: item.fname,
+            lname: item.lname,
+            email: item.email,
+            startDate: item.start_date,
+            endDate: item.end_date,
+            status: item.status,
+          });
+        });
+        setDeclinedBooking(itemBookedListing);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const fetchConfirmedBookings = async () => {
+      try {
+        const response = await axios.get(
+          `${CONFIRMED_BOOKINGS_API_URL}/${id}`,
+          {
+            withCredentials: true,
+            credentials: "include",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const parseRes = response.data.booking;
+
+        const itemConfirmedBooking = parseRes.map((item) => {
+          return new BookingClass({
+            bookingId: item.booking_id,
+            dateBooked: item.date_booked,
+            fname: item.fname,
+            lname: item.lname,
+            email: item.email,
+            startDate: item.start_date,
+            endDate: item.end_date,
+            status: item.status,
+          });
+        });
+
+        setConfirmedBooking(itemConfirmedBooking);
+      } catch (error) {
+        if (
+          error.response.data === "jwt expired" ||
+          error.message === "Request failed with status code 403"
+        ) {
+          console.log(error.message);
+        }
+      }
+    };
+
+    const fetchBookings = async () => {
+      try {
+        const response = await axios.get(`${BOOKED_LISTING_API_URL}/${id}`, {
+          withCredentials: true,
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+
+        const parseRes = response.data.booking;
+
+        const itemBookedListing = parseRes.map((item) => {
+          return new BookingClass({
+            bookingId: item.booking_id,
+            dateBooked: item.date_booked,
+            fname: item.fname,
+            lname: item.lname,
+            email: item.email,
+            startDate: item.start_date,
+            endDate: item.end_date,
+            status: item.status,
+          });
+        });
+
+        setBookedListing(itemBookedListing);
+      } catch (error) {
+        if (
+          error.response.data === "jwt expired" ||
+          error.message === "Request failed with status code 403"
+        ) {
+          console.log(error.message);
+        }
+      }
+    };
+
+    const fetchListingData = async () => {
       try {
         const response = await axios.get(`${SINGLE_LISTING_API_URL}/${id}`, {
           headers: {
@@ -51,8 +169,80 @@ const BookedListing = ({ setAuth }) => {
       }
     };
 
-    fetchData();
+    fetchListingData();
+    fetchConfirmedBookings();
+    fetchDeclinedBookings();
+    fetchBookings();
   }, [id, setAuth]);
+
+  const handleConfirm = async (bookingId, startDate, endDate) => {
+    try {
+      const data = {
+        bookingId,
+        startDate,
+        endDate,
+      };
+
+      await axios.put(`${CONFIRM_BOOKING_API_URL}/${bookingId}`, data, {
+        withCredentials: true,
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      const selectedBooking = bookedListing.find(
+        (booking) => booking.bookingId === bookingId
+      );
+      // console.log(bookedListing, bookingId, selectedBooking);
+
+      setBookedListing(
+        bookedListing.filter((booking) => {
+          return booking.bookingId !== bookingId;
+        })
+      );
+
+      confirmedBooking.unshift(selectedBooking);
+      setConfirmedBooking(confirmedBooking);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDecline = async (bookingId, startDate, endDate) => {
+    try {
+      const data = {
+        bookingId,
+        startDate,
+        endDate,
+      };
+
+      await axios.put(`${DECLINE_BOOKING_API_URL}/${bookingId}`, data, {
+        withCredentials: true,
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      const selectedBooking = bookedListing.find(
+        (booking) => booking.bookingId === bookingId
+      );
+
+      setBookedListing(
+        bookedListing.filter((booking) => {
+          return booking.bookingId !== bookingId;
+        })
+      );
+
+      declinedBooking.unshift(selectedBooking);
+      setDeclinedBooking(declinedBooking);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <section>
@@ -188,7 +378,11 @@ const BookedListing = ({ setAuth }) => {
               aria-labelledby="pending-tab"
               tabIndex="0"
             >
-              <BookedListingTable listingId={id} />
+              <BookedListingTable
+                bookedListing={bookedListing}
+                handleConfirm={handleConfirm}
+                handleDecline={handleDecline}
+              />
             </div>
             <div
               className="tab-pane fade"
@@ -197,7 +391,7 @@ const BookedListing = ({ setAuth }) => {
               aria-labelledby="confirmed-tab"
               tabIndex="1"
             >
-              <ConfirmedBookingTable listingId={id} />
+              <ConfirmedBookingTable confirmedBooking={confirmedBooking} />
             </div>
             <div
               className="tab-pane fade"
@@ -206,7 +400,7 @@ const BookedListing = ({ setAuth }) => {
               aria-labelledby="declined-tab"
               tabIndex="2"
             >
-              <DeclinedBookingTable listingId={id} />
+              <DeclinedBookingTable declinedBookings={declinedBooking} />
             </div>
           </div>
         </div>
