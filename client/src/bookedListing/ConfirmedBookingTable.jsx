@@ -1,55 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "../api/axios";
-import BookingClass from "../booking/bookingClass";
-
-const CONFIRMED_BOOKINGS_API_URL = "/api/v1/confirmed";
-
-const ConfirmedBookingTable = ({ listingId }) => {
-  const [confirmedBooking, setConfirmedBooking] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${CONFIRMED_BOOKINGS_API_URL}/${listingId}`,
-          {
-            withCredentials: true,
-            credentials: "include",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        const parseRes = response.data.booking;
-
-        const itemConfirmedBooking = parseRes.map((item) => {
-          return new BookingClass({
-            bookingId: item.booking_id,
-            dateBooked: item.date_booked,
-            fname: item.fname,
-            lname: item.lname,
-            email: item.email,
-            startDate: item.start_date,
-            endDate: item.end_date,
-            status: item.status,
-          });
-        });
-
-        setConfirmedBooking(itemConfirmedBooking);
-      } catch (error) {
-        if (
-          error.response.data === "jwt expired" ||
-          error.message === "Request failed with status code 403"
-        ) {
-          console.log(error.message);
-        }
-      }
-    };
-    fetchData();
-  }, [listingId]);
-
+const ConfirmedBookingTable = ({ confirmedBooking }) => {
   const convertToMDY = (dateString) => {
     const date = new Date(dateString);
     const month = date.getMonth() + 1;
@@ -80,9 +29,6 @@ const ConfirmedBookingTable = ({ listingId }) => {
               <th scope="col" className="text-center">
                 Check-out
               </th>
-              <th scope="col" className="text-center">
-                Status
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -104,7 +50,6 @@ const ConfirmedBookingTable = ({ listingId }) => {
                     <td className="text-center">
                       {convertToMDY(`${item.endDate}`)}
                     </td>
-                    <td className="text-center">{item.status}</td>
                   </tr>
                 );
               })}
