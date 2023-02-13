@@ -347,6 +347,18 @@ app.post("/api/v1/booking", auth, async (request, response) => {
   const { start_date, end_date, listing_id } = request.body;
 
   const userId = request.user.user_id;
+
+  const conflictBookings = await pool.query(
+    "SELECT * FROM booking where start_date <= $1 and end_date >= $2 AND status = 'CONFIRMED'",
+    [end_date, start_date]
+  );
+
+  if (conflictBookings.rowCount > 0) {
+    return response.status(401).json("Date range is not available");
+  }
+
+  // console.log(conflictBookings);
+
   try {
     const newBooking = await pool.query(
       "INSERT INTO public.booking (date_booked, start_date, end_date, listing_id, user_id, status) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
