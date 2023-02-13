@@ -1,57 +1,8 @@
-import React, { useState, useEffect } from "react";
-import axios from "../api/axios";
-import BookingClass from "../booking/bookingClass";
-
-const BOOKED_LISTING_API_URL = "/api/v1/booking";
-const CONFIRM_BOOKING_API_URL = "/api/v1/confirm";
-const DECLINE_BOOKING_API_URL = "/api/v1/decline";
-
-const BookedListingTable = ({ listingId }) => {
-  const [bookedListing, setBookedListing] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${BOOKED_LISTING_API_URL}/${listingId}`,
-          {
-            withCredentials: true,
-            credentials: "include",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        const parseRes = response.data.booking;
-
-        const itemBookedListing = parseRes.map((item) => {
-          return new BookingClass({
-            bookingId: item.booking_id,
-            dateBooked: item.date_booked,
-            fname: item.fname,
-            lname: item.lname,
-            email: item.email,
-            startDate: item.start_date,
-            endDate: item.end_date,
-            status: item.status,
-          });
-        });
-
-        setBookedListing(itemBookedListing);
-      } catch (error) {
-        if (
-          error.response.data === "jwt expired" ||
-          error.message === "Request failed with status code 403"
-        ) {
-          console.log(error.message);
-        }
-      }
-    };
-    fetchData();
-  }, [listingId]);
-
+const BookedListingTable = ({
+  bookedListing,
+  handleConfirm,
+  handleDecline,
+}) => {
   const convertToMDY = (dateString) => {
     const date = new Date(dateString);
     const month = date.getMonth() + 1;
@@ -59,60 +10,6 @@ const BookedListingTable = ({ listingId }) => {
     const year = date.getFullYear();
 
     return `${month}/${day}/${year}`;
-  };
-
-  const handleConfirm = async (bookingId, startDate, endDate) => {
-    try {
-      const data = {
-        bookingId,
-        startDate,
-        endDate,
-      };
-
-      await axios.put(`${CONFIRM_BOOKING_API_URL}/${bookingId}`, data, {
-        withCredentials: true,
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
-
-      setBookedListing(
-        bookedListing.filter((booking) => {
-          return booking.bookingId !== bookingId;
-        })
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleDecline = async (bookingId, startDate, endDate) => {
-    try {
-      const data = {
-        bookingId,
-        startDate,
-        endDate,
-      };
-
-      await axios.put(`${DECLINE_BOOKING_API_URL}/${bookingId}`, data, {
-        withCredentials: true,
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
-
-      setBookedListing(
-        bookedListing.filter((booking) => {
-          return booking.bookingId !== bookingId;
-        })
-      );
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
