@@ -9,19 +9,18 @@ import cors from "cors";
 import { upload } from "./middleware/upload.js";
 import fs from "fs";
 import path from "path";
-import helmet from "helmet";
 import cookieParser from "cookie-parser";
+import helmet from "helmet";
 
 const app = express();
 const pool = connectDatabase();
 const host = "localhost";
 const port = process.env.serverPort;
 
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 app.use(cookieParser());
 app.use(express.json()); // req.body
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
@@ -75,6 +74,7 @@ app.post("/api/v1/register", async (request, response) => {
     response
       .cookie("accessToken", token, {
         httpOnly: true,
+        secure: true,
       })
       .json({ token });
   } catch (error) {
@@ -110,6 +110,7 @@ app.post("/api/v1/login", async (request, response) => {
     response
       .cookie("accessToken", token, {
         httpOnly: true,
+        secure: true,
       })
       .json({ token });
   } catch (error) {
