@@ -22,7 +22,7 @@
 - [![cookie-parser](https://img.shields.io/badge/cookie--parser-v1.4.6-green?style=flat-square&link=https://www.npmjs.com/package/cookie-parser)](https://www.npmjs.com/package/cookie-parser)
 - [![cors](https://img.shields.io/badge/cors-v2.8.5-green?style=flat-square&link=https://www.npmjs.com/package/cors)](https://www.npmjs.com/package/cors)
 - [![dotenv](https://img.shields.io/badge/dotenv-v16.0.2-green?style=flat-square&link=https://www.npmjs.com/package/dotenv)](https://www.npmjs.com/package/dotenv)
-- [![helmet](https://img.shields.io/badge/helmet-v6.0.0-green?style=flat-square&link=https://www.npmjs.com/package/helmet)](https://www.npmjs.com/package/helmet)
+- [![helmet](https://img.shields.io/badge/helmet-v6.0.1-green?labelColor=grey&style=flat-square&link=https://www.npmjs.com/package/helmet)](https://www.npmjs.com/package/helmet)
 - [![jsonwebtoken](https://img.shields.io/badge/jsonwebtoken-v8.5.1-green?style=flat-square&link=https://www.npmjs.com/package/jsonwebtoken)](https://www.npmjs.com/package/jsonwebtoken)
 - [![multer](https://img.shields.io/badge/multer-v1.4.5--lts.1-green?style=flat-square&link=https://www.npmjs.com/package/multer)](https://www.npmjs.com/package/multer)
 - [![uuid](https://img.shields.io/badge/uuid-v9.0.0-green?style=flat-square&link=https://www.npmjs.com/package/uuid)](https://www.npmjs.com/package/uuid)
