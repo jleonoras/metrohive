@@ -23,6 +23,7 @@ const UserBooking = () => {
 
         const itemBooking = parseRes.map((item) => {
           return new BookingClass({
+            listingId: item.listing_id,
             bookingId: item.booking_id,
             dateBooked: item.date_booked,
             startDate: item.start_date,

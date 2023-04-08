@@ -63,12 +63,11 @@ const SelectDate = ({ listingId }) => {
         },
       });
 
-      if (response.status === 200 && response.statusText === "OK") {
+      if (response.status === 200 || response.statusText === "OK") {
         // Clear input field after submit
         alert("Booked successfully!");
         setStartDate("");
         setEndDate("");
-        window.location.reload();
       }
     } catch (error) {
       console.log(error.message);

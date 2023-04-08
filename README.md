@@ -112,3 +112,17 @@ John Leonoras - [@johnleonoras](https://twitter.com/johnleonoras) - leonorasjohn
 Poject Link: [https://github.com/jleonoras/metrohyve](https://github.com/jleonoras/metrohyve)
 
 Demo Link: [https://metrohyve.eu.org](https://metrohyve.eu.org)
+
+Demo Account:
+
+`Email:`
+
+```bash
+demo@mail.com
+```
+
+`Password:`
+
+```bash
+demo123
+```
