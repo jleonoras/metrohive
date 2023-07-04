@@ -184,7 +184,8 @@ const Result = () => {
                             </div>
                             <p>{item.description}</p>
                             <div>
-                              <strong>{item.location}</strong>
+                              <i className="fa-solid fa-location-dot"></i>
+                              <strong> {item.location}</strong>
                             </div>
                           </div>
                         </div>
