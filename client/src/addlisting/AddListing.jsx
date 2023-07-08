@@ -83,7 +83,7 @@ const AddListing = ({ setAuth }) => {
                 type="text"
                 name="description"
                 rows="3"
-                cols="30 "
+                cols="30"
                 required
                 autoFocus
                 onChange={(e) => {
